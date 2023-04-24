@@ -1,5 +1,5 @@
 import { error, fail, redirect } from '@sveltejs/kit'
-import { auth } from '$lib/server/lucia'
+import { auth } from '$lib/server/auth'
 import type { PageServerLoad, Actions } from './$types'
 // import { Prisma } from '@prisma/client'
 
@@ -34,6 +34,7 @@ export const actions: Actions = {
       },
       attributes: {
         username,
+        id: username,
       },
     })
       .then(async (user) => {
