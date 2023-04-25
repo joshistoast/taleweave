@@ -39,10 +39,14 @@ export const actions: Actions = {
       .then(async (user) => {
         // const session = await auth.createSession(user.userId)
         // locals.auth.setSession(session)
-        throw redirect(302, '/login')
+        throw redirect(302, '/enter/login')
       })
       .catch((err) => {
-        console.error(err)
+        const e = err as Error
+        console.error(e)
+       if (e.message === 'AUTH_DUPLICATE_PROVIDER_ID') {
+          return fail(400, { message: 'Username already exists' })
+       }
         return fail(400, { message: 'Could not create user' })
       })
   }

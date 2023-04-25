@@ -1,15 +1,15 @@
 import type { Actions, PageServerLoad } from './$types'
-import { prisma } from '$lib/server/prisma'
+import db from '$lib/server/db'
 import { error, fail } from '@sveltejs/kit'
 
 export const load: PageServerLoad = async ({ params }) => {
   return {
     // return all posts with newest first
-    posts: await prisma.post.findMany({
+    posts: await db.post.findMany({
       orderBy: {
         createdAt: 'desc',
       },
-    }),
+    })
   }
 }
 
@@ -22,7 +22,7 @@ export const actions: Actions = {
 
     if (!content) return fail(400, { message: 'Content is required' })
 
-    await prisma.post.create({
+    await db.post.create({
       data: {
         content,
       }

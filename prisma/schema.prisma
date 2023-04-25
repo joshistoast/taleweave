@@ -18,6 +18,8 @@ model Post {
   published Boolean  @default(false)
   // author    AuthUser @relation(fields: [authorId], references: [id])
   // authorId  String
+
+  @@map("posts")
 }
 
 model AuthUser {
@@ -27,22 +29,22 @@ model AuthUser {
   auth_key     AuthKey[]
   // post     Post[]
 
-  @@map("user")
+  @@map("auth_users")
 }
 
 model AuthSession {
-  id             String   @id @unique
+  id             String   @id @unique @default(cuid())
   user_id        String
   active_expires BigInt
   idle_expires   BigInt
   auth_user      AuthUser @relation(references: [id], fields: [user_id], onDelete: Cascade)
 
   @@index([user_id])
-  @@map("session")
+  @@map("auth_sessions")
 }
 
 model AuthKey {
-  id              String   @id @unique
+  id              String   @id @unique @default(cuid())
   hashed_password String?
   user_id         String
   primary_key     Boolean
@@ -50,5 +52,5 @@ model AuthKey {
   auth_user       AuthUser @relation(references: [id], fields: [user_id], onDelete: Cascade)
 
   @@index([user_id])
-  @@map("key")
+  @@map("auth_keys")
 }
