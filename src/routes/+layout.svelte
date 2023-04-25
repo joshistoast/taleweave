@@ -3,7 +3,7 @@ import '../app.css'
 import Sidebar from '$lib/components/Sidebar.svelte'
 </script>
 
-<div class="flex w-full min-h-screen">
+<div class="flex w-full min-h-screen border-t border-gray-800">
   <aside class="shrink-0 md:w-32 lg:w-xs w-0">
     <!-- <slot name="sidebar" /> -->
     <Sidebar />

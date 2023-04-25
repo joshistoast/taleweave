@@ -1,16 +1,16 @@
 /* Tailwind Prose */
 
 .prose {
-  --prose-body: #374151;
-  --prose-headings: #111827;
+  --prose-body: #e5e5e5;
+  --prose-headings: #f5f5f5;
   --prose-lead: #4b5563;
-  --prose-links: #111827;
-  --prose-bold: #111827;
+  --prose-links: #10b981;
+  --prose-bold: var(--prose-body);
   --prose-counters: #6b7280;
-  --prose-bullets: #d1d5db;
-  --prose-hr: #e5e7eb;
+  --prose-bullets: #737373;
+  --prose-hr: #262626;
   --prose-quotes: #111827;
-  --prose-quote-borders: #e5e7eb;
+  --prose-quote-borders: var(--prose-hr);
   --prose-captions: #6b7280;
   --prose-code: #111827;
   --prose-pre-code: #e5e7eb;

@@ -18,6 +18,7 @@ export default defineConfig({
     presetIcons({
       prefix: 'i-',
       extraProperties: {
+        'color': 'inherit',
         'display': 'inline-block',
         'vertical-align': 'middle',
       },
