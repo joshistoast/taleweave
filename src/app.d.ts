@@ -9,15 +9,11 @@ declare global {
     interface Locals extends AuthRequest {
       auth: import('lucia-auth').AuthRequest
     }
-    interface PageData {
-      user: import('lucia-auth').User
-    }
+    // interface PageData {}
     // interface Platform {}
   }
   let __prisma: PrismaClient
-}
 
-declare global {
   namespace Lucia {
     type Auth = import('$lib/server/auth').Auth
     type UserAttributes = import('@prisma/client').User

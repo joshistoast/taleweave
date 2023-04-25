@@ -34,13 +34,12 @@ export const actions: Actions = {
       },
       attributes: {
         username,
-        id: username,
       },
     })
       .then(async (user) => {
-        const session = await auth.createSession(user.userId)
-        locals.auth.setSession(session)
-        throw redirect(302, '/')
+        // const session = await auth.createSession(user.userId)
+        // locals.auth.setSession(session)
+        throw redirect(302, '/login')
       })
       .catch((err) => {
         console.error(err)

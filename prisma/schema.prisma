@@ -20,32 +20,33 @@ model Post {
   // authorId  Int?
 }
 
-model User {
-  id       String    @id @unique @default(cuid())
-  username String    @unique
-  session  Session[]
-  key      Key[]
+model AuthUser {
+  id       String        @id @unique @default(cuid())
+  username String        @unique
+  session  AuthSession[]
+  key      AuthKey[]
 
   @@map("user")
 }
 
-model Session {
-  id             String @id @unique
+model AuthSession {
+  id             String   @id @unique
   user_id        String
   active_expires BigInt
   idle_expires   BigInt
-  user           User   @relation(references: [id], fields: [user_id], onDelete: Cascade)
+  user           AuthUser @relation(references: [id], fields: [user_id], onDelete: Cascade)
 
   @@index([user_id])
   @@map("session")
 }
 
-model Key {
-  id              String  @id @unique
+model AuthKey {
+  id              String   @id @unique
   hashed_password String?
   user_id         String
-  primary         Boolean
-  user            User    @relation(references: [id], fields: [user_id], onDelete: Cascade)
+  primary_key     Boolean
+  expires         BigInt
+  user            AuthUser @relation(references: [id], fields: [user_id], onDelete: Cascade)
 
   @@index([user_id])
   @@map("key")
