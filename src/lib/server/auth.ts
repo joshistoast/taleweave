@@ -11,7 +11,6 @@ export const auth = lucia({
   transformDatabaseUser: (userData) => {
     return {
       ...userData,
-      userId: userData.id.toString(),
       // custom fields
     }
   }

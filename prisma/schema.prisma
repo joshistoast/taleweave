@@ -16,15 +16,16 @@ model Post {
   updatedAt DateTime @updatedAt
   content   String?
   published Boolean  @default(false)
-  // author    User?    @relation(fields: [authorId], references: [id])
-  // authorId  Int?
+  // author    AuthUser @relation(fields: [authorId], references: [id])
+  // authorId  String
 }
 
 model AuthUser {
-  id       String        @id @unique @default(cuid())
-  username String        @unique
-  session  AuthSession[]
-  key      AuthKey[]
+  id           String        @id @unique @default(cuid())
+  username     String        @unique
+  auth_session AuthSession[]
+  auth_key     AuthKey[]
+  // post     Post[]
 
   @@map("user")
 }
@@ -34,7 +35,7 @@ model AuthSession {
   user_id        String
   active_expires BigInt
   idle_expires   BigInt
-  user           AuthUser @relation(references: [id], fields: [user_id], onDelete: Cascade)
+  auth_user      AuthUser @relation(references: [id], fields: [user_id], onDelete: Cascade)
 
   @@index([user_id])
   @@map("session")
@@ -45,8 +46,8 @@ model AuthKey {
   hashed_password String?
   user_id         String
   primary_key     Boolean
-  expires         BigInt
-  user            AuthUser @relation(references: [id], fields: [user_id], onDelete: Cascade)
+  expires         BigInt?
+  auth_user       AuthUser @relation(references: [id], fields: [user_id], onDelete: Cascade)
 
   @@index([user_id])
   @@map("key")
