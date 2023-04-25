@@ -16,8 +16,8 @@ model Post {
   updatedAt DateTime @updatedAt
   content   String?
   published Boolean  @default(false)
-  // author    AuthUser @relation(fields: [authorId], references: [id])
-  // authorId  String
+  author    AuthUser @relation(fields: [authorId], references: [id])
+  authorId  String
 
   @@map("posts")
 }
@@ -27,7 +27,7 @@ model AuthUser {
   username     String        @unique
   auth_session AuthSession[]
   auth_key     AuthKey[]
-  // post     Post[]
+  posts        Post[]
 
   @@map("auth_users")
 }

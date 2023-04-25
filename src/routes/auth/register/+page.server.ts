@@ -36,10 +36,10 @@ export const actions: Actions = {
         username,
       },
     })
-      .then(async (user) => {
+      .then((user) => {
         // const session = await auth.createSession(user.userId)
         // locals.auth.setSession(session)
-        throw redirect(302, '/enter/login')
+        throw redirect(302, '/auth/login')
       })
       .catch((err) => {
         const e = err as Error

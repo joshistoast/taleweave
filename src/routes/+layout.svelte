@@ -10,7 +10,7 @@ import Sidebar from '$lib/components/Sidebar.svelte'
   </aside>
 
   <main class="w-full">
-    <div class="max-w-2xl w-full h-full border-x border-neutral-8">
+    <div class="max-w-2xl w-full h-full border-x border-gray-8">
       <slot />
     </div>
   </main>

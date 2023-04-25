@@ -4,7 +4,9 @@ import type { Post as PostType } from '@prisma/client/index'
 export let post: PostType
 </script>
 
-<article class="border-b border-neutral-800 p-2">
-  <p>Josh Corbett</p>
-  <p>{ post.content }</p>
+<article class="w-full flex">
+  <a class="p-2 border-b border-gray-8 flex flex-col w-full hover:bg-gray-9" href={`/post/${post.id}`}>
+    <p class="font-bold text-sm text-gray-5">{ post.author.username }</p>
+    <p>{ post.content }</p>
+  </a>
 </article>

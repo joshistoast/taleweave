@@ -17,45 +17,57 @@ $: links = [
     href: '/',
     icon: 'i-fluent-home-24-filled',
   },
-  {
-    label: 'Spaces',
-    href: '/spaces',
-    icon: 'i-fluent-people-24-filled',
-  },
+  // {
+  //   label: 'Spaces',
+  //   href: '/spaces',
+  //   icon: 'i-fluent-people-24-filled',
+  // },
   {
     label: 'Log In',
-    href: '/enter/login',
+    href: '/auth/login',
     icon: 'i-fluent-lock-24-filled',
     show: () => !user?.userId || false,
   },
   {
     label: 'Register',
-    href: '/enter/register',
+    href: '/auth/register',
     icon: 'i-fluent-lock-24-filled',
     show: () => !user?.userId || false,
   },
+  // {
+  //   label: 'Profile',
+  //   href: `/u/${user?.username}`,
+  //   icon: 'i-fluent-person-24-filled',
+  //   show: () => !!user?.userId,
+  // },
   {
-    label: 'Profile',
-    href: `/u/${user?.username}`,
+    label: 'Log Out',
+    href: '/auth/logout',
     icon: 'i-fluent-person-24-filled',
     show: () => !!user?.userId,
   }
 ]
 </script>
 
-<ul class="flex flex-col w-full py-4">
-  {#each links as { label, href, icon, show }, i}
-    {#if show === undefined || show()}
-      <li class="w-full flex">
-        <a
-          {href}
-          class="w-full flex items-center gap-2 p-3 text-sm font-bold hover:bg-neutral-9 {path === href ? 'bg-neutral-9 text-emerald-5' : ''}"
-        >
-          <span>
-            { label }
-          </span>
-        </a>
-      </li>
-    {/if}
-  {/each}
-</ul>
+<div class="grid py-6 gap-6">
+  <div class="mx-3">
+    Training Grounds
+  </div>
+
+  <ul class="flex flex-col w-full">
+    {#each links as { label, href, icon, show }, i}
+      {#if show === undefined || show()}
+        <li class="w-full flex">
+          <a
+            {href}
+            class="w-full flex items-center gap-2 p-3 text-sm font-bold hover:bg-gray-9 {path === href ? 'bg-gray-9 text-emerald-5' : ''}"
+          >
+            <span>
+              { label }
+            </span>
+          </a>
+        </li>
+      {/if}
+    {/each}
+  </ul>
+</div>

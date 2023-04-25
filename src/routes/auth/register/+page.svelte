@@ -15,7 +15,7 @@ import { enhance } from '$app/forms'
     <input type="password" name="password" />
   </label>
 
-  <button type="submit" class="bg-neutral-800 p-1 hover:bg-neutral-700">
+  <button type="submit" class="bg-gray-800 p-1 hover:bg-gray-700">
     Register
   </button>
 </form>
