@@ -11,10 +11,10 @@
 		"lint": "eslint ."
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "^2.0.0",
-		"@sveltejs/kit": "^1.15.7",
-		"@typescript-eslint/eslint-plugin": "^5.59.0",
-		"@typescript-eslint/parser": "^5.59.0",
+		"@sveltejs/adapter-auto": "^2.0.1",
+		"@sveltejs/kit": "^1.15.8",
+		"@typescript-eslint/eslint-plugin": "^5.59.1",
+		"@typescript-eslint/parser": "^5.59.1",
 		"@unocss/core": "^0.51.8",
 		"@unocss/preset-icons": "^0.51.8",
 		"@unocss/preset-uno": "^0.51.8",
@@ -27,7 +27,7 @@
 		"tslib": "^2.5.0",
 		"typescript": "^5.0.4",
 		"unocss": "^0.51.8",
-		"vite": "^4.3.1"
+		"vite": "^4.3.2"
 	},
 	"type": "module",
 	"dependencies": {
