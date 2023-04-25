@@ -16,7 +16,7 @@ export let post: Post
   </div>
 
   <div>
-    {#if post.authorId === user.userId}
+    {#if post.authorId === user?.userId}
       <form action="/?/deletePost&id={post.id}" method="POST">
         <button type="submit" class="p-1 text-gray-5 hover:bg-gray-8 hover:text-rose-5 flex items-center gap-2">
           <span class="i-fluent-delete-24-filled" />
