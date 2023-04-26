@@ -13,11 +13,11 @@ $: user = $page.data.user
     <p>Are you sure you want to log out?</p>
 
     <div class="grid lg:grid-cols-2 text-center gap-2">
-      <a href="/" class="p-1 bg-gray-9 hover:bg-gray-8">
+      <a href="/" class="p-1 bg-gray-900 hover:bg-gray-800">
         No, Cancel
       </a>
 
-      <button type="submit" class="bg-rose-5/10 text-rose-5 hover:bg-rose-5/20 p-1">
+      <button type="submit" class="bg-rose-500/10 text-rose-500 hover:bg-rose-500/20 p-1">
         Yes, Log Out
       </button>
     </div>

@@ -11,13 +11,13 @@ let descriptionExpanded = false
   use:enhance
 >
 
-  <div class="border-b border-gray-8 bg-gray-900/50 grid">
-    <input type="text" required name="title" class="py-3 px-4 bg-transparent border-b border-gray-8 outline-none" placeholder="Title" />
+  <div class="border-b border-gray-800 bg-gray-900/50 grid">
+    <input type="text" required name="title" class="py-3 px-4 bg-transparent border-b border-gray-800 outline-none" placeholder="Title" />
 
     <div class="flex flex-col">
       <button
         type="button"
-        class="flex w-full px-3 py-2 hover:bg-gray-8 items-center font-bold text-xs uppercase text-gray-4 gap-4"
+        class="flex w-full px-3 py-2 hover:bg-gray-800 items-center font-bold text-xs uppercase text-gray-4 gap-4"
         on:click={() => (descriptionExpanded = !descriptionExpanded)}
       >
         <span>Description</span>
@@ -27,7 +27,7 @@ let descriptionExpanded = false
       {#if descriptionExpanded}
         <textarea
           name="description"
-          class="p-3 w-full text-sm bg-transparent hover:bg-gray-8 focus:bg-gray-8 outline-none"
+          class="p-3 w-full text-sm bg-transparent hover:bg-gray-800 focus:bg-gray-800 outline-none"
           placeholder="Description"
         ></textarea>
       {/if}

@@ -85,7 +85,7 @@ $: tree = [
 
   <nav class="grid p-4">
     {#each tree as group}
-      <div class="grid gap-1 border-b border-gray-8 last:border-transparent py-2">
+      <div class="grid gap-1 border-b border-gray-800 last:border-transparent py-2">
         {#each group as item}
           {#if item.show === undefined || item.show()}
             {#if item.type === 'heading'}
@@ -94,7 +94,7 @@ $: tree = [
               <a
                 class="
                   text-sm font-bold px-3 py-2 rounded-md
-                  { item.href === path ? 'text-emerald-3 bg-gray-800' : 'text-gray-4 hover:bg-gray-9' }
+                  { item.href === path ? 'text-emerald-300 bg-gray-800' : 'text-gray-400 hover:text-gray-100 hover:bg-gray-900' }
                 "
                 href={item.href}
               >{ item.label }</a>
