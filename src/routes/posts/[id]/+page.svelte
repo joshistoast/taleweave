@@ -24,7 +24,7 @@ const goBack = () => history.back()
       <span>Back</span>
     </button>
 
-    {#if post.authorId === user.userId}
+    {#if post.authorId === user?.userId}
       <form action="/posts/{post.id}?/delete" method="POST">
         <button type="submit" class="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-100">
           <Icon icon="fluent:delete-24-filled" class="w-5 h-5" />
@@ -39,7 +39,10 @@ const goBack = () => history.back()
     {/if}
   </div>
 
-  <h1 class="font-serif text-lg lg:text-4xl">{post.title}</h1>
+  <div class="pt-4">
+    <p class="mb-1 text-sm text-gray-400">Written by <a class="text-orange-300 hover:underline" href="/authors/{post.author.username}">{post.author.username}</a></p>
+    <h1 class="font-serif text-lg lg:text-4xl">{post.title}</h1>
+  </div>
 </header>
 
 <div class="w-full p-4 prose-sm prose prose-invert max-w-none">
