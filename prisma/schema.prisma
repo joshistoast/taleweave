@@ -18,10 +18,22 @@ model Post {
   title       String
   description String?
   published   Boolean  @default(false)
+  featured    Boolean  @default(false)
   author      AuthUser @relation(fields: [authorId], references: [id])
   authorId    String
+  // tags        Tag[]
 
   @@map("posts")
+}
+
+model Tag {
+  id        Int     @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String  @unique
+  // posts     Post[]
+
+  @@map("tags")
 }
 
 model AuthUser {

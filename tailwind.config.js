@@ -9,7 +9,22 @@ export default {
         gray: {
           ...colors.neutral,
         }
-      }
+      },
+      typography: ({ theme }) => ({
+        DEFAULT: {
+          css: {
+            color: theme('colors.gray.300'),
+            fontFamily: theme('fontFamily.serif'),
+            a: {
+              color: theme('colors.orange.300'),
+              textDecoration: 'underline',
+              '&:hover': {
+                color: theme('colors.orange.400'),
+              },
+            }
+          },
+        }
+      }),
     },
   },
   plugins: [

@@ -8,6 +8,9 @@ export const load: PageServerLoad = async ({ request, params }) => {
   const { username } = params
 
   const posts = await db.post.findMany({
+    orderBy: {
+      createdAt: 'desc'
+    },
     where: {
       author: {
         username: String(username)

@@ -1,4 +1,5 @@
 <script lang="ts">
+import Icon from '@iconify/svelte'
 import { page } from '$app/stores'
 
 $: user = $page.data.user
@@ -12,6 +13,7 @@ type SidebarItemBase = {
 type SidebarLink = SidebarItemBase & {
   type: 'link',
   href: string,
+  icon?: string,
 }
 type SidebarHeading = SidebarItemBase & {
   type: 'heading',
@@ -23,30 +25,46 @@ let tree: SidebarGroup[] = []
 $: tree = [
   [
     {
-      type: 'heading',
-      label: 'Explore',
-    },
-    {
       type: 'link',
-      label: 'Featured',
-      href: '/posts?featured=true'
-    },
-    {
-      type: 'link',
-      label: 'Browse',
-      href: '/posts'
-    },
-    {
-      type: 'link',
-      label: 'Following',
-      href: '/posts?following=true',
+      label: 'Write',
+      href: '/posts/new',
+      icon: 'fluent:add-24-filled',
+      show: () => !!user,
     }
   ],
   [
     {
       type: 'link',
+      label: 'Featured',
+      href: '/posts?featured=true',
+      icon: 'fluent:flash-24-filled',
+    },
+    {
+      type: 'link',
+      label: 'Browse',
+      href: '/posts',
+      icon: 'fluent:compass-northwest-24-filled',
+    },
+    {
+      type: 'link',
+      label: 'Following',
+      href: '/posts?following=true',
+      icon: 'fluent:people-24-filled',
+    }
+  ],
+  [
+    {
+      type: 'link',
+      label: 'Profile',
+      href: `/authors/${user?.username}`,
+      icon: 'fluent:person-24-filled',
+      show: () => !!user,
+    },
+    {
+      type: 'link',
       label: 'Log In',
       href: '/login',
+      icon: 'fluent:person-key-20-filled',
       show: () => !user,
     },
     {
@@ -59,45 +77,39 @@ $: tree = [
       type: 'link',
       label: 'Log Out',
       href: '/logout',
+      icon: 'fluent:sign-out-24-filled',
       show: () => !!user,
     },
-    {
-      type: 'link',
-      label: 'Profile',
-      href: `/authors/${user?.username}`,
-      show: () => !!user,
-    },
-  ],
-  [
-    {
-      type: 'link',
-      label: '+ Start Writing',
-      href: '/posts/new',
-      show: () => !!user,
-    }
   ],
 ]
 </script>
 
 <div class="grid">
 
-  <h1 class="text-4xl font-bold px-7 py-3">Dusty</h1>
+  <h1 class="px-4 pt-6 text-2xl font-bold">Dusty</h1>
 
-  <nav class="grid p-4">
+  <nav class="grid px-2">
     {#each tree as group}
-      <div class="grid gap-1 border-b border-gray-800 last:border-transparent py-2">
+      <div class="grid gap-1 py-3">
         {#each group as item}
           {#if item.show === undefined || item.show()}
             {#if item.type === 'heading'}
-              <span class="text-xs px-3 font-bold uppercase text-gray-500">{ item.label }</span>
+              <span class="px-2 text-xs font-bold text-gray-500 uppercase">{ item.label }</span>
             {:else if item.type === 'link'}
               <a
                 class="
-                  text-sm font-bold px-3 py-2 rounded-md
-                  { item.href === path ? 'text-emerald-300 bg-gray-800' : 'text-gray-400 hover:text-gray-100 hover:bg-gray-900' }
+                  text-sm px-3 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-900
+                  { item.href === path ? 'text-orange-300' : 'text-gray-400 hover:text-gray-100' }
                 "
                 href={item.href}
-              >{ item.label }</a>
+              >
+                {#if item.icon}
+                  <Icon icon={item.icon} class="w-5 h-5" />
+                {/if}
+                <span>
+                  { item.label }
+                </span>
+              </a>
             {/if}
           {/if}
         {/each}

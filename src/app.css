@@ -6,6 +6,7 @@ html,
 body {
   margin: 0;
   background-color: #121212;
+  @apply selection:bg-orange-500/10 selection:text-orange-300
 }
 
 :root {

@@ -1,26 +1,47 @@
 <script lang="ts">
 import type { PageData } from './$types'
-import Post from '$lib/components/Post.svelte'
+import { page } from '$app/stores'
+import Icon from '@iconify/svelte'
+import { enhance } from '$app/forms'
 
 export let data: PageData
 
+$: user = $page.data.user
 $: ({ post } = data)
 
 const goBack = () => history.back()
 </script>
 
-<header class="flex border-b border-gray-800">
-  <button
-    on:click={goBack}
-    class="p-2 text-gray-5 hover:bg-gray-900 flex w-full items-center gap-2 hover:text-gray-1 text-sm font-bold"
-  >
-    <span class="i-fluent-arrow-left-24-filled" />
-    <span>Back</span>
-  </button>
+<svelte:head>
+  <meta name="author" content={post.author.username} />
+  <meta name="description" content={post.description || undefined} />
+</svelte:head>
+
+<header class="flex flex-col items-start gap-4 p-4 border-b border-gray-800">
+  <div class="flex items-center gap-4">
+    <button class="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-100" on:click={goBack}>
+      <Icon icon="fluent:arrow-left-24-filled" class="w-5 h-5" />
+      <span>Back</span>
+    </button>
+
+    {#if post.authorId === user.userId}
+      <form action="/posts/{post.id}?/delete" method="POST">
+        <button type="submit" class="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-100">
+          <Icon icon="fluent:delete-24-filled" class="w-5 h-5" />
+          <span>Delete</span>
+        </button>
+      </form>
+
+      <button class="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-100" on:click={goBack}>
+        <Icon icon="fluent:edit-24-filled" class="w-5 h-5" />
+        <span>Edit</span>
+      </button>
+    {/if}
+  </div>
+
+  <h1 class="font-serif text-lg lg:text-4xl">{post.title}</h1>
 </header>
 
-<h1 class="text-lg lg:text-4xl font-bold">{post.title}</h1>
-
-<div class="prose prose-invert prose-sm max-w-none w-full">
+<div class="w-full p-4 prose-sm prose prose-invert max-w-none">
   {@html post.content}
 </div>
