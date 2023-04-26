@@ -8,11 +8,6 @@ export default defineConfig({
   transformers: [
     transformerDirectives(),
   ],
-  theme: {
-    colors: {
-      'gray': presetUno().theme?.colors['neutral'],
-    },
-  },
   presets: [
     presetUno(),
     presetIcons({
@@ -24,4 +19,9 @@ export default defineConfig({
       },
     }),
   ],
+  theme: {
+    colors: {
+      'gray': presetUno().theme?.colors['neutral'],
+    },
+  },
 })

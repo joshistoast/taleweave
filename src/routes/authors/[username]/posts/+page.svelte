@@ -1,8 +1,9 @@
 <script lang="ts">
-import type { Post as PostType } from '@prisma/client/index'
+import type { PageData } from './$types'
 import Post from '$lib/components/Post.svelte'
 
-export let posts: PostType[]
+export let data: PageData
+$: ({ posts } = data)
 </script>
 
 {#each posts as post}

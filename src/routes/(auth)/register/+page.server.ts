@@ -39,7 +39,7 @@ export const actions: Actions = {
       .then((user) => {
         // const session = await auth.createSession(user.userId)
         // locals.auth.setSession(session)
-        throw redirect(302, '/auth/login')
+        throw redirect(302, '/login')
       })
       .catch((err) => {
         const e = err as Error

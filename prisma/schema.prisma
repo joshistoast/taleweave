@@ -11,13 +11,15 @@ datasource db {
 }
 
 model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  content   String?
-  published Boolean  @default(false)
-  author    AuthUser @relation(fields: [authorId], references: [id])
-  authorId  String
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  content     String?
+  title       String
+  description String?
+  published   Boolean  @default(false)
+  author      AuthUser @relation(fields: [authorId], references: [id])
+  authorId    String
 
   @@map("posts")
 }

@@ -2,72 +2,106 @@
 import { page } from '$app/stores'
 
 $: user = $page.data.user
-$: path = $page.url.pathname
+$: path = $page.url.pathname + $page.url.search
 
-type Link = {
-  label: string
-  href: string
-  icon?: string
+type SidebarItemBase = {
+  type: 'link' | 'heading',
+  label: string,
   show?: () => boolean | boolean
 }
-let links: Link[] = []
-$: links = [
-  {
-    label: 'Feed',
-    href: '/',
-    icon: 'i-fluent-home-24-filled',
-  },
-  // {
-  //   label: 'Spaces',
-  //   href: '/spaces',
-  //   icon: 'i-fluent-people-24-filled',
-  // },
-  {
-    label: 'Log In',
-    href: '/auth/login',
-    icon: 'i-fluent-lock-24-filled',
-    show: () => !user?.userId || false,
-  },
-  {
-    label: 'Register',
-    href: '/auth/register',
-    icon: 'i-fluent-lock-24-filled',
-    show: () => !user?.userId || false,
-  },
-  // {
-  //   label: 'Profile',
-  //   href: `/u/${user?.username}`,
-  //   icon: 'i-fluent-person-24-filled',
-  //   show: () => !!user?.userId,
-  // },
-  {
-    label: 'Log Out',
-    href: '/auth/logout',
-    icon: 'i-fluent-person-24-filled',
-    show: () => !!user?.userId,
-  }
+type SidebarLink = SidebarItemBase & {
+  type: 'link',
+  href: string,
+}
+type SidebarHeading = SidebarItemBase & {
+  type: 'heading',
+}
+type SidebarItem = SidebarLink | SidebarHeading
+type SidebarGroup = SidebarItem[]
+
+let tree: SidebarGroup[] = []
+$: tree = [
+  [
+    {
+      type: 'heading',
+      label: 'Explore',
+    },
+    {
+      type: 'link',
+      label: 'Featured',
+      href: '/posts?featured=true'
+    },
+    {
+      type: 'link',
+      label: 'Browse',
+      href: '/posts'
+    },
+    {
+      type: 'link',
+      label: 'Following',
+      href: '/posts?following=true',
+    }
+  ],
+  [
+    {
+      type: 'link',
+      label: 'Log In',
+      href: '/login',
+      show: () => !user,
+    },
+    {
+      type: 'link',
+      label: 'Register',
+      href: '/register',
+      show: () => !user,
+    },
+    {
+      type: 'link',
+      label: 'Log Out',
+      href: '/logout',
+      show: () => !!user,
+    },
+    {
+      type: 'link',
+      label: 'Profile',
+      href: `/authors/${user?.username}`,
+      show: () => !!user,
+    },
+  ],
+  [
+    {
+      type: 'link',
+      label: '+ Start Writing',
+      href: '/posts/new',
+      show: () => !!user,
+    }
+  ],
 ]
 </script>
 
-<div class="grid py-6 gap-6">
-  <div class="mx-3">
-    Training Grounds
-  </div>
+<div class="grid">
 
-  <ul class="flex flex-col w-full">
-    {#each links as { label, href, icon, show }, i}
-      {#if show === undefined || show()}
-        <li class="w-full flex">
-          <a
-            {href}
-            class="w-full flex items-center gap-2 p-3 text-sm font-bold hover:bg-gray-9 {path === href ? 'bg-gray-9 text-emerald-5' : ''}"
-          >
-            <span>
-              { label }
-            </span>
-          </a>
-        </li>
-      {/if}
+  <h1 class="text-4xl font-bold px-7 py-3">Dusty</h1>
+
+  <nav class="grid p-4">
+    {#each tree as group}
+      <div class="grid gap-1 border-b border-gray-8 last:border-transparent py-2">
+        {#each group as item}
+          {#if item.show === undefined || item.show()}
+            {#if item.type === 'heading'}
+              <span class="text-xs px-3 font-bold uppercase text-gray-5">{ item.label }</span>
+            {:else if item.type === 'link'}
+              <a
+                class="
+                  text-sm font-bold px-3 py-2 rounded-md
+                  { item.href === path ? 'text-emerald-3 bg-gray-800' : 'text-gray-4 hover:bg-gray-9' }
+                "
+                href={item.href}
+              >{ item.label }</a>
+            {/if}
+          {/if}
+        {/each}
+      </div>
     {/each}
-  </ul>
+  </nav>
 </div>

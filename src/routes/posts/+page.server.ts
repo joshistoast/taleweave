@@ -1,14 +1,19 @@
-import type { Actions, PageServerLoad } from './$types'
+import {
+  redirect,
+  fail,
+  type Actions
+} from '@sveltejs/kit'
 import db from '$lib/server/db'
-import { error, fail, redirect } from '@sveltejs/kit'
+import type { PageServerLoad } from './$types'
 
-export const load: PageServerLoad = async ({ params }) => {
+export const load: PageServerLoad = async ({ params, url }) => {
   return {
-    // return all posts with newest first
-    // return author info for each post
     posts: await db.post.findMany({
       orderBy: {
         createdAt: 'desc',
+      },
+      where: {
+        published: true,
       },
       include: {
         author: true,
@@ -20,21 +25,20 @@ export const load: PageServerLoad = async ({ params }) => {
 export const actions: Actions = {
 
   createPost: async ({ request, locals }) => {
-
     const { user, session } = await locals.auth.validateUser()
 
     if (!(user && session))
       throw redirect(302, '/login')
 
-    const { content } = Object.fromEntries(await request.formData()) as {
-      content: string
-    }
+    const { content, title, description } = Object.fromEntries(await request.formData()) as Record<string, string>
 
     if (!content) return fail(400, { message: 'Content is required' })
 
     await db.post.create({
       data: {
         content,
+        title,
+        description,
         authorId: user.userId,
       },
     })

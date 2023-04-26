@@ -36,4 +36,4 @@ const testLogin = () => {
   </button>
 {/if}
 
-<p>Don't have an account yet? <a href="/auth/register">Create an account</a></p>
+<p>Don't have an account yet? <a href="/register">Create an account</a></p>
