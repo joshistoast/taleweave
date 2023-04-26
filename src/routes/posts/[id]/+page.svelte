@@ -19,4 +19,8 @@ const goBack = () => history.back()
   </button>
 </header>
 
-<Post {post} />
+<h1 class="text-lg lg:text-4xl font-bold">{post.title}</h1>
+
+<div class="prose prose-invert prose-sm max-w-none w-full">
+  {@html post.content}
+</div>

@@ -1,7 +1,9 @@
 <script lang="ts">
 import { enhance } from '$app/forms'
+import Editor from '$lib/components/Editor.svelte'
 
 let descriptionExpanded = false
+let content = ''
 </script>
 
 <form
@@ -34,19 +36,23 @@ let descriptionExpanded = false
     </div>
   </div>
 
-  <textarea
+  <Editor bind:content />
+  <input type="hidden" name="content" value={content} />
+
+  <!-- <textarea
     id="content"
     name="content"
     class="p-5 bg-transparent flex-1 overflow-auto resize-none w-full outline-none"
     placeholder="Start writing..."
     required
-  ></textarea>
+    value={content}
+  ></textarea> -->
 
-  <div class="flex gap-4 p-4 justify-between border-t border-gray-8">
+  <div class="flex gap-4 p-4 justify-between border-t border-gray-800">
     <div></div>
     <button
       type="submit"
-      class="bg-emerald-500/10 text-sm text-emerald-500 px-3 py-2 rounded-sm font-bold hover:bg-emerald/15"
+      class="bg-emerald-500/10 hover:bg-emerald-500/20 text-sm text-emerald-500 px-3 py-2 rounded-sm font-bold hover:bg-emerald/15"
     >
       Save
     </button>

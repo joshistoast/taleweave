@@ -7,8 +7,8 @@ $: user = $page.data.user
 export let post: Post
 </script>
 
-<article class="w-full flex border-b border-gray-800 flex flex-col">
-  <a href={`/posts/${post.id}`}>
+<article class="w-full flex border-b border-gray-800 flex-col">
+  <a href="/posts/{post.id}">
     <p>{post.createdAt}</p>
     <h2>{post.title}</h2>
     <p>{post.description}</p>

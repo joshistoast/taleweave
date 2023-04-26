@@ -89,7 +89,7 @@ $: tree = [
         {#each group as item}
           {#if item.show === undefined || item.show()}
             {#if item.type === 'heading'}
-              <span class="text-xs px-3 font-bold uppercase text-gray-5">{ item.label }</span>
+              <span class="text-xs px-3 font-bold uppercase text-gray-500">{ item.label }</span>
             {:else if item.type === 'link'}
               <a
                 class="
