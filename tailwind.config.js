@@ -7,7 +7,7 @@ export default {
     extend: {
       fontFamily: {
         sans: ['Inter', 'sans-serif'],
-        serif: ['Merriweather', 'serif'],
+        serif: ['Cormorant Garamond', 'Playfair Display', 'Georgia', 'ui-serif', 'serif'],
       },
       colors: {
         gray: {
