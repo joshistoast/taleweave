@@ -32,10 +32,10 @@ const goBack = () => history.back()
         </button>
       </form>
 
-      <button class="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-100" on:click={goBack}>
+      <a href="/posts/{post.id}/edit" class="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-100">
         <Icon icon="fluent:edit-24-filled" class="w-5 h-5" />
         <span>Edit</span>
-      </button>
+      </a>
     {/if}
   </div>
 
@@ -45,6 +45,6 @@ const goBack = () => history.back()
   </div>
 </header>
 
-<div class="w-full p-4 prose-sm prose prose-invert max-w-none">
+<div class="w-full p-4 prose prose-invert max-w-none">
   {@html post.content}
 </div>
