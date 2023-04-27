@@ -36,6 +36,7 @@
     "@lucia-auth/sveltekit": "^0.6.11",
     "@prisma/client": "^4.13.0",
     "@tiptap/core": "^2.0.3",
+    "@tiptap/extension-underline": "^2.0.3",
     "@tiptap/pm": "^2.0.3",
     "@tiptap/starter-kit": "^2.0.3",
     "lucia-auth": "^1.4.0"

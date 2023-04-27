@@ -2,6 +2,7 @@
 import { onMount, onDestroy } from 'svelte'
 import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
+import Underline from '@tiptap/extension-underline'
 import Icon from '@iconify/svelte'
 
 export let description: string = ''
@@ -24,7 +25,10 @@ onMount(() => {
   editor = new Editor({
     element,
     content,
-    extensions: [StarterKit],
+    extensions: [
+      StarterKit,
+      Underline,
+    ],
     editorProps: {
       attributes: {
         class: 'prose prose-invert max-w-none w-full px-5 pt-5 pb-32 outline-none min-h-full',
@@ -56,19 +60,25 @@ let toolbar: EditorToolGroup[]
 $: toolbar = [
   [
     {
-      icon: 'material-symbols:format-h1-rounded',
+      icon: 'ri:h-1',
       name: 'Heading 1',
       active: () => editor.isActive('heading', { level: 1 }),
       action: () => editor.chain().focus().toggleHeading({ level: 1 }).run()
     },
     {
-      icon: 'material-symbols:format-h2-rounded',
+      icon: 'ri:h-2',
       name: 'Heading 2',
       active: () => editor.isActive('heading', { level: 2 }),
       action: () => editor.chain().focus().toggleHeading({ level: 2 }).run()
     },
     {
-      icon: 'mdi:format-paragraph',
+      icon: 'ri:h-3',
+      name: 'Heading 3',
+      active: () => editor.isActive('heading', { level: 3 }),
+      action: () => editor.chain().focus().toggleHeading({ level: 3 }).run()
+    },
+    {
+      icon: 'ri:paragraph',
       name: 'Paragraph',
       active: () => editor.isActive('paragraph'),
       action: () => editor.chain().focus().setParagraph().run()
@@ -76,7 +86,7 @@ $: toolbar = [
   ],
   [
     {
-      icon: 'material-symbols:format-bold',
+      icon: 'ri:bold',
       name: 'Bold',
       active: () => editor.isActive('bold'),
       action: () => editor.chain().focus().toggleBold().run()
@@ -86,6 +96,18 @@ $: toolbar = [
       name: 'Italic',
       active: () => editor.isActive('italic'),
       action: () => editor.chain().focus().toggleItalic().run()
+    },
+    {
+      icon: 'ri:strikethrough',
+      name: 'Strikethrough',
+      active: () => editor.isActive('strike'),
+      action: () => editor.chain().focus().toggleStrike().run()
+    },
+    {
+      icon: 'ri:underline',
+      name: 'Underline',
+      active: () => editor.isActive('underline'),
+      action: () => editor.chain().focus().toggleUnderline().run()
     },
   ],
 ]
