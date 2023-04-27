@@ -1,7 +1,6 @@
 import { error, fail, redirect } from '@sveltejs/kit'
 import { auth } from '$lib/server/auth'
 import type { PageServerLoad, Actions } from './$types'
-// import { Prisma } from '@prisma/client'
 
 // redirect to home if already has valid session
 export const load: PageServerLoad = async ({ locals }) => {
@@ -13,20 +12,21 @@ export const load: PageServerLoad = async ({ locals }) => {
 }
 
 export const actions: Actions = {
-  // create user
-  default: async ({ request, locals }) => {
-    // retrieve form data
+  // Register a new user with a username and password
+  default: async ({ request }) => {
+    let message = ''
+
     const { username, password } = Object.fromEntries(
       await request.formData()
     ) as Record<string, string>
 
-    // fail if either username or password is not of type string
-    if ([username, password].some(x => typeof x !== 'string')) {
-      return fail(400, { message: 'username or password are invalid' })
+    if (!username || !password) {
+      message = 'Username and password are required'
+      return fail(400, { success: false, message })
     }
 
     // create user
-    await auth.createUser({
+    const res = await auth.createUser({
       primaryKey: {
         providerId: 'username',
         providerUserId: username,
@@ -36,18 +36,24 @@ export const actions: Actions = {
         username,
       },
     })
-      .then((user) => {
-        // const session = await auth.createSession(user.userId)
-        // locals.auth.setSession(session)
-        throw redirect(302, '/login')
+      .then(() => {
+        message = 'Successfully registered, now you can log in.'
+        return { success: true, message }
       })
       .catch((err) => {
         const e = err as Error
-        console.error(e)
-       if (e.message === 'AUTH_DUPLICATE_PROVIDER_ID') {
-          return fail(400, { message: 'Username already exists' })
-       }
-        return fail(400, { message: 'Could not create user' })
+        console.error(e.message)
+        if (e.message === 'AUTH_DUPLICATE_KEY_ID') {
+          message = 'An author with that username already exists'
+        } else {
+          message = 'Something went wrong with registration'
+        }
+        return { success: false }
       })
+
+    if (!res.success)
+      return fail(400, { success: false, message })
+    else
+      return { success: true, message }
   }
 }
