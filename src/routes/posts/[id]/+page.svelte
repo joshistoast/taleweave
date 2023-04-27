@@ -40,11 +40,11 @@ const goBack = () => history.back()
   </div>
 
   <div class="pt-4">
-    <p class="mb-1 text-sm text-gray-400">Written by <a class="text-orange-300 hover:underline" href="/authors/{post.author.username}">{post.author.username}</a></p>
-    <h1 class="font-serif text-lg lg:text-4xl">{post.title}</h1>
+    <p class="mb-1 text-xs text-gray-400 lg:text-sm">Written by <a class="text-orange-300 hover:underline" href="/authors/{post.author.username}">{post.author.username}</a></p>
+    <h1 class="font-serif text-xl font-bold lg:text-4xl">{post.title}</h1>
   </div>
 </header>
 
-<div class="w-full p-4 prose prose-invert max-w-none">
+<div class="w-full p-4 prose-sm prose prose-invert lg:prose-base max-w-none">
   {@html post.content}
 </div>

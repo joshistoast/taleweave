@@ -11,15 +11,12 @@ export let post: Post
 <article class="relative flex flex-col w-full overflow-hidden border-b border-gray-800">
   <a href="/posts/{post.id}" class="relative flex flex-col gap-1 p-4 {post.featured ? 'hover:bg-orange-300/5' : 'hover:bg-gray-900'}">
     {#if post.featured}
-      <div class="absolute left-0 text-orange-300 opacity-10 -top-1/4">
-        <Icon icon="fluent:flash-28-regular" class="w-40 h-40" />
-      </div>
-      <div class="flex items-center gap-1 text-sm font-bold text-orange-300">
+      <div class="flex items-center gap-1 text-xs font-bold text-orange-300 uppercase">
         <Icon icon="fluent:flash-16-filled" class="w-5 h-5" />
         <span>Featured</span>
       </div>
     {/if}
-    <h2 class="relative font-serif text-3xl">{post.title}</h2>
+    <h2 class="relative font-serif text-3xl font-bold">{post.title}</h2>
     {#if post.description}
       <p class="relative font-sans text-sm text-gray-100/60">{post.description}</p>
     {/if}
