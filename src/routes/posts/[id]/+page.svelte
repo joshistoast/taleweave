@@ -2,7 +2,6 @@
 import type { PageData } from './$types'
 import { page } from '$app/stores'
 import Icon from '@iconify/svelte'
-import { enhance } from '$app/forms'
 
 export let data: PageData
 
@@ -42,6 +41,9 @@ const goBack = () => history.back()
   <div class="pt-4">
     <p class="mb-1 text-xs text-gray-400 lg:text-sm">Written by <a class="text-orange-300 hover:underline" href="/authors/{post.author.username}">{post.author.username}</a></p>
     <h1 class="font-serif text-xl font-bold lg:text-4xl">{post.title}</h1>
+    {#if post.description}
+      <p class="mt-1 text-sm text-gray-500">{post.description}</p>
+    {/if}
   </div>
 </header>
 
