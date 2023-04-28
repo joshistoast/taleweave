@@ -74,7 +74,7 @@ $: tree = [
 
 <div class="grid transition-all duration-100 ease-in-out opacity-30 hover:opacity-100">
 
-  <h1 class="px-4 pt-6 text-2xl font-bold">Dusty</h1>
+  <h1 class="px-4 pt-6 text-2xl font-bold">Dustbunny.</h1>
 
   <nav class="grid px-2">
     {#each tree as group}

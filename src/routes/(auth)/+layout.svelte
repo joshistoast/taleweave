@@ -30,7 +30,7 @@ const nav: LoginNavItem[] = [
 
 <div>
   <div class="p-4">
-    <h1 class="text-xl font-bold lg:text-3xl">Start using Dusty</h1>
+    <h1 class="text-xl font-bold lg:text-3xl">Start using Dustbunny.</h1>
     <p class="text-sm">Log in or register to start writing.</p>
   </div>
   <nav class="flex items-center border-b border-gray-800">
