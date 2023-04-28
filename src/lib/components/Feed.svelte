@@ -10,5 +10,5 @@ export let posts: PostType[]
     <Post {post} />
   {/each}
 {:else}
-  <p class="p-4">No posts found.</p>
+  <p class="p-4 text-gray-500">No posts.</p>
 {/if}

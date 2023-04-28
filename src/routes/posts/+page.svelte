@@ -9,8 +9,4 @@ export let data: PageData
 $: ({ posts } = data)
 </script>
 
-{#if posts?.length}
-  <Feed {posts} />
-{:else}
-  <p class="p-6">No Posts</p>
-{/if}
+<Feed {posts} />
