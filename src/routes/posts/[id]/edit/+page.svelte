@@ -1,9 +1,10 @@
 <script lang="ts">
 import { enhance } from '$app/forms'
 import Editor from '$lib/components/Editor.svelte'
-import type { PageData } from './$types'
+import type { PageData, ActionData } from './$types'
 
 export let data: PageData
+export let form: ActionData
 
 let {
   content,
@@ -17,6 +18,10 @@ let {
   method="POST"
   class="flex flex-col h-full"
 >
+
+  {#if form?.message}
+    <p class="{form.success ? 'text-emerald-300' : 'text-rose-300'}">{ form.message }</p>
+  {/if}
 
   <Editor
     bind:content
