@@ -37,8 +37,11 @@ model AuthUser {
   id           String        @id @unique @default(uuid())
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
+
   username     String        @unique
-  displayName  String?       @default("")
+  displayName  String?
+  bio          String?
+
   auth_session AuthSession[]
   auth_key     AuthKey[]
   posts        Post[]
