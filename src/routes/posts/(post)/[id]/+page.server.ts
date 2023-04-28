@@ -11,9 +11,7 @@ export const load: PageServerLoad = async ({ request, params }) => {
   const { id } = params
 
   const post = await db.post.findUnique({
-    where: {
-      id: Number(id)
-    },
+    where: { id },
     include: {
       author: true,
     },
@@ -43,9 +41,7 @@ export const actions: Actions = {
 
     // get the post from the database
     const post = await db.post.findUniqueOrThrow({
-      where: {
-        id: parseInt(id),
-      }
+      where: { id }
     })
 
     // if the user is not the author of the post, return 403
@@ -54,9 +50,7 @@ export const actions: Actions = {
 
     // delete the post
     await db.post.delete({
-      where: {
-        id: parseInt(id),
-      }
+      where: { id }
     })
       .then(res => {
         return {

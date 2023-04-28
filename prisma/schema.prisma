@@ -1,44 +1,44 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.sqlite"
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
 }
 
 model Post {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(uuid())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  content     String?
+  content     String?  @db.LongText
   title       String
-  description String?
+  description String?  @db.Text
   published   Boolean  @default(false)
   featured    Boolean  @default(false)
   author      AuthUser @relation(fields: [authorId], references: [id])
   authorId    String
-  // tags        Tag[]
 
   @@map("posts")
+  @@index([authorId])
 }
 
-model Tag {
-  id        Int     @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name      String  @unique
-  // posts     Post[]
+// model Tag {
+//   id        String   @id @default(uuid())
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   name      String   @unique
 
-  @@map("tags")
-}
+//   @@map("tags")
+// }
 
 model AuthUser {
-  id           String        @id @unique @default(cuid())
+  id           String        @id @unique @default(uuid())
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
   username     String        @unique
+  displayName  String?       @default("")
   auth_session AuthSession[]
   auth_key     AuthKey[]
   posts        Post[]
@@ -47,7 +47,7 @@ model AuthUser {
 }
 
 model AuthSession {
-  id             String   @id @unique @default(cuid())
+  id             String   @id @unique @default(uuid())
   user_id        String
   active_expires BigInt
   idle_expires   BigInt
@@ -58,7 +58,7 @@ model AuthSession {
 }
 
 model AuthKey {
-  id              String   @id @unique @default(cuid())
+  id              String   @id @unique @default(uuid())
   hashed_password String?
   user_id         String
   primary_key     Boolean

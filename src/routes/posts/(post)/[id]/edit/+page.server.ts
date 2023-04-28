@@ -18,9 +18,7 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
   }
 
   const post = await db.post.findUnique({
-    where: {
-      id: Number(id)
-    },
+    where: { id },
     include: {
       author: true,
     }
@@ -61,9 +59,7 @@ export const actions: Actions = {
 
     // check if post exists
     const post = await db.post.findUnique({
-      where: {
-        id: Number(id)
-      },
+      where: { id },
       include: {
         author: true,
       }
@@ -76,9 +72,7 @@ export const actions: Actions = {
 
     // update post
     const res = await db.post.update({
-      where: {
-        id: Number(id)
-      },
+      where: { id },
       data: {
         title,
         description,
