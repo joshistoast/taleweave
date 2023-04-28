@@ -20,6 +20,7 @@ export default {
             // variables
             '--tw-prose-body': theme('colors.gray.300'),
             '--tw-prose-headings': theme('colors.gray.100'),
+            '--tw-prose-bold': theme('colors.gray-100'), // not working?
             '--tw-prose-quotes': theme('colors.gray.400'),
             '--tw-prose-quote-borders': theme('colors.gray.800'),
             '--tw-prose-counters': theme('colors.gray.500'),
@@ -29,6 +30,9 @@ export default {
 
             // overrides
             fontFamily: theme('fontFamily.serif'),
+            strong: {
+              color: theme('colors.gray.100'), // temporary fix for bold text
+            },
             a: {
               color: theme('colors.orange.300'),
               textDecoration: 'underline',
