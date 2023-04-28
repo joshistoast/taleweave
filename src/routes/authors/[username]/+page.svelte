@@ -9,7 +9,7 @@ $: ({ author } = data)
 
 <div class="p-4">
   {#if author.bio}
-    <div class="w-full prose prose-invert max-w-none">
+    <div class="w-full prose max-w-none">
       {@html author.bio}
     </div>
   {:else}

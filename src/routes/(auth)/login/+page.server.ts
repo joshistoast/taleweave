@@ -22,7 +22,7 @@ export const load: PageServerLoad = async ({ locals, url }) => {
 
 export const actions: Actions = {
   // Log in a user with a username and password
-  default: async ({ request, locals }) => {
+  default: async ({ request, locals, url }) => {
     let message = ''
 
     const { username, password } = Object.fromEntries(
@@ -53,7 +53,15 @@ export const actions: Actions = {
         return { success: false }
       })
 
-    if (!res.success)
+    if (!res.success) {
       return fail(400, { success: false, message })
+    } else {
+      const redirectTo = url.searchParams.get('redirectTo')
+      if (redirectTo?.length) {
+        throw redirect(302, `/${redirectTo.slice(1)}`)
+      } else {
+        throw redirect(302, '/')
+      }
+    }
   }
 }

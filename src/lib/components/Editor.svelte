@@ -2,10 +2,12 @@
 import { onMount, onDestroy } from 'svelte'
 import { page } from '$app/stores'
 import { goto } from '$app/navigation'
+import Icon from '@iconify/svelte'
+
+// Tiptap
 import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
-import Icon from '@iconify/svelte'
 
 export let description: string = ''
 export let content: string = ''
@@ -14,21 +16,14 @@ export let published: boolean = false
 
 $: content
 $: description
-$: isEditing = $page.url.pathname.includes('/edit')
-
-const togglePublish = () => published = !published
-const doCancel = () => {
-  if (window.confirm('Are you sure you want to cancel?')) {
-    if (isEditing)
-      goto(`/posts/${$page.params.id}`)
-    else
-      history.back()
-  }
-}
+$: title
+$: published
 
 let descriptionExpanded = false
 let element: HTMLElement
 let editor: Editor
+
+$: isEditing = $page.url.pathname.includes('/edit')
 $: editor
 
 onMount(() => {
@@ -41,7 +36,7 @@ onMount(() => {
     ],
     editorProps: {
       attributes: {
-        class: 'prose prose-invert max-w-none w-full px-5 pt-5 pb-32 outline-none min-h-full',
+        class: 'prose max-w-none w-full px-5 pt-5 pb-32 outline-none min-h-full',
       }
     },
     onTransaction: () => {
@@ -57,6 +52,16 @@ onDestroy(() => {
   if (editor)
     editor.destroy()
 })
+
+const togglePublish = () => published = !published
+const doCancel = () => {
+  if (window.confirm('Are you sure you want to cancel?')) {
+    if (isEditing)
+      goto(`/posts/${$page.params.id}`)
+    else
+      history.back()
+  }
+}
 
 type EditorTool = {
   icon: string
@@ -141,7 +146,7 @@ $: toolbar = [
         <textarea
           bind:value={description}
           name="description"
-          class="w-full p-3 text-sm bg-transparent outline-none hover:bg-gray-800 focus:bg-gray-800"
+          class="w-full px-3 py-2 text-sm bg-transparent outline-none hover:bg-gray-800 focus:bg-gray-800"
           placeholder="Description"
         ></textarea>
       {/if}

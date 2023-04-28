@@ -47,6 +47,6 @@ const goBack = () => history.back()
   </div>
 </header>
 
-<div class="w-full p-4 prose-sm prose prose-invert lg:prose-base max-w-none">
+<div class="w-full p-4 prose-sm prose lg:prose-base max-w-none">
   {@html post.content}
 </div>

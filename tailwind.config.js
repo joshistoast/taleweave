@@ -17,7 +17,17 @@ export default {
       typography: ({ theme }) => ({
         DEFAULT: {
           css: {
-            color: theme('colors.gray.300'),
+            // variables
+            '--tw-prose-body': theme('colors.gray.300'),
+            '--tw-prose-headings': theme('colors.gray.100'),
+            '--tw-prose-quotes': theme('colors.gray.400'),
+            '--tw-prose-quote-borders': theme('colors.gray.800'),
+            '--tw-prose-counters': theme('colors.gray.500'),
+            '--tw-prose-bullets': theme('colors.gray.500'),
+            '--tw-prose-pre-code': theme('colors.gray.100'),
+            '--tw-prose-pre-bg': theme('colors.gray.900'),
+
+            // overrides
             fontFamily: theme('fontFamily.serif'),
             a: {
               color: theme('colors.orange.300'),
