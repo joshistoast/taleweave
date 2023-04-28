@@ -165,6 +165,7 @@ $: toolbar = [
       >
         <Icon icon="{published ? 'fluent:eye-24-filled' : 'fluent:eye-off-24-filled'}" class="w-5 h-5" />
         <span>Visibility: {published ? 'Public' : 'Private'}</span>
+        <input type="hidden" name="published" bind:value={published} />
       </button>
       <button
         type="submit"

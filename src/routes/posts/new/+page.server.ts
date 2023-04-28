@@ -21,9 +21,14 @@ export const actions: Actions = {
     if (!(user && session))
       throw redirect(302, '/login')
 
-    const { content, title, description, published } = Object.fromEntries(await request.formData()) as Record<string, string>
+    const {
+      content,
+      title,
+      description,
+      published
+    } = Object.fromEntries(await request.formData()) as Record<string, string>
 
-    if (!content)
+    if (!content?.length)
       return fail(400, { message: 'Content is required' })
 
     await db.post.create({
