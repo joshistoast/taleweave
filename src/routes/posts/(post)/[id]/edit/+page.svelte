@@ -21,7 +21,9 @@ let {
 >
 
   {#if form?.message}
-    <p class="{form.success ? 'text-emerald-300' : 'text-rose-300'}">{ form.message }</p>
+    <div class="px-3 py-2 {form.success ? 'bg-emerald-500/10' : 'bg-rose-500/10'}">
+      <p class="{form.success ? 'text-emerald-300' : 'text-rose-300'}">{ form.message }</p>
+    </div>
   {/if}
 
   <Editor

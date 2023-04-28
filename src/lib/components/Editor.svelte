@@ -128,74 +128,76 @@ $: toolbar = [
 ]
 </script>
 
-<div class="flex flex-col h-screen">
-  <div class="grid border-b border-gray-800 bg-gray-900/50">
-    <input bind:value={title} type="text" required name="title" class="px-4 py-3 bg-transparent border-b border-gray-800 outline-none" placeholder="Title" />
+<div class="flex flex-col flex-1">
+  <div class="sticky top-0 z-50 flex flex-col bg-gray-900/70 backdrop-blur-md">
+    <div class="grid border-b border-white/10">
+      <input bind:value={title} type="text" required name="title" class="px-4 py-3 bg-transparent border-b outline-none border-white/10" placeholder="Title" />
 
-    <div class="flex flex-col">
-      <button
-        type="button"
-        class="flex items-center w-full gap-4 px-3 py-2 text-xs font-bold uppercase hover:bg-gray-800 text-gray-4"
-        on:click={() => (descriptionExpanded = !descriptionExpanded)}
-      >
-        <span>Description</span>
-        <span class="i-fluent-chevron-down-24-filled {descriptionExpanded ? 'transform rotate-180' : ''}" />
-      </button>
+      <div class="flex flex-col">
+        <button
+          type="button"
+          class="flex items-center w-full gap-4 px-3 py-2 text-xs font-bold uppercase hover:bg-white/10 text-gray-4"
+          on:click={() => (descriptionExpanded = !descriptionExpanded)}
+        >
+          <span>Description</span>
+          <span class="i-fluent-chevron-down-24-filled {descriptionExpanded ? 'transform rotate-180' : ''}" />
+        </button>
 
-      {#if descriptionExpanded}
-        <textarea
-          bind:value={description}
-          name="description"
-          class="w-full px-3 py-2 text-sm bg-transparent outline-none hover:bg-gray-800 focus:bg-gray-800"
-          placeholder="Description"
-        ></textarea>
-      {/if}
-    </div>
-  </div>
-
-  <div class="flex items-center justify-between gap-2 p-2 border-b border-gray-800">
-    {#if editor}
-      <div class="flex items-center gap-4">
-        {#each toolbar as group}
-          <div class="flex items-center gap-1">
-            {#each group as tool, i (i)}
-              <button
-                type="button"
-                class="p-2 rounded-md {tool.active() ? 'text-orange-300 bg-orange-500/10' : 'hover:bg-gray-800'}"
-                on:click={tool.action}
-                title={tool.name}
-              >
-                <Icon icon={tool.icon} class="w-5 h-5" />
-              </button>
-            {/each}
-          </div>
-        {/each}
+        {#if descriptionExpanded}
+          <textarea
+            bind:value={description}
+            name="description"
+            class="w-full px-3 py-2 text-sm bg-transparent outline-none hover:bg-white/10 focus:bg-white/10"
+            placeholder="Description"
+          ></textarea>
+        {/if}
       </div>
-    {/if}
-    <div class="flex items-center gap-1 text-sm font-bold">
-      <button
-        type="button"
-        class="px-3 py-2 rounded-md text-rose-300 hover:bg-gray-800"
-        on:click={doCancel}
-      >
-        Cancel
-      </button>
-      <button
-        type="button"
-        class="px-3 py-2 rounded-md flex items-center gap-2 {published ? 'text-emerald-300' : 'text-blue-300'} hover:bg-gray-800"
-        on:click={togglePublish}
-      >
-        <Icon icon="{published ? 'fluent:eye-24-filled' : 'fluent:eye-off-24-filled'}" class="w-5 h-5" />
-        <span>Visibility: {published ? 'Public' : 'Private'}</span>
-        <input type="hidden" name="published" bind:value={published} />
-      </button>
-      <button
-        type="submit"
-        class="flex items-center gap-2 px-3 py-2 text-orange-300 rounded-md bg-orange-500/10 hover:bg-orange-500/20"
-      >
-        <Icon icon="fluent:save-24-filled" class="w-5 h-5" />
-        <span>Save</span>
-      </button>
+    </div>
+
+    <div class="flex items-center justify-between gap-2 p-2 border-b border-white/10">
+      {#if editor}
+        <div class="flex items-center gap-4">
+          {#each toolbar as group}
+            <div class="flex items-center gap-1">
+              {#each group as tool, i (i)}
+                <button
+                  type="button"
+                  class="p-2 rounded-md {tool.active() ? 'text-orange-300 bg-orange-500/10' : 'hover:bg-white/10'}"
+                  on:click={tool.action}
+                  title={tool.name}
+                >
+                  <Icon icon={tool.icon} class="w-5 h-5" />
+                </button>
+              {/each}
+            </div>
+          {/each}
+        </div>
+      {/if}
+      <div class="flex items-center gap-1 text-sm font-bold">
+        <button
+          type="button"
+          class="px-3 py-2 rounded-md text-rose-300 hover:bg-white/10"
+          on:click={doCancel}
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          class="px-3 py-2 rounded-md flex items-center gap-2 {published ? 'text-emerald-300' : 'text-blue-300'} hover:bg-white/10"
+          on:click={togglePublish}
+        >
+          <Icon icon="{published ? 'fluent:eye-24-filled' : 'fluent:eye-off-24-filled'}" class="w-4 h-4" />
+          <span>Visibility: {published ? 'Public' : 'Private'}</span>
+          <input type="hidden" name="published" bind:value={published} />
+        </button>
+        <button
+          type="submit"
+          class="flex items-center gap-2 px-3 py-2 text-orange-300 rounded-md bg-orange-500/10 hover:bg-orange-500/20"
+        >
+          <Icon icon="fluent:save-24-filled" class="w-4 h-4" />
+          <span>Save</span>
+        </button>
+      </div>
     </div>
   </div>
 
