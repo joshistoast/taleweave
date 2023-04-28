@@ -7,10 +7,9 @@ export let form: ActionData
 
 <form
   method="POST"
-  class="grid gap-4"
+  class="grid gap-4 p-4"
   use:enhance
 >
-  <h1 class="text-4xl font-bold">Register</h1>
 
   <label class="grid">
     <span>Username</span>
@@ -29,6 +28,6 @@ export let form: ActionData
   <button type="submit" class="p-1 bg-gray-800 hover:bg-gray-700">
     Register
   </button>
-</form>
 
-<p>Already have an account? <a href="/login">Log in instead</a></p>
+  <p>Already have an account? <a href="/login">Log in instead</a></p>
+</form>

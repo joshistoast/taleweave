@@ -45,12 +45,6 @@ $: tree = [
       href: '/posts',
       icon: 'fluent:compass-northwest-24-filled',
     },
-    {
-      type: 'link',
-      label: 'Following',
-      href: '/posts?following=true',
-      icon: 'fluent:people-24-filled',
-    }
   ],
   [
     {
@@ -62,16 +56,9 @@ $: tree = [
     },
     {
       type: 'link',
-      label: 'Log In',
+      label: 'Log In / Sign Up',
       href: '/login',
       icon: 'fluent:person-key-20-filled',
-      show: () => !user,
-    },
-    {
-      type: 'link',
-      label: 'Register',
-      href: '/register',
-      icon: 'fluent:person-add-24-filled',
       show: () => !user,
     },
     {
