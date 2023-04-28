@@ -2,12 +2,12 @@ import type { PageServerLoad } from './$types'
 import db from '$lib/server/db'
 import {
   error,
-  type Actions,
   fail,
   redirect,
+  type Actions,
 } from '@sveltejs/kit'
 
-export const load: PageServerLoad = async ({ request, params }) => {
+export const load: PageServerLoad = async ({ params }) => {
   const { id } = params
 
   const post = await db.post.findUnique({
@@ -34,10 +34,12 @@ export const actions: Actions = {
     if (!(user && session))
       throw redirect(302, '/login')
 
+    let message = ''
+
     // if the post ID is not provided, return 400
     const { id } = params
     if (!id)
-      return fail(400, { message: 'Post ID is required' })
+      return fail(400, { success: false, message: 'Post ID is required' })
 
     // get the post from the database
     const post = await db.post.findUniqueOrThrow({
@@ -46,20 +48,27 @@ export const actions: Actions = {
 
     // if the user is not the author of the post, return 403
     if (post.authorId !== user.userId)
-      return fail(403, { message: 'You are not authorized to delete this post' })
+      return fail(403, { success: false, message: 'You are not authorized to delete this post' })
 
     // delete the post
-    await db.post.delete({
+    const res = await db.post.delete({
       where: { id }
     })
-      .then(res => {
-        return {
-          status: 200,
+      .then(() => {
+        return { success: true }
+      })
+      .catch((err) => {
+        switch (err.message) {
+          default:
+            message = 'Could not delete post'
         }
+        return { success: false }
       })
-      .catch(err => {
-        console.error(err)
-        return fail(500, { message: 'Something went wrong' })
-      })
+
+    if (!res.success) {
+      return fail(400, { success: false, message })
+    } else {
+      throw redirect(302, '/posts')
+    }
   }
 }

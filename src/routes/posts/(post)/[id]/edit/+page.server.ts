@@ -53,8 +53,7 @@ export const actions: Actions = {
     } = Object.fromEntries(await request.formData() ) as Record<string, string>
 
     if (!title || !content) {
-      message = 'Title, description, and content are required'
-      return fail(400, { success: false, message })
+      return fail(400, { success: false, message: 'Title, description, and content are required' })
     }
 
     // check if post exists
@@ -80,17 +79,21 @@ export const actions: Actions = {
         published: published === 'true',
       },
     })
-      .then((res) => {
+      .then(() => {
         message = 'Post updated'
         return { success: true, message }
       })
       .catch((err: Error) => {
-        message = 'Could not update post'
-        // TODO: different error messages for different errors
+        switch(err.message) {
+          default:
+            message = 'Could not update post'
+        }
         return { success: false }
       })
 
     if (!res.success)
       return fail(400, { success: false, message })
+    else
+      return { success: true, message }
   }
 }

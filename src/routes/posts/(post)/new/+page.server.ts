@@ -1,4 +1,5 @@
 import db from '$lib/server/db'
+import type { Post } from '@prisma/client'
 import type { PageServerLoad } from './$types'
 import {
   redirect,
@@ -21,6 +22,8 @@ export const actions: Actions = {
     if (!(user && session))
       throw redirect(302, '/login')
 
+    let message = ''
+
     const {
       content,
       title,
@@ -28,10 +31,14 @@ export const actions: Actions = {
       published
     } = Object.fromEntries(await request.formData()) as Record<string, string>
 
+    const minContentLength = 50
     if (!content?.length)
-      return fail(400, { message: 'Content is required' })
+      return fail(400, { success: false, message: 'Content is required' })
+    if (content.length < minContentLength)
+      // TODO: Properly count characters in richtext
+      return fail(400, { success: false, message: 'Content is too short' })
 
-    await db.post.create({
+    const res = await db.post.create({
       data: {
         content,
         title,
@@ -40,15 +47,23 @@ export const actions: Actions = {
         published: published === 'true'
       },
     })
-      .catch((err) => {
-        console.error(err)
-        return fail(500, { message: 'Something went wrong' })
+      .catch((err: Error) => {
+        switch (err.message) {
+          default:
+            message = 'Could not create post'
+        }
+        return { success: false }
       })
       .then((res) => {
-        return {
-          status: 201,
-          post: res,
-        }
+        message = 'Post created!'
+        const post = res as Post // because for some reason it's not typed as Post already
+        return { success: true, post }
       })
+
+    if (!res.success) {
+      return fail(400, { success: false, message })
+    } else {
+      throw redirect(302, `/posts/${res.post.id}`)
+    }
   },
 }
