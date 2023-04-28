@@ -17,6 +17,7 @@ let {
 <form
   method="POST"
   class="flex flex-col h-full"
+  use:enhance
 >
 
   {#if form?.message}

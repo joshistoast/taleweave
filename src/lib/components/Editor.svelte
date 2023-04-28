@@ -1,5 +1,7 @@
 <script lang="ts">
 import { onMount, onDestroy } from 'svelte'
+import { page } from '$app/stores'
+import { goto } from '$app/navigation'
 import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
@@ -11,9 +13,17 @@ export let title: string = ''
 export let published: boolean = false
 
 $: content
+$: description
+$: isEditing = $page.url.pathname.includes('/edit')
 
-const togglePublish = () => {
-  published = !published
+const togglePublish = () => published = !published
+const doCancel = () => {
+  if (window.confirm('Are you sure you want to cancel?')) {
+    if (isEditing)
+      goto(`/posts/${$page.params.id}`)
+    else
+      history.back()
+  }
 }
 
 let descriptionExpanded = false
@@ -158,6 +168,13 @@ $: toolbar = [
       </div>
     {/if}
     <div class="flex items-center gap-1 text-sm font-bold">
+      <button
+        type="button"
+        class="px-3 py-2 rounded-md text-rose-300 hover:bg-gray-800"
+        on:click={doCancel}
+      >
+        Cancel
+      </button>
       <button
         type="button"
         class="px-3 py-2 rounded-md flex items-center gap-2 {published ? 'text-emerald-300' : 'text-blue-300'} hover:bg-gray-800"
