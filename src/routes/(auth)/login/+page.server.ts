@@ -1,21 +1,14 @@
 import {
   fail,
-  redirect,
   type Actions,
 } from '@sveltejs/kit'
 import { auth } from '$lib/server/auth'
 import type { PageServerLoad } from './$types'
+import { doRedirect } from '$lib/utils'
 
 export const load: PageServerLoad = async ({ locals, url }) => {
-  const redirectTo = url.searchParams.get('redirectTo')
   const session = await locals.auth.validate()
-  if (session) {
-    if (redirectTo?.length) {
-      throw redirect(302, `/${redirectTo.slice(1)}`)
-    } else {
-      throw redirect(302, '/')
-    }
-  }
+  doRedirect(url, !!session)
 
   return {}
 }
@@ -56,12 +49,7 @@ export const actions: Actions = {
     if (!res.success) {
       return fail(400, { success: false, message })
     } else {
-      const redirectTo = url.searchParams.get('redirectTo')
-      if (redirectTo?.length) {
-        throw redirect(302, `/${redirectTo.slice(1)}`)
-      } else {
-        throw redirect(302, '/')
-      }
+      doRedirect(url, true)
     }
   }
 }
