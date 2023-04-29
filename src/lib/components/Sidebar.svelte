@@ -6,9 +6,6 @@ import { sidebarOpen } from '$lib/stores'
 $: user = $page.data.user
 $: path = $page.url.pathname + $page.url.search
 
-let sidebarState: boolean
-
-sidebarOpen.subscribe(v => sidebarState = v)
 const closeSidebar = () => sidebarOpen.set(false)
 
 type SidebarItemBase = {
@@ -87,34 +84,35 @@ $: tree = [
     </button>
   </div>
 
-  <!-- <h1 class="px-4 pt-6 text-2xl font-bold">Dustbunny.</h1> -->
-
   <nav class="grid px-2">
     {#each tree as group}
-      <div class="grid gap-1 py-3">
-        {#each group as item}
-          {#if item.show === undefined || item.show()}
-            {#if item.type === 'heading'}
-              <span class="px-2 text-xs font-bold text-gray-500 uppercase">{ item.label }</span>
-            {:else if item.type === 'link'}
-              <a
-                class="
-                  text-sm px-3 py-2 rounded-lg flex items-center gap-2 hover:bg-white/10
-                  { item.href === path ? 'text-orange-300' : 'text-gray-400 hover:text-gray-100' }
-                "
-                href={item.href}
-              >
-                {#if item.icon}
-                  <Icon icon={item.icon} class="w-5 h-5" />
-                {/if}
-                <span>
-                  { item.label }
-                </span>
-              </a>
+      <!-- check that at least one item in group is shown -->
+      {#if group.some(item => item.show === undefined || item.show())}
+        <div class="grid gap-1 py-3">
+          {#each group as item}
+            {#if item.show === undefined || item.show()}
+              {#if item.type === 'heading'}
+                <span class="px-2 text-xs font-bold text-gray-500 uppercase">{ item.label }</span>
+              {:else if item.type === 'link'}
+                <a
+                  class="
+                    text-sm px-3 py-2 rounded-lg flex items-center gap-2 hover:bg-white/10
+                    { item.href === path ? 'text-orange-300' : 'text-gray-400 hover:text-gray-100' }
+                  "
+                  href={item.href}
+                >
+                  {#if item.icon}
+                    <Icon icon={item.icon} class="w-5 h-5" />
+                  {/if}
+                  <span>
+                    { item.label }
+                  </span>
+                </a>
+              {/if}
             {/if}
-          {/if}
-        {/each}
-      </div>
+          {/each}
+        </div>
+      {/if}
     {/each}
   </nav>
 </div>

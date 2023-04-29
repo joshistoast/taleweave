@@ -39,7 +39,7 @@ onMount(() => {
 
 <div class="flex">
   <aside class="
-    w-[16rem] h-full fixed lg:sticky top-0 left-0 z-[999] lg:translate-x-0 bg-gray-900/70 lg:bg-transparent backdrop-blur-md transition-all duration-300 ease-in-out
+    w-full md:w-[16rem] h-full border-r lg:border-none border-white/10 fixed lg:sticky top-0 left-0 z-[999] lg:translate-x-0 bg-gray-900/70 lg:bg-transparent backdrop-blur-md transition-all duration-300 ease-in-out
     {sidebarState ? 'translate-x-0' : '-translate-x-full'}
   ">
     <Sidebar />
