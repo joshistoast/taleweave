@@ -55,7 +55,7 @@ $: tree = [
   [
     {
       type: 'link',
-      label: user.displayName || user.username || 'Profile',
+      label: user?.displayName || user?.username || 'Profile',
       href: `/authors/${user?.username}`,
       icon: 'fluent:person-24-filled',
       show: () => !!user,
