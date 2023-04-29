@@ -13,6 +13,7 @@ export const auth = lucia({
     return {
       userId: databaseUser.id,
       username: databaseUser.username,
+      displayName: databaseUser.displayName,
     }
   }
 })
