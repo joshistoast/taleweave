@@ -1,9 +1,15 @@
 <script lang="ts">
 import Icon from '@iconify/svelte'
 import { page } from '$app/stores'
+import { sidebarOpen } from '$lib/stores'
 
 $: user = $page.data.user
 $: path = $page.url.pathname + $page.url.search
+
+let sidebarState: boolean
+
+sidebarOpen.subscribe(v => sidebarState = v)
+const closeSidebar = () => sidebarOpen.set(false)
 
 type SidebarItemBase = {
   type: 'link' | 'heading',
@@ -72,9 +78,16 @@ $: tree = [
 ]
 </script>
 
-<div class="grid transition-all duration-100 ease-in-out opacity-30 hover:opacity-100">
+<div class="grid">
 
-  <h1 class="px-4 pt-6 text-2xl font-bold">Dustbunny.</h1>
+  <div class="flex items-center justify-between p-2">
+    <span class="py-2 pl-3 font-bold">Dustbunny.</span>
+    <button on:click={closeSidebar} class="p-3 rounded-md hover:bg-white/10 lg:hidden">
+      <Icon icon="fluent:dismiss-24-filled" class="w-5 h-5" />
+    </button>
+  </div>
+
+  <!-- <h1 class="px-4 pt-6 text-2xl font-bold">Dustbunny.</h1> -->
 
   <nav class="grid px-2">
     {#each tree as group}
@@ -86,7 +99,7 @@ $: tree = [
             {:else if item.type === 'link'}
               <a
                 class="
-                  text-sm px-3 py-2 rounded-lg flex items-center gap-2 hover:bg-gray-900
+                  text-sm px-3 py-2 rounded-lg flex items-center gap-2 hover:bg-white/10
                   { item.href === path ? 'text-orange-300' : 'text-gray-400 hover:text-gray-100' }
                 "
                 href={item.href}
