@@ -6,7 +6,7 @@ export let posts: PostType[]
 export let showFeaturedFlags = true
 </script>
 
-<div class="grid gap-1 p-1">
+<div class="grid gap-2">
   {#if posts?.length}
     {#each posts as post}
       <Post
@@ -14,7 +14,8 @@ export let showFeaturedFlags = true
         showFeaturedFlag={showFeaturedFlags}
       />
     {/each}
+    <p class="text-gray-500">You've reached the end</p>
   {:else}
-    <p class="p-4 text-gray-500">No posts.</p>
+    <p class="text-gray-500">No posts.</p>
   {/if}
 </div>

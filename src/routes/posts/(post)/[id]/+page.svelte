@@ -16,7 +16,7 @@ const goBack = () => history.back()
   <meta name="description" content={post.description || undefined} />
 </svelte:head>
 
-<header class="flex flex-col items-start gap-4 p-4 border-b border-gray-800">
+<header class="flex flex-col items-start gap-4 p-4 border-b border-gray-800 lg:px-0">
   <div class="flex items-center gap-4">
     <button class="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-100" on:click={goBack}>
       <Icon icon="fluent:arrow-left-24-filled" class="w-5 h-5" />
@@ -47,6 +47,6 @@ const goBack = () => history.back()
   </div>
 </header>
 
-<div class="w-full p-4 prose-sm prose lg:prose-base max-w-none">
+<div class="w-full p-4 prose-sm prose lg:pl-0 lg:prose-base max-w-none">
   {@html post.content}
 </div>

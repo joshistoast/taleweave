@@ -29,9 +29,9 @@ $: tree = [
   [
     {
       type: 'link',
-      label: 'Write',
+      label: 'New Submission',
       href: '/posts/new',
-      icon: 'fluent:add-24-filled',
+      icon: 'fluent:edit-24-filled',
       show: () => !!user,
     }
   ],
@@ -73,11 +73,22 @@ $: tree = [
     },
   ],
 ]
+
+type subTreeItem = {
+  label: string
+  href: string
+}
+const subTree: subTreeItem[] = [
+  {
+    label: 'Github',
+    href: 'https://github.com/joshwcorbett/dustbunny',
+  },
+]
 </script>
 
-<div class="grid">
+<div class="grid gap-4 py-6">
 
-  <div class="flex items-center justify-between p-2">
+  <div class="flex items-center justify-between px-2">
     <span class="py-2 pl-3 font-bold">Dustbunny.</span>
     <button on:click={closeSidebar} class="p-3 rounded-md hover:bg-white/10 lg:hidden">
       <Icon icon="fluent:dismiss-24-filled" class="w-5 h-5" />
@@ -88,7 +99,7 @@ $: tree = [
     {#each tree as group}
       <!-- check that at least one item in group is shown -->
       {#if group.some(item => item.show === undefined || item.show())}
-        <div class="grid gap-1 py-3">
+        <div class="grid gap-1 py-2">
           {#each group as item}
             {#if item.show === undefined || item.show()}
               {#if item.type === 'heading'}
@@ -113,6 +124,15 @@ $: tree = [
           {/each}
         </div>
       {/if}
+    {/each}
+  </nav>
+
+  <nav class="grid px-2">
+    {#each subTree as { label, href }}
+      <a {href} class="flex items-center gap-2 px-3 text-sm text-gray-500 hover:text-gray-300">
+        <span>{label}</span>
+        <Icon icon="fluent:arrow-up-right-16-filled" class="w-4 h-4" />
+      </a>
     {/each}
   </nav>
 </div>

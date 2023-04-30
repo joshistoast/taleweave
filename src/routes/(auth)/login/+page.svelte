@@ -13,19 +13,19 @@ export let form: ActionData
 
   <label class="grid">
     <span>Username</span>
-    <input type="text" name="username" />
+    <input class="px-3 py-2 rounded-md" type="text" name="username" required />
   </label>
 
   <label class="grid">
     <span>Password</span>
-    <input type="password" name="password" />
+    <input class="px-3 py-2 rounded-md" type="password" name="password" required />
   </label>
 
   {#if form?.message}
     <p class={ form?.success ? 'text-emerald-300' : 'text-rose-300' }>{form.message}</p>
   {/if}
 
-  <button type="submit" class="p-1 bg-gray-800 hover:bg-gray-700">
+  <button type="submit" class="px-3 py-2 font-bold rounded-md bg-white/10 hover:bg-white/20">
     Login
   </button>
 
