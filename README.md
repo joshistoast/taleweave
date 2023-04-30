@@ -27,15 +27,15 @@ Make sure you have the following installed on your machine:
 
 1. Clone the repo
 
-```sh
-   git clone https://github.com/joshwcorbett/dustbunny.git dustbunny
- ```
+   ```sh
+      git clone https://github.com/joshwcorbett/dustbunny.git dustbunny
+    ```
 
 2. Install dependencies
 
- ```sh
-   pnpm install
- ```
+    ```sh
+      pnpm install
+    ```
 
 3. Create your own `.env` file and populate it with the following value:
 
@@ -45,9 +45,9 @@ Make sure you have the following installed on your machine:
 
 4. Run the project
 
-```sh
-   pnpm dev
-```
+   ```sh
+      pnpm dev
+   ```
 
 ## Contributing
 
