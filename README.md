@@ -1,38 +1,58 @@
-# create-svelte
+# Dustbunny
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
+## About the project
 
-## Creating a project
+Dustbunny is an open-source, and easy to use platform for writers and authors alike to share their stories and works of literature freely. On this platform you as an author can create an account, write your stories, and publish them for the world to see and appreciate. Dustbunny is by writers, for writers.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Tech Stack
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+Originally built as a pet project, this platform is built on cutting-edge web technologies like sveltekit for the frontend, prisma + planetscale for the database, lucia for authentication and authorization, and tailwindcss for styling.
 
-# create a new project in my-app
-npm create svelte@latest my-app
+- **Frontend**: [SvelteKit](https://kit.svelte.dev/)
+- **Database**: [Prisma](https://www.prisma.io/) + [PlanetScale](https://planetscale.com/)
+- **Authentication**: [Lucia](https://lucia.js.org/)
+
+## Getting Started
+
+To get started developing for this project locally, follow the simple steps outlined below:
+
+### Prerequisites
+
+Make sure you have the following installed on your machine:
+
+- [Node.js](https://nodejs.org/en/) (v18 or later is recommended)
+- [pnpm](https://pnpm.io/)
+
+### Installation
+
+1. Clone the repo
+
+```sh
+   git clone https://github.com/joshwcorbett/dustbunny.git dustbunny
+ ```
+
+2. Install dependencies
+
+ ```sh
+   pnpm install
+ ```
+
+3. Create your own `.env` file and populate it with the following value:
+
+   ```sh
+    DATABASE_URL="mysql://<username>:<password>@<host>:<port>/<database>?connection_limit=1"
+   ```
+
+4. Run the project
+
+```sh
+   pnpm dev
 ```
 
-## Developing
+## Contributing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Any contributions you make are **greatly appreciated**. Feel free to fork the project and submit a pull request.
 
-```bash
-npm run dev
+## License
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+Distributed under the Apache 2.0 License. See [LICENSE](./LICENSE.txt) for more information.
