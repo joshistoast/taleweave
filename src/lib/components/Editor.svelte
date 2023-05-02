@@ -2,7 +2,12 @@
 import { onMount, onDestroy } from 'svelte'
 import { page } from '$app/stores'
 import { goto } from '$app/navigation'
+import { Rating } from '@prisma/client'
 import Icon from '@iconify/svelte'
+import Tab from '$lib/components/common/Tab.svelte'
+import TabContent from '$lib/components/common/TabContent.svelte'
+import Tabs from '$lib/components/common/Tabs.svelte'
+import { useRating } from '$lib/utils'
 
 // Tiptap
 import { Editor } from '@tiptap/core'
@@ -13,13 +18,10 @@ export let description: string = ''
 export let content: string = ''
 export let title: string = ''
 export let published: boolean = false
+export let rating: Rating = 's'
 
 $: content
-$: description
-$: title
-$: published
 
-let descriptionExpanded = false
 let element: HTMLElement
 let editor: Editor
 
@@ -130,28 +132,51 @@ $: toolbar = [
 
 <div class="flex flex-col flex-1">
   <div class="sticky top-0 z-50 flex flex-col bg-gray-900/70 backdrop-blur-md">
-    <div class="grid border-b border-white/10">
-      <input bind:value={title} type="text" required name="title" class="px-4 py-3 bg-transparent border-b outline-none border-white/10" placeholder="Title" />
-
-      <div class="flex flex-col">
-        <button
-          type="button"
-          class="flex items-center w-full gap-4 px-3 py-2 text-xs font-bold uppercase hover:bg-white/10 text-gray-4"
-          on:click={() => (descriptionExpanded = !descriptionExpanded)}
-        >
-          <span>Description</span>
-          <span class="i-fluent-chevron-down-24-filled {descriptionExpanded ? 'transform rotate-180' : ''}" />
-        </button>
-
-        {#if descriptionExpanded}
-          <textarea
-            bind:value={description}
-            name="description"
-            class="w-full px-3 py-2 text-sm bg-transparent outline-none hover:bg-white/10 focus:bg-white/10"
-            placeholder="Description"
-          ></textarea>
-        {/if}
-      </div>
+    <div class="flex flex-col border-b border-white/10">
+      <Tabs>
+        <Tab>Title</Tab>
+        <Tab>Description</Tab>
+        <Tab>Rating</Tab>
+        <Tab>Visibility</Tab>
+        <svelte:fragment slot="content">
+          <TabContent>
+            <input bind:value={title} type="text" required name="title" class="w-full px-4 py-3 bg-transparent outline-none focus:bg-white/10" placeholder="Title" />
+          </TabContent>
+          <TabContent>
+            <textarea
+              bind:value={description}
+              placeholder="Write a Description..."
+              class="w-full h-20 px-4 py-3 bg-transparent outline-none resize-none focus:bg-white/10"
+            ></textarea>
+          </TabContent>
+          <TabContent>
+            <div class="flex gap-1 p-2">
+              {#each Object.entries(Rating) as [key, value]}
+                <button
+                  on:click|preventDefault={() => rating = value}
+                  class="rounded-md px-3 py-1 ring-orange-300 {rating === value ? 'text-orange-300 ring-1 bg-orange-500/10' : 'ring-0 hover:bg-white/10'}"
+                >
+                  <span>{value.toUpperCase()} - {useRating(value)}</span>
+                </button>
+              {/each}
+              <input type="hidden" name="rating" bind:value={rating} />
+            </div>
+          </TabContent>
+          <TabContent>
+            <div class="flex items-center gap-2 p-2 border-b border-white/10">
+              <button
+                type="button"
+                class="flex items-center gap-1 p-2 rounded-md {published ? 'text-orange-300 bg-orange-500/10' : 'hover:bg-white/10'}"
+                on:click={togglePublish}
+              >
+                <Icon icon="{published ? 'fluent:eye-20-filled' : 'fluent:eye-hide-20-filled'}" class="w-5 h-5" />
+                <span>{published ? 'Public' : 'Private'}</span>
+              </button>
+              <input type="hidden" name="published" bind:value={published} />
+            </div>
+          </TabContent>
+        </svelte:fragment>
+      </Tabs>
     </div>
 
     <div class="flex items-center justify-between gap-2 p-2 border-b border-white/10">
@@ -180,15 +205,6 @@ $: toolbar = [
           on:click={doCancel}
         >
           Cancel
-        </button>
-        <button
-          type="button"
-          class="px-3 py-2 rounded-md flex items-center gap-2 {published ? 'text-emerald-300' : 'text-blue-300'} hover:bg-white/10"
-          on:click={togglePublish}
-        >
-          <Icon icon="{published ? 'fluent:eye-24-filled' : 'fluent:eye-off-24-filled'}" class="w-4 h-4" />
-          <span>Visibility: {published ? 'Public' : 'Private'}</span>
-          <input type="hidden" name="published" bind:value={published} />
         </button>
         <button
           type="submit"
