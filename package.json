@@ -39,6 +39,7 @@
     "@tiptap/extension-underline": "^2.0.3",
     "@tiptap/pm": "^2.0.3",
     "@tiptap/starter-kit": "^2.0.3",
+    "@vercel/analytics": "^1.0.0",
     "lucia-auth": "^1.4.0"
   }
 }

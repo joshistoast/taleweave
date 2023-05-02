@@ -3,8 +3,13 @@ import '../app.css'
 import Sidebar from '$lib/components/Sidebar.svelte'
 import AppHeader from '$lib/components/AppHeader.svelte'
 import { sidebarOpen } from '$lib/stores'
-  import { beforeNavigate } from '$app/navigation'
-  import { onMount } from 'svelte'
+import { beforeNavigate } from '$app/navigation'
+import { onMount } from 'svelte'
+import { dev } from '$app/environment'
+import { inject } from '@vercel/analytics'
+
+// inject vercel analytics
+inject({ mode: dev ? 'development' : 'production' })
 
 let sidebarState: boolean
 let mounted = false
