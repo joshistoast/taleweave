@@ -1,8 +1,8 @@
-# Dustbunny
+# Taleweave
 
 ## About the project
 
-Dustbunny is an open-source, and easy to use platform for writers and authors alike to share their stories and works of literature freely. On this platform you as an author can create an account, write your stories, and publish them for the world to see and appreciate. Dustbunny is by writers, for writers.
+Taleweave is an open-source, and easy to use platform for writers and authors alike to share their stories and works of literature freely. On this platform you as an author can create an account, write your stories, and publish them for the world to see and appreciate. Taleweave is by writers, for writers.
 
 ## Tech Stack
 
@@ -28,25 +28,25 @@ Make sure you have the following installed on your machine:
 1. Clone the repo
 
    ```sh
-      git clone https://github.com/joshwcorbett/dustbunny.git dustbunny
+   git clone https://github.com/joshwcorbett/taleweave.git taleweave
     ```
 
 2. Install dependencies
 
     ```sh
-      pnpm install
+   pnpm install
     ```
 
 3. Create your own `.env` file and populate it with the following value:
 
    ```sh
-    DATABASE_URL="mysql://<username>:<password>@<host>:<port>/<database>?connection_limit=1"
+   DATABASE_URL="mysql://<username>:<password>@<host>:<port>/<database>?connection_limit=1"
    ```
 
 4. Run the project
 
    ```sh
-      pnpm dev
+   pnpm dev
    ```
 
 ## Contributing

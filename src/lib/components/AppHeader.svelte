@@ -17,7 +17,7 @@ const toggleSidebar = () => {
       <Icon icon="fluent:line-horizontal-3-20-filled" class="w-5 h-5" />
     </button>
 
-    <span class="text-sm font-bold">Dustbunny</span>
+    <span class="text-sm font-bold">Taleweave</span>
   </div>
 
 </header>
