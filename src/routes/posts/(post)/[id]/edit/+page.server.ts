@@ -31,6 +31,11 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 
   return {
     post,
+    page: {
+      title: 'Edit Post',
+      description: 'Edit your post',
+      robots: 'noindex, nofollow',
+    },
   }
 }
 

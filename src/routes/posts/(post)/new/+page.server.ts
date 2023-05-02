@@ -12,7 +12,14 @@ export const load: PageServerLoad = async ({ locals }) => {
   if (!session) {
     throw redirect(302, '/login')
   }
-  return {}
+
+  return {
+    page: {
+      title: 'New Post',
+      description: 'Create a new post',
+      robots: 'noindex, nofollow',
+    }
+  }
 }
 
 export const actions: Actions = {

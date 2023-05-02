@@ -15,4 +15,11 @@ export const load: PageServerLoad = async ({ locals, params, parent }) => {
   if (authorId !== userId) {
     throw redirect(302, `/authors/${username}`)
   }
+
+  return {
+    page: {
+      title: 'Preferences',
+      robots: 'noindex',
+    }
+  }
 }

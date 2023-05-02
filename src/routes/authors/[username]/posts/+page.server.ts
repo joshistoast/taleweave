@@ -1,8 +1,8 @@
-import type { } from '@sveltejs/kit'
 import type { PageServerLoad } from './$types'
 import db from '$lib/server/db'
+import { useAuthorName } from '$lib/utils'
 
-export const load: PageServerLoad = async ({ request, params }) => {
+export const load: PageServerLoad = async ({ request, params, parent }) => {
 
   // get posts from author
   const { username } = params
@@ -18,7 +18,13 @@ export const load: PageServerLoad = async ({ request, params }) => {
     }
   })
 
+  const { author } = await parent()
+
   return {
     posts,
+    page: {
+      title: `Posts by ${useAuthorName(author)}`,
+      description: author.bio,
+    },
   }
 }

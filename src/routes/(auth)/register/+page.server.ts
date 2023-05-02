@@ -8,7 +8,11 @@ export const load: PageServerLoad = async ({ locals }) => {
   if (session) {
     throw redirect(302, '/')
   }
-  return {}
+  return {
+    page: {
+      title: 'Register a new account',
+    }
+  }
 }
 
 export const actions: Actions = {

@@ -10,7 +10,11 @@ export const load: PageServerLoad = async ({ locals, url }) => {
   const session = await locals.auth.validate()
   doRedirect(url, !!session)
 
-  return {}
+  return {
+    page: {
+      title: 'Log in',
+    }
+  }
 }
 
 export const actions: Actions = {

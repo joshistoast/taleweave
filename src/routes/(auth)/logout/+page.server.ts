@@ -8,7 +8,12 @@ export const load: PageServerLoad = async ({ locals }) => {
   if (!session) {
     throw redirect(302, '/login')
   }
-  return {}
+  return {
+    page: {
+      title: 'Log out',
+      robots: 'noindex',
+    }
+  }
 }
 
 export const actions: Actions = {

@@ -1,4 +1,5 @@
 import { redirect } from '@sveltejs/kit'
+import type { AuthUser } from '@prisma/client'
 
 export const doRedirect = (url: URL, hasSession: boolean) => {
   const redirectTo = url.searchParams.get('redirectTo')
@@ -9,4 +10,8 @@ export const doRedirect = (url: URL, hasSession: boolean) => {
       throw redirect(302, '/')
     }
   }
+}
+
+export const useAuthorName = (author: AuthUser) => {
+  return author.displayName || author.username
 }
