@@ -2,13 +2,12 @@
 import { enhance } from '$app/forms'
 import Editor from '$lib/components/Editor.svelte'
 import type { ActionData } from './$types'
-import type { Rating } from '@prisma/client'
 
 let content = ''
 let description = ''
 let title = ''
 let published = false
-let rating: Rating
+let rating: string
 
 export let form: ActionData
 </script>
