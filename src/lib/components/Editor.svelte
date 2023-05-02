@@ -2,7 +2,6 @@
 import { onMount, onDestroy } from 'svelte'
 import { page } from '$app/stores'
 import { goto } from '$app/navigation'
-import { Rating } from '@prisma/client'
 import Icon from '@iconify/svelte'
 import Tab from '$lib/components/common/Tab.svelte'
 import TabContent from '$lib/components/common/TabContent.svelte'
@@ -14,11 +13,13 @@ import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
 
+const Rating = ['s', 't', 'm', 'e']
+
 export let description: string = ''
 export let content: string = ''
 export let title: string = ''
 export let published: boolean = false
-export let rating: Rating = 's'
+export let rating = Rating[0]
 
 $: content
 
@@ -151,12 +152,12 @@ $: toolbar = [
           </TabContent>
           <TabContent>
             <div class="flex gap-1 p-2">
-              {#each Object.entries(Rating) as [key, value]}
+              {#each Rating as r}
                 <button
-                  on:click|preventDefault={() => rating = value}
-                  class="rounded-md px-3 py-1 ring-orange-300 {rating === value ? 'text-orange-300 ring-1 bg-orange-500/10' : 'ring-0 hover:bg-white/10'}"
+                  on:click|preventDefault={() => rating = r}
+                  class="rounded-md px-3 py-1 ring-orange-300 {rating === r ? 'text-orange-300 ring-1 bg-orange-500/10' : 'ring-0 hover:bg-white/10'}"
                 >
-                  <span>{value.toUpperCase()} - {useRating(value)}</span>
+                  <span>{r.toUpperCase()} - {useRating(r)}</span>
                 </button>
               {/each}
               <input type="hidden" name="rating" bind:value={rating} />
