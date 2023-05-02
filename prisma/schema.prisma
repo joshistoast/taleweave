@@ -49,8 +49,8 @@ model AuthUser {
   updatedAt    DateTime      @updatedAt
 
   username     String        @unique
-  displayName  String?
-  bio          String?
+  displayName  String?       @unique
+  bio          String?       @db.Text
 
   auth_session AuthSession[]
   auth_key     AuthKey[]

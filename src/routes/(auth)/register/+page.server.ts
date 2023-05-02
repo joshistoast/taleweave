@@ -38,6 +38,7 @@ export const actions: Actions = {
       },
       attributes: {
         username,
+        displayName: username,
       },
     })
       .then(() => {
