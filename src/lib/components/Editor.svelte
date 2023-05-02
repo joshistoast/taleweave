@@ -145,6 +145,7 @@ $: toolbar = [
           </TabContent>
           <TabContent>
             <textarea
+              name="description"
               bind:value={description}
               placeholder="Write a Description..."
               class="w-full h-20 px-4 py-3 bg-transparent outline-none resize-none focus:bg-white/10"
