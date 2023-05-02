@@ -110,9 +110,7 @@
 
 html,
 body {
-  margin: 0;
-  background-color: #121212;
-  @apply selection:bg-orange-500/10 selection:text-orange-300
+  @apply selection:bg-orange-500/10 m-0 bg-[#121212] selection:text-orange-300
 }
 
 :root {
