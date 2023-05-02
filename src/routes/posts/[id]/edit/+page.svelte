@@ -2,7 +2,6 @@
 import { enhance } from '$app/forms'
 import Editor from '$lib/components/Editor.svelte'
 import type { PageData, ActionData } from './$types'
-import type { Rating } from '@prisma/client'
 
 export let data: PageData
 export let form: ActionData
