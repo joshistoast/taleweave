@@ -27,8 +27,7 @@
   role="presentation"
   class="tabs__tab {disabled ? 'tab--disabled' : ''} {selected ? 'tab--selected' : ''}"
   {...$$restProps}
-  on:click|preventDefault
-  on:click|preventDefault="{() => {
+  on:click="{() => {
     if (!disabled) {
       update(id);
     }
