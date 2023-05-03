@@ -55,6 +55,7 @@ export const actions: Actions = {
       description,
       content,
       published,
+      rating,
     } = Object.fromEntries(await request.formData() ) as Record<string, string>
 
     if (!title || !content) {
@@ -82,6 +83,7 @@ export const actions: Actions = {
         description,
         content,
         published: published === 'true',
+        rating,
       },
     })
       .then(() => {

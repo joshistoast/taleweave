@@ -35,7 +35,8 @@ export const actions: Actions = {
       content,
       title,
       description,
-      published
+      published,
+      rating,
     } = Object.fromEntries(await request.formData()) as Record<string, string>
 
     const minContentLength = 50
@@ -51,7 +52,8 @@ export const actions: Actions = {
         title,
         description,
         authorId: user.userId,
-        published: published === 'true'
+        published: published === 'true',
+        rating,
       },
     })
       .catch((err: Error) => {
