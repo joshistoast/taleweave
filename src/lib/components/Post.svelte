@@ -19,16 +19,16 @@ $: writtenByYou = user?.userId === post.authorId
     href="/posts/{id}"
     class="
       relative flex flex-col gap-1 p-4 transition-all duration-100 ease-in-out border rounded-lg
-      {featured ? 'border-orange-300/10 hover:border-orange-300/30 focus:border-orange-300' : 'hover:border-white/30 border-white/10 focus:border-white'}
+      {featured ? 'border-orange-300/10 hover:border-orange-300/40 focus:border-orange-300' : 'hover:border-white/30 border-white/10 focus:border-white'}
     "
   >
 
     {#if featured}
-      <div class="absolute top-0 w-full opacity-60">
+      <div class="absolute top-0 left-0 w-full max-w-[800px] h-full transition-all duration-100 ease-in-out">
         <img
           src="/image/rays.avif"
           alt="Rays of Light"
-          class="w-full h-full sepia saturate-200 brightness-75 hue-rotate-60"
+          class="object-cover w-full h-full sepia saturate-200 brightness-[60%] hue-rotate-60 -scale-x-[1] object-top"
         >
       </div>
     {/if}
