@@ -107,7 +107,7 @@ const subTree: subTreeItem[] = [
               {:else if item.type === 'link'}
                 <a
                   class="
-                    text-sm px-3 py-2 rounded-lg flex items-center gap-2 hover:bg-white/10
+                    text-sm px-3 py-2 rounded-lg flex items-center gap-2 hover:bg-white/10 transition-all duration-100 ease-in-out
                     { item.href === path ? 'text-orange-300' : 'text-gray-400 hover:text-gray-100' }
                   "
                   href={item.href}
