@@ -1,6 +1,8 @@
 <script lang="ts">
 import { page } from '$app/stores'
 import type { LayoutServerData } from './$types'
+import Tab from '$lib/components/common/Tab.svelte'
+import Tabs from '$lib/components/common/Tabs.svelte'
 
 $: ({ pathname } = $page.url)
 $: user = $page.data.user
@@ -39,19 +41,12 @@ const nav = [
   {/if}
 </div>
 
-<nav class="flex items-center border-b border-white/10">
+<Tabs selected={ +nav.indexOf(nav.find(({ href }) => href === pathname)) }>
   {#each nav as { label, href, show }}
     {#if show === undefined || show()}
-      <a
-        href={href}
-        class="py-3 px-4 border-b text-sm hover:bg-white/10 {pathname === href ? 'text-orange-300 border-orange-300' : 'border-transparent'}"
-      >
-        {label}
-      </a>
+      <Tab {href} {label} selected={href === pathname} />
     {/if}
   {/each}
-</nav>
+</Tabs>
 
-<div>
-  <slot />
-</div>
+<slot />

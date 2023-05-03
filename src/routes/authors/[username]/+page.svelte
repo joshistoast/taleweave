@@ -7,7 +7,7 @@ export let data: PageData
 $: ({ author } = data)
 </script>
 
-<div class="p-4">
+<div class="p-4 lg:px-0">
   {#if author.bio}
     <div class="w-full prose max-w-none">
       {@html author.bio}

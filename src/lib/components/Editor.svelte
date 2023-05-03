@@ -135,19 +135,19 @@ $: toolbar = [
   <div class="sticky top-0 z-50 flex flex-col bg-gray-900/70 backdrop-blur-md">
     <div class="flex flex-col border-b border-white/10">
       <Tabs>
-        <Tab>Title</Tab>
-        <Tab>Description</Tab>
-        <Tab>Rating</Tab>
-        <Tab>Visibility</Tab>
+        <Tab label="Title" />
+        <Tab label="Description" />
+        <Tab label="Rating" />
+        <Tab label="Visibility" />
         <svelte:fragment slot="content">
           <TabContent>
-            <input bind:value={title} type="text" required name="title" class="w-full px-4 py-3 bg-transparent outline-none focus:bg-white/10" placeholder="Title" />
+            <input bind:value={title} type="text" required name="title" class="w-full px-4 py-3 bg-transparent outline-none focus:bg-white/10" placeholder="Enter a unique title..." />
           </TabContent>
           <TabContent>
             <textarea
               name="description"
               bind:value={description}
-              placeholder="Write a Description..."
+              placeholder="Write an amazing description..."
               class="w-full h-20 px-4 py-3 bg-transparent outline-none resize-none focus:bg-white/10"
             ></textarea>
           </TabContent>
@@ -156,7 +156,7 @@ $: toolbar = [
               {#each Rating as r}
                 <button
                   on:click|preventDefault={() => rating = r}
-                  class="rounded-md px-3 py-1 ring-orange-300 {rating === r ? 'text-orange-300 ring-1 bg-orange-500/10' : 'ring-0 hover:bg-white/10'}"
+                  class="rounded-md px-3 py-1 {rating === r ? 'text-orange-300 bg-orange-500/10' : 'hover:bg-white/10'}"
                 >
                   <span>{r.toUpperCase()} - {useRating(r)}</span>
                 </button>
@@ -165,15 +165,16 @@ $: toolbar = [
             </div>
           </TabContent>
           <TabContent>
-            <div class="flex items-center gap-2 p-2 border-b border-white/10">
-              <button
-                type="button"
-                class="flex items-center gap-1 p-2 rounded-md {published ? 'text-orange-300 bg-orange-500/10' : 'hover:bg-white/10'}"
-                on:click={togglePublish}
-              >
-                <Icon icon="{published ? 'fluent:eye-20-filled' : 'fluent:eye-hide-20-filled'}" class="w-5 h-5" />
-                <span>{published ? 'Public' : 'Private'}</span>
-              </button>
+            <div class="flex items-center gap-1 p-2">
+              {#each Array.from([true, false]) as p}
+                <button
+                  class="flex items-center gap-1 px-3 py-1 rounded-md {published === p ? 'text-orange-300 bg-orange-500/10' : 'hover:bg-white/10'}"
+                  on:click={() => published = p}
+                >
+                  <Icon icon="{p ? 'fluent:eye-20-filled' : 'fluent:eye-hide-20-filled'}" class="w-5 h-5" />
+                  <span>{p ? 'Public' : 'Private'}</span>
+                </button>
+              {/each}
               <input type="hidden" name="published" bind:value={published} />
             </div>
           </TabContent>
