@@ -16,12 +16,11 @@
   export let ref = null
   import { getContext } from 'svelte'
   const { selectedTab, add, update, change } = getContext("Tabs")
-  add({ id, label, disabled })
+  add({ id, label, disabled, href })
   $: selected = $selectedTab === id
 </script>
 
 <!-- svelte-ignore a11y-mouse-events-have-key-events -->
-<!-- class="tabs__tab {disabled ? 'tabs__tab--disabled' : ''} {selected ? 'tabs__tab--selected' : ''}" -->
 <li
   tabindex="-1"
   role="presentation"
@@ -75,6 +74,6 @@
   @apply after:w-full text-orange-300;
 }
 .tabs__tab > a {
-  @apply px-4 py-2 flex text-sm font-medium;
+  @apply px-4 py-2 flex text-sm font-medium transition-all duration-100 ease-in-out;
 }
 </style>

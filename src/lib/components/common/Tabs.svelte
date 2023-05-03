@@ -2,6 +2,8 @@
 import { createEventDispatcher, afterUpdate, setContext, tick } from 'svelte'
 import { writable, derived, type Readable } from 'svelte/store'
 import Icon from '@iconify/svelte'
+import { goto } from '$app/navigation'
+
 /** Specify the selected tab index */
 export let selected: number = 0
 /**
@@ -15,6 +17,7 @@ type Tab = {
   id: string
   label: string
   disabled: boolean
+  href?: string
 }
 const tabs = writable<Tab[]>([])
 const tabsById: Readable<any> = derived(tabs, (_) =>
@@ -49,6 +52,7 @@ setContext('Tabs', {
       index = 0
     }
     let disabled = $tabs[index].disabled
+    let href = $tabs[index].href
     while (disabled) {
       index = index + direction
       if (index < 0) {
@@ -99,9 +103,13 @@ $: if ($selectedTab) {
 >
   <div class="relative lg:hidden" role="listbox">
     <select
-      class="w-full px-1 py-3 border-b appearance-none border-white/10 bg-inherit"
+      class="w-full px-4 py-3 border-b appearance-none border-white/10 bg-inherit"
       on:change="{(e) => {
         currentIndex = e.target.selectedIndex
+        const selectedHref = $tabs[currentIndex].href || undefined
+        if (selectedHref) {
+          goto(selectedHref)
+        }
       }}"
       role="tablist"
     >
