@@ -9,6 +9,14 @@ $: user = $page.data.user
 $: ({ post } = data)
 
 const goBack = () => history.back()
+
+const handleDelete = async (e: any) => {
+  // confirm dialog then submit action
+  let confirmed = confirm('Are you sure you want to delete this post?')
+  if (confirmed) {
+    (e.target as HTMLFormElement).submit()
+  }
+}
 </script>
 
 <svelte:head>
@@ -24,7 +32,7 @@ const goBack = () => history.back()
     </button>
 
     {#if post.authorId === user?.userId}
-      <form action="/posts/{post.id}?/delete" method="POST">
+      <form method="POST" action="/posts/{post.id}?/delete" on:submit|preventDefault={handleDelete}>
         <button type="submit" class="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-100">
           <Icon icon="fluent:delete-24-filled" class="w-5 h-5" />
           <span>Delete</span>
