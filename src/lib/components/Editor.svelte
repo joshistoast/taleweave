@@ -15,6 +15,7 @@ import Underline from '@tiptap/extension-underline'
 
 const Rating = ['s', 't', 'm', 'e']
 
+export let id: string | undefined
 export let description: string = ''
 export let content: string = ''
 export let title: string = ''
@@ -22,11 +23,11 @@ export let published: boolean = false
 export let rating = Rating[0]
 
 $: content
+$: isEditing = !!id
 
 let element: HTMLElement
 let editor: Editor
 
-$: isEditing = $page.url.pathname.includes('/edit')
 $: editor
 
 onMount(() => {
@@ -56,7 +57,6 @@ onDestroy(() => {
     editor.destroy()
 })
 
-const togglePublish = () => published = !published
 const doCancel = () => {
   if (window.confirm('Are you sure you want to cancel?')) {
     if (isEditing)
@@ -139,6 +139,9 @@ $: toolbar = [
         <Tab label="Description" />
         <Tab label="Rating" />
         <Tab label="Visibility" />
+        {#if isEditing}
+          <Tab label="View Post" href="/posts/{id}" icon="fluent:arrow-up-right-20-filled" />
+        {/if}
         <svelte:fragment slot="content">
           <TabContent>
             <input bind:value={title} type="text" required name="title" class="w-full px-4 py-3 bg-transparent outline-none focus:bg-white/10" placeholder="Enter a unique title..." />

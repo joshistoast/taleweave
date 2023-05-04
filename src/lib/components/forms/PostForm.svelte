@@ -7,6 +7,7 @@ export let post: Post | undefined = undefined
 export let submit: SubmitFunction = () => {}
 
 let defaultValues = {
+  id: post?.id ?? undefined,
   title: post?.title ?? '',
   description: post?.description ?? '',
   content: post?.content ?? '',

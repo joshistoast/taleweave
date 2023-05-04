@@ -1,23 +1,27 @@
 <script lang="ts">
-  /**
-   * Specify the tab label
-   * Alternatively, use the default slot (e.g., <Tab><span>Label</span></Tab>)
-   */
-  export let label = ''
-  /** Specify the href attribute */
-  export let href = '#'
-  /** Set to `true` to disable the tab */
-  export let disabled = false
-  /** Specify the tabindex */
-  export let tabindex = 0
-  /** Set an id for the top-level element */
-  export let id = 'ccs-' + Math.random().toString(36)
-  /** Obtain a reference to the anchor HTML element */
-  export let ref = null
-  import { getContext } from 'svelte'
-  const { selectedTab, add, update, change } = getContext("Tabs")
-  add({ id, label, disabled, href })
-  $: selected = $selectedTab === id
+import Icon from '@iconify/svelte'
+/**
+ * Specify the tab label
+ * Alternatively, use the default slot (e.g., <Tab><span>Label</span></Tab>)
+ */
+export let label = ''
+/** Specify the href attribute */
+export let href = '#'
+/** Set to `true` to disable the tab */
+export let disabled = false
+/** Specify the tabindex */
+export let tabindex = 0
+/** Set an id for the top-level element */
+export let id = 'ccs-' + Math.random().toString(36)
+/** Obtain a reference to the anchor HTML element */
+export let ref = null
+/** iconify id*/
+export let icon: string | undefined = undefined
+
+import { getContext } from 'svelte'
+const { selectedTab, add, update, change } = getContext("Tabs")
+add({ id, label, disabled, href })
+$: selected = $selectedTab === id
 </script>
 
 <!-- svelte-ignore a11y-mouse-events-have-key-events -->
@@ -56,6 +60,9 @@
     {href}
   >
     <slot>{label}</slot>
+    {#if icon}
+      <Icon {icon} class="w-4 h-4" />
+    {/if}
   </a>
 </li>
 
@@ -74,6 +81,6 @@
   @apply after:w-full text-orange-300;
 }
 .tabs__tab > a {
-  @apply px-4 py-2 flex text-sm font-medium transition-all duration-100 ease-in-out;
+  @apply px-4 py-2 flex gap-2 text-sm items-center font-medium transition-all duration-100 ease-in-out;
 }
 </style>
