@@ -169,7 +169,7 @@ $: toolbar = [
               {#each Array.from([true, false]) as p}
                 <button
                   class="flex items-center gap-1 px-3 py-1 rounded-md {published === p ? 'text-orange-300 bg-orange-500/10' : 'hover:bg-white/10'}"
-                  on:click={() => published = p}
+                  on:click|preventDefault={() => published = p}
                 >
                   <Icon icon="{p ? 'fluent:eye-20-filled' : 'fluent:eye-hide-20-filled'}" class="w-5 h-5" />
                   <span>{p ? 'Public' : 'Private'}</span>
