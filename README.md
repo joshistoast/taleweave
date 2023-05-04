@@ -14,6 +14,7 @@ Originally built as a pet project, this platform is built on cutting-edge web te
 
 ## Roadmap
 
+- [ ] A logo :sob:
 - [ ] Landing Page
   - [ ] Show announcements (posts marked as announcements)
   - [ ] Show a few featured posts
