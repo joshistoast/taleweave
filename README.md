@@ -12,6 +12,32 @@ Originally built as a pet project, this platform is built on cutting-edge web te
 - **Database**: [Prisma](https://www.prisma.io/) + [PlanetScale](https://planetscale.com/)
 - **Authentication**: [Lucia](https://lucia.js.org/)
 
+## Roadmap
+
+- [ ] Landing Page
+  - [ ] Show announcements (posts marked as announcements)
+  - [ ] Show a few featured posts
+  - [ ] Show a few featured authors
+- [ ] Browse
+  - [ ] Search by title, author, or tag
+  - [ ] Sort by date, rating, or popularity
+- [ ] Posts
+  - [ ] Views counter
+  - [ ] Bookmark a Post
+  - [ ] View list of bookmarked posts
+  - [ ] Comments
+  - [ ] Rate a Post
+  - [ ] Tags
+- [ ] Tags
+  - [ ] View all tags (alphabetically)
+- [ ] Authors
+  - [ ] Edit Author Profile
+  - [ ] Featured flag
+- [ ] Follows
+  - [ ] Follow an Author
+  - [ ] Following Feed
+  - [ ] View list of followers and following
+
 ## Getting Started
 
 To get started developing for this project locally, follow the simple steps outlined below:
