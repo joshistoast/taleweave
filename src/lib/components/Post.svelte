@@ -4,6 +4,7 @@ import { page } from '$app/stores'
 import Icon from '@iconify/svelte'
 
 $: user = $page.data.user
+$: ({ pathname } = $page.url)
 
 type PostWithUser = Post & { author: AuthUser }
 

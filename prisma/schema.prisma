@@ -27,6 +27,8 @@ model Post {
   featured    Boolean  @default(false)
   rating      Rating   @default(s)
 
+  bookmarks   Bookmark[]
+
   author      AuthUser @relation(fields: [authorId], references: [id])
   authorId    String
 
@@ -34,14 +36,20 @@ model Post {
   @@index([authorId])
 }
 
-// model Tag {
-//   id        String   @id @default(uuid())
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
-//   name      String   @unique
+model Bookmark {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-//   @@map("tags")
-// }
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
+
+  user      AuthUser @relation(fields: [userId], references: [id])
+  userId    String
+
+  @@unique([postId, userId])
+  @@index([userId])
+}
 
 model AuthUser {
   id           String        @id @unique @default(uuid())
@@ -51,6 +59,8 @@ model AuthUser {
   username     String        @unique
   displayName  String?       @unique
   bio          String?       @db.Text
+
+  bookmarks    Bookmark[]
 
   auth_session AuthSession[]
   auth_key     AuthKey[]
