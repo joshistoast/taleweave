@@ -34,14 +34,12 @@ const handleDelete = async (e: any) => {
       <span>Back</span>
     </button>
 
-    {#if user?.userId}
-      <form method="POST" action="/posts/{post.id}?/bookmark" use:enhance>
-        <button on:click={() => bookmarked = !bookmarked} class="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-100">
-          <Icon icon="{ bookmarked ? 'fluent:bookmark-24-filled' : 'fluent:bookmark-24-regular' }" class="w-5 h-5" />
-          <span>Bookmark{ bookmarked ? 'ed' : '' }</span>
-        </button>
-      </form>
-    {/if}
+    <form method="POST" action="/posts/{post.id}?/bookmark" use:enhance>
+      <button on:click={() => bookmarked = !bookmarked} class="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-100">
+        <Icon icon="{ bookmarked ? 'fluent:bookmark-24-filled' : 'fluent:bookmark-24-regular' }" class="w-5 h-5" />
+        <span>Bookmark{ bookmarked ? 'ed' : '' }</span>
+      </button>
+    </form>
 
     {#if post.authorId === user?.userId}
       <form method="POST" action="/posts/{post.id}?/delete" on:submit|preventDefault={handleDelete}>

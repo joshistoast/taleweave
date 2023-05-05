@@ -8,7 +8,7 @@ import {
 } from '@sveltejs/kit'
 
 export const load: PageServerLoad = async ({ params, locals }) => {
-  const { user, session } = await locals.auth.validateUser()
+  const { user } = await locals.auth.validateUser()
   const { id } = params
 
   const post = await db.post.findUnique({
@@ -22,12 +22,15 @@ export const load: PageServerLoad = async ({ params, locals }) => {
     throw error(404, 'Post was either deleted or does not exist.')
   }
 
-  const isBookmarkedByUser = await db.bookmark.findFirst({
-    where: {
-      postId: post.id,
-      userId: user?.userId,
-    }
-  })
+  let isBookmarkedByUser = false
+  if (user?.userId) {
+    isBookmarkedByUser = await db.bookmark.findFirst({
+      where: {
+        postId: post.id,
+        userId: user?.userId,
+      }
+    }).then((res) => !!res)
+  }
 
   return {
     post,
@@ -87,23 +90,21 @@ export const actions: Actions = {
   bookmark: async ({ locals, params }) => {
     const { user, session } = await locals.auth.validateUser()
 
+    const { id } = params
+    if (!id)
+      return fail(400, { success: false, message: 'Post ID is required' })
+
     if (!(user && session))
-      throw redirect(302, '/login')
+      throw redirect(302, `/login?redirectTo=/posts/${id}`)
 
     let message = ''
     let isBookmarked: boolean
-
-    // get post in question
-    const { id } = params
-    const post = await db.post.findUniqueOrThrow({
-      where: { id }
-    })
 
     // check if the user has already bookmarked the post
     // if so, remove the bookmark
     const existingBookmark = await db.bookmark.findFirst({
       where: {
-        postId: post.id,
+        postId: id,
         userId: user.userId,
       }
     })
@@ -119,7 +120,7 @@ export const actions: Actions = {
       // if not, create a new bookmark
       await db.bookmark.create({
         data: {
-          postId: post.id,
+          postId: id,
           userId: user.userId,
         }
       })
