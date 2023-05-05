@@ -91,6 +91,7 @@ export const actions: Actions = {
       throw redirect(302, '/login')
 
     let message = ''
+    let isBookmarked: boolean
 
     // get post in question
     const { id } = params
@@ -112,6 +113,7 @@ export const actions: Actions = {
           id: existingBookmark.id
         }
       })
+      isBookmarked = false
       message = 'Bookmark removed'
     } else {
       // if not, create a new bookmark
@@ -121,10 +123,12 @@ export const actions: Actions = {
           userId: user.userId,
         }
       })
+      isBookmarked = true
       message = 'Bookmark added'
     }
 
     return {
+      isBookmarked,
       success: true,
       message,
     }
