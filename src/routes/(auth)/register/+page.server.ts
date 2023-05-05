@@ -47,7 +47,6 @@ export const actions: Actions = {
       })
       .catch((err) => {
         const e = err as Error
-        console.error(e.message)
         if (e.message === 'AUTH_DUPLICATE_KEY_ID') {
           message = 'An author with that username already exists'
         } else {

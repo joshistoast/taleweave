@@ -17,7 +17,7 @@ type AuthorNav = {
   href: string
   show?: () => boolean | boolean
 }
-const nav = [
+const nav: AuthorNav[] = [
   {
     label: 'About',
     href: `/authors/${username}`,
@@ -27,10 +27,15 @@ const nav = [
     href: `/authors/${username}/posts`,
   },
   {
+    label: 'Bookmarks',
+    href: `/authors/${username}/bookmarks`,
+    show: () => user?.userId === author?.id,
+  },
+  {
     label: 'Preferences',
     href: `/authors/${username}/preferences`,
     show: () => user?.userId === author?.id,
-  }
+  },
 ]
 </script>
 

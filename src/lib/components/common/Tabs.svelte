@@ -123,7 +123,7 @@ $: if ($selectedTab) {
         </option>
       {/each}
     </select>
-    <div class="absolute -translate-y-1/2 right-2 top-1/2">
+    <div class="absolute -translate-y-1/2 pointer-events-none right-2 top-1/2">
       <Icon icon="ion:chevron-down" class="w-6 h-6" title={iconDescription} />
     </div>
   </div>

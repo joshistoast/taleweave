@@ -2,11 +2,14 @@
 import type { PageData } from './$types'
 import { page } from '$app/stores'
 import Icon from '@iconify/svelte'
+import { enhance } from '$app/forms'
 
 export let data: PageData
 
 $: user = $page.data.user
-$: ({ post } = data)
+$: ({ post, isBookmarked } = data)
+
+$: bookmarked = isBookmarked
 
 const goBack = () => history.back()
 
@@ -30,6 +33,13 @@ const handleDelete = async (e: any) => {
       <Icon icon="fluent:arrow-left-24-filled" class="w-5 h-5" />
       <span>Back</span>
     </button>
+
+    <form method="POST" action="/posts/{post.id}?/bookmark" use:enhance>
+      <button on:click={() => bookmarked = !bookmarked} class="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-100">
+        <Icon icon="{ bookmarked ? 'fluent:bookmark-24-filled' : 'fluent:bookmark-24-regular' }" class="w-5 h-5" />
+        <span>Bookmark{ bookmarked ? 'ed' : '' }</span>
+      </button>
+    </form>
 
     {#if post.authorId === user?.userId}
       <form method="POST" action="/posts/{post.id}?/delete" on:submit|preventDefault={handleDelete}>
