@@ -7,7 +7,8 @@ import {
   type Actions,
 } from '@sveltejs/kit'
 
-export const load: PageServerLoad = async ({ params }) => {
+export const load: PageServerLoad = async ({ params, locals }) => {
+  const { user, session } = await locals.auth.validateUser()
   const { id } = params
 
   const post = await db.post.findUnique({
@@ -21,8 +22,16 @@ export const load: PageServerLoad = async ({ params }) => {
     throw error(404, 'Post was either deleted or does not exist.')
   }
 
+  const isBookmarkedByUser = await db.bookmark.findFirst({
+    where: {
+      postId: post.id,
+      userId: user?.userId,
+    }
+  })
+
   return {
     post,
+    isBookmarked: !!isBookmarkedByUser,
     page: {
       title: post.title,
       description: post.description,
