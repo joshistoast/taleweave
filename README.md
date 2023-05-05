@@ -24,8 +24,7 @@ Originally built as a pet project, this platform is built on cutting-edge web te
   - [ ] Sort by date, rating, or popularity
 - [ ] Posts
   - [ ] Views counter
-  - [ ] Bookmark a Post
-  - [ ] View list of bookmarked posts
+  - [ ] SHow bookmarks count
   - [ ] Comments
   - [ ] Rate a Post
   - [ ] Tags
