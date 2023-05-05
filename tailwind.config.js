@@ -18,7 +18,7 @@ export default {
         DEFAULT: {
           css: {
             // variables
-            '--tw-prose-body': theme('colors.gray.300'),
+            '--tw-prose-body': theme('colors.gray.400'),
             '--tw-prose-headings': theme('colors.gray.100'),
             '--tw-prose-bold': theme('colors.gray-100'), // not working?
             '--tw-prose-quotes': theme('colors.gray.400'),
