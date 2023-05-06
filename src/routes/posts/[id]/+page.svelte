@@ -41,7 +41,7 @@ const handleDelete = async (e: any) => {
       </button>
     </form>
 
-    {#if post.authorId === user?.userId}
+    {#if post.author.id === user?.userId}
       <form method="POST" action="/posts/{post.id}?/delete" on:submit|preventDefault={handleDelete}>
         <button type="submit" class="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-100">
           <Icon icon="fluent:delete-24-filled" class="w-5 h-5" />
