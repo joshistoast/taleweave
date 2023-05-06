@@ -12,7 +12,7 @@ export let post: PostWithUser | Post
 export let showFeaturedFlag = true
 
 $: ({ id, title, description, rating, featured } = post)
-$: writtenByYou = user?.userId === post.authorId
+$: writtenByYou = user?.userId === post.author.id
 </script>
 
 <article class="relative flex flex-col w-full overflow-hidden group">

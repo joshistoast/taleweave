@@ -26,7 +26,7 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
 
   if (!post)
     throw error(404, 'Post not found')
-  if (post.authorId !== session.userId)
+  if (post.author.id !== session.userId)
     throw redirect(302, '/posts')
 
   return {
@@ -72,7 +72,7 @@ export const actions: Actions = {
 
     if (!post)
       return fail(404, { success: false, message: 'Post not found' })
-    if (post.authorId !== session.userId)
+    if (post.author.id !== session.userId)
       return fail(403, { success: false, message: 'You do not have permission to edit this post' })
 
     // update post

@@ -64,7 +64,7 @@ export const actions: Actions = {
     })
 
     // if the user is not the author of the post, return 403
-    if (post.authorId !== user.userId)
+    if (post.author.id !== user.userId)
       return fail(403, { success: false, message: 'You are not authorized to delete this post' })
 
     // delete the post
