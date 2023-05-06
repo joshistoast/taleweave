@@ -35,7 +35,7 @@ const handleDelete = async (e: any) => {
     </button>
 
     <form method="POST" action="/posts/{post.id}?/bookmark" use:enhance>
-      <button on:click={() => bookmarked = !bookmarked} class="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-100">
+      <button on:click={() => user?.userId ? bookmarked = !bookmarked : false} class="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-100">
         <Icon icon="{ bookmarked ? 'fluent:bookmark-24-filled' : 'fluent:bookmark-24-regular' }" class="w-5 h-5" />
         <span>Bookmark{ bookmarked ? 'ed' : '' }</span>
       </button>
