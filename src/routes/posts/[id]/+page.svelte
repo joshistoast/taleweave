@@ -3,6 +3,7 @@ import type { PageData } from './$types'
 import { page } from '$app/stores'
 import Icon from '@iconify/svelte'
 import { enhance } from '$app/forms'
+import PostStats from '$lib/components/PostStats.svelte'
 
 export let data: PageData
 
@@ -24,10 +25,9 @@ const handleDelete = async (e: any) => {
 
 <svelte:head>
   <meta name="author" content={post.author.username} />
-  <meta name="description" content={post.description || undefined} />
 </svelte:head>
 
-<header class="flex flex-col items-start gap-4 p-4 border-b border-gray-800 lg:px-0">
+<header class="flex flex-col items-start gap-4 p-4 border-b border-white/10 lg:px-0">
   <div class="flex items-center gap-4">
     <button class="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-100" on:click={goBack}>
       <Icon icon="fluent:arrow-left-24-filled" class="w-5 h-5" />
@@ -64,6 +64,13 @@ const handleDelete = async (e: any) => {
     {/if}
   </div>
 </header>
+
+<div class="w-full p-4 border-b lg:px-0 border-white/10">
+  <PostStats
+    bookmarks={post._count?.bookmarks}
+    rating={post.rating}
+  />
+</div>
 
 <div class="w-full p-4 prose-sm prose lg:pl-0 lg:prose-base max-w-none">
   {@html post.content}

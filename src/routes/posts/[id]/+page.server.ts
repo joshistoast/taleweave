@@ -6,6 +6,7 @@ import {
   redirect,
   type Actions,
 } from '@sveltejs/kit'
+import { postOfPageSelect } from '$lib/data'
 
 export const load: PageServerLoad = async ({ params, locals }) => {
   const { user } = await locals.auth.validateUser()
@@ -13,8 +14,8 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 
   const post = await db.post.findUnique({
     where: { id },
-    include: {
-      author: true,
+    select: {
+      ...postOfPageSelect,
     },
   })
 

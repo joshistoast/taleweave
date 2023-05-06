@@ -1,6 +1,7 @@
 import type { PageServerLoad } from './$types'
 import db from '$lib/server/db'
 import { useAuthorName } from '$lib/utils'
+import { postOfFeedSelect } from '$lib/data'
 
 export const load: PageServerLoad = async ({ params, parent }) => {
 
@@ -15,7 +16,10 @@ export const load: PageServerLoad = async ({ params, parent }) => {
       author: {
         username: String(username)
       }
-    }
+    },
+    select: {
+      ...postOfFeedSelect,
+    },
   })
 
   const { author } = await parent()
