@@ -6,6 +6,7 @@ import {
   redirect,
   type Actions,
 } from '@sveltejs/kit'
+import { postOfPageSelect } from '$lib/data'
 
 export const load: PageServerLoad = async ({ params, locals }) => {
   const { user } = await locals.auth.validateUser()
@@ -13,8 +14,8 @@ export const load: PageServerLoad = async ({ params, locals }) => {
 
   const post = await db.post.findUnique({
     where: { id },
-    include: {
-      author: true,
+    select: {
+      ...postOfPageSelect,
     },
   })
 
@@ -63,7 +64,7 @@ export const actions: Actions = {
     })
 
     // if the user is not the author of the post, return 403
-    if (post.authorId !== user.userId)
+    if (post.author.id !== user.userId)
       return fail(403, { success: false, message: 'You are not authorized to delete this post' })
 
     // delete the post

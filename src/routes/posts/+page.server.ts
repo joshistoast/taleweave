@@ -1,5 +1,6 @@
 import db from '$lib/server/db'
 import type { PageServerLoad } from './$types'
+import { postOfFeedSelect } from '$lib/data'
 
 export const load: PageServerLoad = async ({ params, url }) => {
   const isFeatured = url.searchParams.get('featured') === 'true'
@@ -27,9 +28,9 @@ export const load: PageServerLoad = async ({ params, url }) => {
         published: true,
         featured: isFeatured ? true : undefined,
       },
-      include: {
-        author: true,
-      }
+      select: {
+        ...postOfFeedSelect,
+      },
     })
   }
 }

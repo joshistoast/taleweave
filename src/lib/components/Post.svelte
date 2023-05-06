@@ -2,9 +2,9 @@
 import type { Post, AuthUser } from '@prisma/client/index'
 import { page } from '$app/stores'
 import Icon from '@iconify/svelte'
+import PostStats from '$lib/components/PostStats.svelte'
 
 $: user = $page.data.user
-$: ({ pathname } = $page.url)
 
 type PostWithUser = Post & { author: AuthUser }
 
@@ -12,7 +12,7 @@ export let post: PostWithUser | Post
 export let showFeaturedFlag = true
 
 $: ({ id, title, description, rating, featured } = post)
-$: writtenByYou = user?.userId === post.authorId
+$: writtenByYou = user?.userId === post.author.id
 </script>
 
 <article class="relative flex flex-col w-full overflow-hidden group">
@@ -54,8 +54,8 @@ $: writtenByYou = user?.userId === post.authorId
       </div>
     {/if}
 
-    <div class="flex items-center gap-4 pt-3 text-xs font-bold border-t border-white/10 text-white/30">
-      <span>Rating: {rating.toUpperCase()}</span>
+    <div class="pt-3 border-t border-white/10 text-white/30">
+      <PostStats rating={rating} bookmarks={post._count?.bookmarks} />
     </div>
   </a>
 </article>
