@@ -16,7 +16,7 @@ export const useAuthorName = (author: AuthUser) => {
   return author.displayName || author.username
 }
 
-export const useRating = (rating: Rating) => {
+export const useRating = (rating: Rating | string) => {
   switch (rating) {
     case 's':
       return 'Safe for All Ages'
