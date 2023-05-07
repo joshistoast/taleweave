@@ -131,101 +131,74 @@ $: toolbar = [
 ]
 </script>
 
-<div class="flex flex-col">
-  <div class="sticky top-0 z-50 flex flex-col bg-gray-900/70 backdrop-blur-md">
-    <div class="flex flex-col border-b border-white/10">
-      <Tabs>
-        <Tab label="Title" />
-        <Tab label="Description" />
-        <Tab label="Rating" />
-        <Tab label="Visibility" />
-        {#if isEditing}
-          <Tab label="View Post" href="/posts/{id}" icon="fluent:arrow-up-right-20-filled" />
-        {/if}
-        <svelte:fragment slot="content">
-          <TabContent>
-            <input bind:value={title} type="text" required name="title" class="w-full px-4 py-3 bg-transparent outline-none focus:bg-white/10" placeholder="Enter a unique title..." />
-          </TabContent>
-          <TabContent>
-            <textarea
-              name="description"
-              bind:value={description}
-              placeholder="Write an amazing description..."
-              class="w-full h-20 px-4 py-3 bg-transparent outline-none resize-none focus:bg-white/10"
-            ></textarea>
-          </TabContent>
-          <TabContent>
-            <div class="flex gap-1 p-2">
-              {#each Rating as r}
-                <button
-                  on:click|preventDefault={() => rating = r}
-                  class="rounded-md px-3 py-1 {rating === r ? 'text-orange-300 bg-orange-500/10' : 'hover:bg-white/10'}"
-                >
-                  <span>{r.toUpperCase()} - {useRating(r)}</span>
-                </button>
-              {/each}
-              <input type="hidden" name="rating" bind:value={rating} />
-            </div>
-          </TabContent>
-          <TabContent>
-            <div class="flex items-center gap-1 p-2">
-              {#each Array.from([true, false]) as p}
-                <button
-                  class="flex items-center gap-1 px-3 py-1 rounded-md {published === p ? 'text-orange-300 bg-orange-500/10' : 'hover:bg-white/10'}"
-                  on:click|preventDefault={() => published = p}
-                >
-                  <Icon icon="{p ? 'fluent:eye-20-filled' : 'fluent:eye-hide-20-filled'}" class="w-5 h-5" />
-                  <span>{p ? 'Public' : 'Private'}</span>
-                </button>
-              {/each}
-              <input type="hidden" name="published" bind:value={published} />
-            </div>
-          </TabContent>
-        </svelte:fragment>
-      </Tabs>
-    </div>
+<div class="grid gap-4 p-4">
+  <label class="grid gap-1 p-2 border rounded-md border-white/10">
+    <span class="pl-2 text-sm font-bold text-white/50">Title</span>
+    <input bind:value={title} type="text" required name="title" class="w-full px-3 py-2 bg-transparent rounded-md outline-none ring-1 hover:bg-white/10 ring-transparent focus:ring-orange-300" placeholder="Enter a unique title..." />
+  </label>
 
-    <div class="flex items-center justify-between gap-2 p-2 border-b border-white/10">
-      {#if editor}
-        <div class="flex items-center gap-4">
-          {#each toolbar as group}
-            <div class="flex items-center gap-1">
-              {#each group as tool, i (i)}
-                <button
-                  type="button"
-                  class="p-2 rounded-md {tool.active() ? 'text-orange-300 bg-orange-500/10' : 'hover:bg-white/10'}"
-                  on:click={tool.action}
-                  title={tool.name}
-                >
-                  <Icon icon={tool.icon} class="w-5 h-5" />
-                </button>
-              {/each}
-            </div>
+  <label class="grid gap-1 p-2 border rounded-md border-white/10">
+    <span class="pl-2 text-sm font-bold text-white/50">Description</span>
+    <textarea
+      name="description"
+      bind:value={description}
+      placeholder="Write an amazing description..."
+      class="w-full h-20 px-3 py-2 bg-transparent rounded-md outline-none resize-none ring-1 hover:bg-white/10 ring-transparent focus:ring-orange-300"
+    ></textarea>
+  </label>
+
+  <div class="flex flex-col gap-4 p-2 border rounded-md lg:items-center lg:pr-4 lg:justify-between lg:flex-row border-white/10">
+    <div class="flex flex-col gap-4 lg:flex-row">
+      <label class="grid gap-1">
+        <span class="pl-2 text-sm font-bold text-white/50">Age Rating</span>
+        <select name="rating" bind:value={rating} class="px-3 py-2 bg-transparent rounded-md outline-none ring-1 hover:bg-white/10 ring-transparent focus:ring-orange-300">
+          {#each Rating as r}
+            <option value={r}>{r.toUpperCase()} - {useRating(r)}</option>
+          {/each}
+        </select>
+      </label>
+      <label class="grid gap-1">
+        <span class="pl-2 text-sm font-bold text-white/50">Visibility</span>
+        <select name="published" bind:value={published} class="px-3 py-2 bg-transparent rounded-md outline-none ring-1 hover:bg-white/10 ring-transparent focus:ring-orange-300">
+          {#each Array.from([true, false]) as p}
+            <option value={p}>{p ? 'Public' : 'Private'}</option>
+          {/each}
+        </select>
+      </label>
+    </div>
+    <button
+      type="submit"
+      class="flex items-center gap-2 px-3 py-2 text-orange-300 rounded-md bg-orange-500/10 hover:bg-orange-500/20"
+    >
+      <Icon icon="fluent:save-24-filled" class="w-4 h-4" />
+      <span>Save</span>
+    </button>
+  </div>
+</div>
+
+<div class="sticky top-0 z-50 flex items-center px-4 py-2 border-y border-white/10 backdrop-blur-md bg-[#121212]/50">
+  {#if editor}
+    <div class="flex items-center gap-4">
+      {#each toolbar as group}
+        <div class="flex items-center gap-1">
+          {#each group as tool, i (i)}
+            <button
+              type="button"
+              class="p-2 rounded-md {tool.active() ? 'text-orange-300 bg-orange-500/10' : 'hover:bg-white/10'}"
+              on:click={tool.action}
+              title={tool.name}
+            >
+              <Icon icon={tool.icon} class="w-5 h-5" />
+            </button>
           {/each}
         </div>
-      {/if}
-      <div class="flex items-center gap-1 text-sm font-bold">
-        <button
-          type="button"
-          class="px-3 py-2 rounded-md text-rose-300 hover:bg-white/10"
-          on:click={doCancel}
-        >
-          Cancel
-        </button>
-        <button
-          type="submit"
-          class="flex items-center gap-2 px-3 py-2 text-orange-300 rounded-md bg-orange-500/10 hover:bg-orange-500/20"
-        >
-          <Icon icon="fluent:save-24-filled" class="w-4 h-4" />
-          <span>Save</span>
-        </button>
-      </div>
+      {/each}
     </div>
-  </div>
-
-  <div id="editorWrapper">
-    <div class="w-full" bind:this={element} />
-  </div>
-
-  <input type="hidden" name="content" bind:value={content} />
+  {/if}
 </div>
+
+<div id="editorWrapper">
+  <div class="w-full" bind:this={element} />
+</div>
+
+<input type="hidden" name="content" bind:value={content} />
