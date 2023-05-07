@@ -5,7 +5,7 @@ import PostForm from '$lib/components/forms/PostForm.svelte'
 export let data: PageData
 export let form: ActionData
 
-let { post } = data
+$: ({ post } = data)
 </script>
 
 {#if form?.message}
