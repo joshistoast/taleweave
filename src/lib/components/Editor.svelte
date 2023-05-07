@@ -1,17 +1,12 @@
 <script lang="ts">
 import { onMount, onDestroy } from 'svelte'
-import { page } from '$app/stores'
-import { goto } from '$app/navigation'
 import Icon from '@iconify/svelte'
-import Tab from '$lib/components/common/Tab.svelte'
-import TabContent from '$lib/components/common/TabContent.svelte'
-import Tabs from '$lib/components/common/Tabs.svelte'
 import { useRating } from '$lib/utils'
-
 // Tiptap
 import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
+import Placeholder from '@tiptap/extension-placeholder'
 
 const Rating = ['s', 't', 'm', 'e']
 
@@ -21,6 +16,12 @@ export let content: string = ''
 export let title: string = ''
 export let published: boolean = false
 export let rating = Rating[0]
+
+const placeholders = {
+  title: 'Write a unique title...',
+  description: 'Write an enticing description...',
+  content: 'Write an amazing story...',
+}
 
 $: content
 $: isEditing = !!id
@@ -37,6 +38,10 @@ onMount(() => {
     extensions: [
       StarterKit,
       Underline,
+      Placeholder.configure({
+        placeholder: placeholders.content,
+        emptyEditorClass: `text-white/50`
+      }),
     ],
     editorProps: {
       attributes: {
@@ -56,15 +61,6 @@ onDestroy(() => {
   if (editor)
     editor.destroy()
 })
-
-const doCancel = () => {
-  if (window.confirm('Are you sure you want to cancel?')) {
-    if (isEditing)
-      goto(`/posts/${$page.params.id}`)
-    else
-      history.back()
-  }
-}
 
 type EditorTool = {
   icon: string
@@ -134,7 +130,14 @@ $: toolbar = [
 <div class="grid gap-4 p-4">
   <label class="grid gap-1 p-2 border rounded-md border-white/10">
     <span class="pl-2 text-sm font-bold text-white/50">Title</span>
-    <input bind:value={title} type="text" required name="title" class="w-full px-3 py-2 bg-transparent rounded-md outline-none ring-1 hover:bg-white/10 ring-transparent focus:ring-orange-300" placeholder="Enter a unique title..." />
+    <input
+      bind:value={title}
+      type="text"
+      required
+      name="title"
+      class="w-full px-3 py-2 bg-transparent rounded-md outline-none ring-1 hover:bg-white/10 ring-transparent focus:ring-orange-300"
+      placeholder={placeholders.title}
+    />
   </label>
 
   <label class="grid gap-1 p-2 border rounded-md border-white/10">
@@ -142,7 +145,7 @@ $: toolbar = [
     <textarea
       name="description"
       bind:value={description}
-      placeholder="Write an amazing description..."
+      placeholder={placeholders.description}
       class="w-full h-20 px-3 py-2 bg-transparent rounded-md outline-none resize-none ring-1 hover:bg-white/10 ring-transparent focus:ring-orange-300"
     ></textarea>
   </label>
@@ -202,3 +205,9 @@ $: toolbar = [
 </div>
 
 <input type="hidden" name="content" bind:value={content} />
+
+<style lang="postcss">
+  :global(.ProseMirror p.is-empty:first-child::before) {
+    @apply content-[attr(data-placeholder)] pointer-events-none float-left h-0;
+  }
+</style>
