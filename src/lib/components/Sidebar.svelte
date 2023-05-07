@@ -80,6 +80,14 @@ type subTreeItem = {
 }
 const subTree: subTreeItem[] = [
   {
+    label: 'Privacy Policy',
+    href: 'https://github.com/joshwcorbett/taleweave/blob/terms-and-privacy/PRIVACY.md',
+  },
+  {
+    label: 'Terms of Service',
+    href: 'https://github.com/joshwcorbett/taleweave/blob/terms-and-privacy/TOS.md',
+  },
+  {
     label: 'Github',
     href: 'https://github.com/joshwcorbett/taleweave',
   },
@@ -97,7 +105,6 @@ const subTree: subTreeItem[] = [
 
   <nav class="grid px-2">
     {#each tree as group}
-      <!-- check that at least one item in group is shown -->
       {#if group.some(item => item.show === undefined || item.show())}
         <div class="grid gap-1 py-2">
           {#each group as item}
@@ -127,11 +134,10 @@ const subTree: subTreeItem[] = [
     {/each}
   </nav>
 
-  <nav class="grid px-2">
+  <nav class="grid gap-2 px-2">
     {#each subTree as { label, href }}
       <a {href} class="flex items-center gap-2 px-3 text-sm text-gray-500 hover:text-gray-300">
         <span>{label}</span>
-        <Icon icon="fluent:arrow-up-right-16-filled" class="w-4 h-4" />
       </a>
     {/each}
   </nav>
