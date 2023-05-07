@@ -33,7 +33,7 @@ const nav: LoginNavItem[] = [
 
 <div>
   {#if !pathname.includes('/logout')}
-    <div class="p-4 lg:px-0">
+    <div class="p-4">
       <h1 class="text-xl font-bold lg:text-3xl">Start using Taleweave.</h1>
       <p class="text-sm">Log in or register to start writing.</p>
     </div>

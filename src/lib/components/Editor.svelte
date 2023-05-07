@@ -40,7 +40,7 @@ onMount(() => {
     ],
     editorProps: {
       attributes: {
-        class: 'prose max-w-none w-full px-5 pt-5 pb-32 outline-none min-h-full',
+        class: 'prose max-w-none w-full px-5 pt-5 pb-32 outline-none min-h-full break-words',
       }
     },
     onTransaction: () => {

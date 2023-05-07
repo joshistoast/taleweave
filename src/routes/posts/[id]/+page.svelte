@@ -27,7 +27,7 @@ const handleDelete = async (e: any) => {
   <meta name="author" content={post.author.username} />
 </svelte:head>
 
-<header class="flex flex-col items-start gap-4 p-4 border-b border-white/10 lg:px-0">
+<header class="flex flex-col items-start gap-4 p-4 border-b border-white/10">
   <div class="flex items-center gap-4">
     <button class="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-100" on:click={goBack}>
       <Icon icon="fluent:arrow-left-24-filled" class="w-5 h-5" />
@@ -65,13 +65,13 @@ const handleDelete = async (e: any) => {
   </div>
 </header>
 
-<div class="w-full p-4 border-b lg:px-0 border-white/10">
+<div class="w-full p-4 border-b border-white/10">
   <PostStats
     bookmarks={post._count?.bookmarks}
     rating={post.rating}
   />
 </div>
 
-<div class="w-full p-4 prose-sm prose lg:pl-0 lg:prose-base max-w-none">
+<div class="w-full p-4 prose-sm prose break-words max-w-none lg:prose-base">
   {@html post.content}
 </div>

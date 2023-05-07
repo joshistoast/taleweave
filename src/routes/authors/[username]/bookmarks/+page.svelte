@@ -7,6 +7,6 @@ export let data: PageServerData
 $: ({ posts } = data)
 </script>
 
-<div class="p-4 lg:pl-0">
+<div class="p-4">
   <Feed {posts} />
 </div>

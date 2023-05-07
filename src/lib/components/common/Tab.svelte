@@ -67,12 +67,11 @@ $: selected = $selectedTab === id
 </li>
 
 <style lang="postcss">
-
 .tabs__tab {
   @apply appearance-none flex relative after:absolute after:w-0 after:-bottom-[1px] after:h-[1px] after:bg-orange-300;
 }
 .tabs__tab:not(disabled):hover > a {
-  @apply bg-gray-800;
+  @apply bg-white/10;
 }
 .tab--disabled {
   @apply cursor-not-allowed text-gray-500;
@@ -82,5 +81,8 @@ $: selected = $selectedTab === id
 }
 .tabs__tab > a {
   @apply px-4 py-2 flex gap-2 text-sm items-center font-medium transition-all duration-100 ease-in-out;
+}
+.tabs__tab:not(.tab--selected) {
+  @apply text-white/50 hover:text-white/80;
 }
 </style>
