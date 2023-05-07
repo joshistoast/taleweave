@@ -39,7 +39,7 @@ const nav: AuthorNav[] = [
 ]
 </script>
 
-<div class="p-4 lg:px-0">
+<div class="p-4">
   <h1 class="text-lg font-bold lg:text-4xl">{author?.displayName || username}</h1>
   {#if author?.displayName}
     <p class="text-sm text-gray-500">{author.username}</p>

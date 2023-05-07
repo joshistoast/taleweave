@@ -44,25 +44,27 @@ onMount(() => {
 
 <HeadTemplate />
 
-<div class="lg:hidden">
+<div class="flex flex-col min-h-screen">
+
   <AppHeader />
-</div>
 
-<div class="flex">
-  <aside class="
-    w-full max-w-[16rem] h-full border-r lg:border-none border-white/10 fixed lg:sticky top-0 left-0 z-[999] lg:translate-x-0 bg-gray-900/70 lg:bg-transparent backdrop-blur-md transition-all duration-300 ease-in-out
-    {sidebarState ? 'translate-x-0' : '-translate-x-full'}
-  ">
-    <Sidebar />
-  </aside>
+  <div class="flex h-full">
+    <aside class="
+      w-full max-w-[16rem] shrink-0 h-full border-r border-white/10 fixed top-0 left-0 z-[999] lg:translate-x-0 bg-gray-900/70 lg:bg-transparent backdrop-blur-md transition-all duration-300 ease-in-out
+      {sidebarState ? 'translate-x-0' : '-translate-x-full'}
+    ">
+      <Sidebar />
+    </aside>
 
-  <!-- svelte-ignore a11y-click-events-have-key-events -->
-  <div
-    class="fixed inset-0 lg:hidden z-[900] bg-gray-900/50 backdrop-blur-sm transition-all duration-300 ease-in-out {sidebarState ? 'opacity-100 visible' : 'opacity-0 invisible'}"
-    on:click={closeSidebar}
-  />
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <div
+      class="fixed inset-0 lg:hidden z-[900] bg-gray-900/50 backdrop-blur-sm transition-all duration-300 ease-in-out {sidebarState ? 'opacity-100 visible' : 'opacity-0 invisible'}"
+      on:click={closeSidebar}
+    />
 
-  <main class="flex flex-col flex-1 w-full">
-    <slot />
-  </main>
+    <main class="lg:ml-[16rem] h-full w-full max-w-full lg:max-w-[calc(100vw-17rem)]">
+      <slot />
+    </main>
+  </div>
+
 </div>

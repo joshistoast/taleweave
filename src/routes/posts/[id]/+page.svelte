@@ -27,7 +27,7 @@ const handleDelete = async (e: any) => {
   <meta name="author" content={post.author.username} />
 </svelte:head>
 
-<header class="flex flex-col items-start gap-4 p-4 border-b border-white/10 lg:px-0">
+<header class="flex flex-col items-start gap-4 p-4 border-b border-white/10">
   <div class="flex items-center gap-4">
     <button class="flex items-center gap-2 text-sm text-gray-400 hover:text-gray-100" on:click={goBack}>
       <Icon icon="fluent:arrow-left-24-filled" class="w-5 h-5" />
@@ -58,20 +58,20 @@ const handleDelete = async (e: any) => {
 
   <div class="pt-4">
     <p class="mb-1 text-xs text-gray-400 lg:text-sm">Written by <a class="text-orange-300 hover:underline" href="/authors/{post.author.username}">{post.author.username}</a></p>
-    <h1 class="font-serif text-xl font-bold lg:text-4xl">{post.title}</h1>
+    <h1 class="font-serif text-4xl font-bold">{post.title}</h1>
     {#if post.description}
-      <p class="mt-1 text-sm text-gray-500">{post.description}</p>
+      <p class="mt-4 mb-3 text-sm text-gray-400">{post.description}</p>
     {/if}
   </div>
 </header>
 
-<div class="w-full p-4 border-b lg:px-0 border-white/10">
+<div class="w-full p-4 border-b border-white/10">
   <PostStats
     bookmarks={post._count?.bookmarks}
     rating={post.rating}
   />
 </div>
 
-<div class="w-full p-4 prose-sm prose lg:pl-0 lg:prose-base max-w-none">
+<div class="w-full p-4 prose-sm prose break-words max-w-none lg:prose-base">
   {@html post.content}
 </div>

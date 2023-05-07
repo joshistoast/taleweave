@@ -6,6 +6,6 @@ export let data: PageData
 $: ({ posts } = data)
 </script>
 
-<div class="p-2 lg:pl-0">
+<div class="p-4">
   <Feed {posts} />
 </div>
