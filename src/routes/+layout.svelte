@@ -44,11 +44,9 @@ onMount(() => {
 
 <HeadTemplate />
 
-<div class="flex flex-col h-screen">
+<div class="flex flex-col min-h-screen">
 
-  <div class="lg:hidden">
-    <AppHeader />
-  </div>
+  <AppHeader />
 
   <div class="flex h-full">
     <aside class="
@@ -64,7 +62,7 @@ onMount(() => {
       on:click={closeSidebar}
     />
 
-    <main class="lg:ml-[16rem] w-full max-w-full lg:max-w-[calc(100vw-16rem)] overflow-auto">
+    <main class="lg:ml-[16rem] w-full max-w-full lg:max-w-[calc(100vw-16rem)]">
       <slot />
     </main>
   </div>

@@ -58,9 +58,9 @@ const handleDelete = async (e: any) => {
 
   <div class="pt-4">
     <p class="mb-1 text-xs text-gray-400 lg:text-sm">Written by <a class="text-orange-300 hover:underline" href="/authors/{post.author.username}">{post.author.username}</a></p>
-    <h1 class="font-serif text-xl font-bold lg:text-4xl">{post.title}</h1>
+    <h1 class="font-serif text-4xl font-bold">{post.title}</h1>
     {#if post.description}
-      <p class="mt-1 text-sm text-gray-500">{post.description}</p>
+      <p class="mt-4 mb-3 text-sm text-gray-400">{post.description}</p>
     {/if}
   </div>
 </header>

@@ -40,7 +40,7 @@ onMount(() => {
     ],
     editorProps: {
       attributes: {
-        class: 'prose max-w-none w-full px-5 pt-5 pb-32 outline-none min-h-full break-words',
+        class: 'prose max-w-none w-full px-5 pt-5 pb-32 outline-none break-words',
       }
     },
     onTransaction: () => {
@@ -131,7 +131,7 @@ $: toolbar = [
 ]
 </script>
 
-<div class="flex flex-col flex-1">
+<div class="flex flex-col">
   <div class="sticky top-0 z-50 flex flex-col bg-gray-900/70 backdrop-blur-md">
     <div class="flex flex-col border-b border-white/10">
       <Tabs>
@@ -223,7 +223,7 @@ $: toolbar = [
     </div>
   </div>
 
-  <div id="editorWrapper" class="flex flex-1 overflow-auto">
+  <div id="editorWrapper">
     <div class="w-full" bind:this={element} />
   </div>
 
