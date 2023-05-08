@@ -14,29 +14,9 @@ Originally built as a pet project, this platform is built on cutting-edge web te
 
 ## Roadmap
 
-- [ ] A logo :sob:
-- [ ] Landing Page
-  - [ ] Show announcements (posts marked as announcements)
-  - [ ] Show a few featured posts
-  - [ ] Show a few featured authors
-- [ ] Browse
-  - [ ] Search by title, author, or tag
-  - [ ] Sort by date, rating, or popularity
-- [ ] Posts
-  - [ ] Views counter
-  - [ ] SHow bookmarks count
-  - [ ] Comments
-  - [ ] Rate a Post
-  - [ ] Tags
-- [ ] Tags
-  - [ ] View all tags (alphabetically)
-- [ ] Authors
-  - [ ] Edit Author Profile
-  - [ ] Featured flag
-- [ ] Follows
-  - [ ] Follow an Author
-  - [ ] Following Feed
-  - [ ] View list of followers and following
+See the Github projects page for a list of features and enhancements that are planned for the future.
+
+[Roadmap :link:](https://github.com/users/joshwcorbett/projects/1?query=is:open+sort:updated-desc)
 
 ## Getting Started
 
