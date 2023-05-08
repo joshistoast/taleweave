@@ -1,5 +1,6 @@
 <script lang="ts">
 import Icon from '@iconify/svelte'
+import Brand from '$lib/components/Brand.svelte'
 import { page } from '$app/stores'
 import { sidebarOpen } from '$lib/stores'
 
@@ -97,7 +98,7 @@ const subTree: subTreeItem[] = [
 <div class="grid gap-4 py-6">
 
   <div class="flex items-center justify-between px-2">
-    <span class="py-2 pl-3 font-bold">Taleweave</span>
+    <Brand />
     <button on:click={closeSidebar} class="p-3 rounded-md hover:bg-white/10 lg:hidden">
       <Icon icon="fluent:dismiss-24-filled" class="w-5 h-5" />
     </button>
