@@ -138,6 +138,7 @@ const subTree: subTreeItem[] = [
     {#each subTree as { label, href }}
       <a {href} class="flex items-center gap-2 px-3 text-sm text-gray-500 hover:text-gray-300">
         <span>{label}</span>
+        <Icon icon="lucide:external-link" class="w-4 h-4" />
       </a>
     {/each}
   </nav>
