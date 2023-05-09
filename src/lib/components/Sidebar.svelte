@@ -1,5 +1,6 @@
 <script lang="ts">
 import Icon from '@iconify/svelte'
+import Brand from '$lib/components/Brand.svelte'
 import { page } from '$app/stores'
 import { sidebarOpen } from '$lib/stores'
 
@@ -97,7 +98,7 @@ const subTree: subTreeItem[] = [
 <div class="grid gap-4 py-6">
 
   <div class="flex items-center justify-between px-2">
-    <span class="py-2 pl-3 font-bold">Taleweave</span>
+    <Brand />
     <button on:click={closeSidebar} class="p-3 rounded-md hover:bg-white/10 lg:hidden">
       <Icon icon="fluent:dismiss-24-filled" class="w-5 h-5" />
     </button>
@@ -138,6 +139,7 @@ const subTree: subTreeItem[] = [
     {#each subTree as { label, href }}
       <a {href} class="flex items-center gap-2 px-3 text-sm text-gray-500 hover:text-gray-300">
         <span>{label}</span>
+        <Icon icon="lucide:external-link" class="w-4 h-4" />
       </a>
     {/each}
   </nav>
