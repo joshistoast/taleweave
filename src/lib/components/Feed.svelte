@@ -14,7 +14,6 @@ export let showFeaturedFlags = true
         showFeaturedFlag={showFeaturedFlags}
       />
     {/each}
-    <p class="text-gray-500">You've reached the end</p>
   {:else}
     <p class="text-gray-500">No posts.</p>
   {/if}
