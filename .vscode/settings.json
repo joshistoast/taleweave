@@ -2,6 +2,7 @@
   "conventionalCommits.scopes": [
     "dx",
     "bookmarks",
-    "editor"
+    "editor",
+    "tags"
   ]
 }

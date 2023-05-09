@@ -28,12 +28,24 @@ model Post {
   rating      Rating   @default(s)
 
   bookmarks   Bookmark[]
+  tags        Tag[]
 
   author      AuthUser @relation(fields: [authorId], references: [id])
   authorId    String
 
   @@map("posts")
   @@index([authorId])
+}
+
+model Tag {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name      String   @unique
+  posts     Post[]
+
+  @@map("tags")
 }
 
 model Bookmark {

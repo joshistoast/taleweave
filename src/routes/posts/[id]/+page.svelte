@@ -1,9 +1,10 @@
 <script lang="ts">
 import type { PageData } from './$types'
 import { page } from '$app/stores'
-import Icon from '@iconify/svelte'
 import { enhance } from '$app/forms'
+import Icon from '@iconify/svelte'
 import PostStats from '$lib/components/PostStats.svelte'
+import PostTags from '$lib/components/PostTags.svelte'
 
 export let data: PageData
 
@@ -63,6 +64,10 @@ const handleDelete = async (e: any) => {
       <p class="mt-4 mb-3 text-sm text-gray-400">{post.description}</p>
     {/if}
   </div>
+
+  {#if post.tags?.length}
+    <PostTags tags={post.tags} />
+  {/if}
 </header>
 
 <div class="w-full p-4 border-b border-white/10">

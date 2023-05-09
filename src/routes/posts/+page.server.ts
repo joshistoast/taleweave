@@ -4,6 +4,7 @@ import { postOfFeedSelect } from '$lib/data'
 
 export const load: PageServerLoad = async ({ params, url }) => {
   const isFeatured = url.searchParams.get('featured') === 'true'
+  const tagsFilter = url.searchParams.get('tags')?.split(',') ?? undefined
 
   const title = isFeatured ? 'Featured Posts' : 'Browse Everything'
   const description = isFeatured
@@ -27,6 +28,13 @@ export const load: PageServerLoad = async ({ params, url }) => {
       where: {
         published: true,
         featured: isFeatured ? true : undefined,
+        tags: tagsFilter ? {
+          some: {
+            name: {
+              in: tagsFilter,
+            }
+          }
+        } : undefined,
       },
       select: {
         ...postOfFeedSelect,
