@@ -20,18 +20,6 @@ export const tagsOfPostSelect = {
   }
 }
 
-// Select all relevant data for bookmarks on a post
-export const tagsOfPostSelect = {
-  tags: {
-    select: {
-      id: true,
-      name: true,
-      createdAt: true,
-      updatedAt: true,
-    }
-  }
-}
-
 // Select all relevant author data
 export const authorOfPostSelect = {
   author: {
