@@ -3,27 +3,20 @@ import type { Actions } from '@sveltejs/kit'
 import db from '$lib/server/db'
 
 export const load: PageServerLoad = async () => {
-  return 'penis'
-}
-
-export const actions: Actions = {
-  // takes a string and returns a list of tags that match
-  autocomplete: async ({ request }) => {
-    const formData = await request.formData()
-    const query = formData.get('query') as string
-
-    if (!query) return []
-
-    const matches = await db.tag.findMany({
-      where: {
-        name: {
-          startsWith: query
-        }
+  const tags = await db.tag.findMany({
+    select: {
+      id: true,
+      name: true,
+      _count: {
+        select: {
+          posts: true,
+        },
       }
-    })
+    },
+    take: 50,
+  })
 
-    if (!matches) return []
-
-    return matches
+  return {
+    tags,
   }
 }
