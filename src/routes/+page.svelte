@@ -17,7 +17,7 @@ $: ({ recentlyFeatured, recentlyPublished } = data)
     </div>
     <h1 class="font-serif text-2xl font-bold lg:text-4xl">Welcome to Taleweave</h1>
     <p class="text-sm">Taleweave is an open-source, and easy to use platform for writers and authors alike to share their stories and works of literature freely. On this platform you as an author can create an account, write and edit your stories, and publish them for the world to see and appreciate. Taleweave is by writers, for writers.</p>
-    <div class="flex items-center gap-2 py-4 text-sm font-bold">
+    <div class="flex flex-col gap-2 py-4 text-sm font-bold lg:flex-row lg:items-center">
       <a class="flex items-center gap-2 px-3 py-2 text-orange-300 transition-all duration-100 ease-in-out rounded-md bg-orange-400/10 hover:bg-orange-400/20" href="/posts">
         <span>Start Reading</span>
         <Icon icon="fluent:arrow-right-24-filled" />
@@ -30,7 +30,7 @@ $: ({ recentlyFeatured, recentlyPublished } = data)
   </div>
 
   <div class="grid gap-4 p-4 border-t border-orange-300/20 bg-orange-400/5">
-    <div class="flex items-center justify-between w-full">
+    <div class="flex flex-col w-full gap-4 lg:items-center lg:flex-row lg:justify-between">
       <div>
         <h3 class="font-bold text-orange-300">Featured</h3>
         <p class="text-sm text-white/50">Hand-picked by our maintainers, these are what we consider must-reads.</p>
@@ -44,7 +44,7 @@ $: ({ recentlyFeatured, recentlyPublished } = data)
   </div>
 
   <div class="grid gap-4 p-4 border-t border-white/10">
-    <div class="flex items-center justify-between w-full">
+    <div class="flex flex-col w-full gap-4 lg:items-center lg:flex-row lg:justify-between">
       <div>
         <h3 class="font-bold">Recently Published</h3>
       </div>
