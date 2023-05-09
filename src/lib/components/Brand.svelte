@@ -6,5 +6,5 @@ import Logo from './Logo.svelte'
   <div class="w-8 h-8">
     <Logo />
   </div>
-  <span class="px-2 font-bold">Taleweave</span>
+  <span class="px-2 text-lg font-bold">Taleweave</span>
 </a>
