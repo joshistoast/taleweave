@@ -8,7 +8,7 @@ export const countsOfPost = {
   }
 }
 
-// Select all relevant data for bookmarks on a post
+// Select all relevant data for tags on a post
 export const tagsOfPostSelect = {
   tags: {
     select: {
