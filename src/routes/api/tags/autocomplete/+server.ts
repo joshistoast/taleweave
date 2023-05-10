@@ -34,13 +34,5 @@ export const GET: RequestHandler = async ({ url, setHeaders }) => {
       throw error(500, { message: err.message })
     })
 
-  const formattedTags = tags.map((tag) => {
-    return {
-      id: tag.id,
-      name: tag.name,
-      count: tag._count.posts
-    }
-  })
-
-  return new Response(JSON.stringify(formattedTags))
+  return new Response(JSON.stringify(tags))
 }
