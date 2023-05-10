@@ -21,6 +21,7 @@ export const load: PageServerLoad = async ({ locals, params, url }) => {
     where: { id },
     include: {
       author: true,
+      tags: true,
     }
   })
 

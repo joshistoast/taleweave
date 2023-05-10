@@ -1,5 +1,6 @@
 import { redirect } from '@sveltejs/kit'
 import type { AuthUser, Rating } from '@prisma/client'
+export * from './types'
 
 export const doRedirect = (url: URL, hasSession: boolean) => {
   const redirectTo = url.searchParams.get('redirectTo')
