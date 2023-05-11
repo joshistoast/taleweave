@@ -1,8 +1,21 @@
+
 // Post counts
 export const countsOfPost = {
   _count: {
     select: {
       bookmarks: true,
+    }
+  }
+}
+
+// Select all relevant data for tags on a post
+export const tagsOfPostSelect = {
+  tags: {
+    select: {
+      id: true,
+      name: true,
+      createdAt: true,
+      updatedAt: true,
     }
   }
 }
@@ -29,6 +42,7 @@ export const postOfFeedSelect = {
   rating: true,
   ...authorOfPostSelect,
   ...countsOfPost,
+  ...tagsOfPostSelect,
 }
 
 // Selects all relevant data for post pages
@@ -43,4 +57,5 @@ export const postOfPageSelect = {
   content: true,
   ...authorOfPostSelect,
   ...countsOfPost,
+  ...tagsOfPostSelect,
 }

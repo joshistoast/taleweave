@@ -49,6 +49,12 @@ $: tree = [
       href: '/posts',
       icon: 'fluent:compass-northwest-24-filled',
     },
+    {
+      type: 'link',
+      label: 'Tags',
+      href: '/tags',
+      icon: 'fluent:tag-24-filled',
+    },
   ],
   [
     {

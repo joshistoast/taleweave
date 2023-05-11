@@ -3,12 +3,11 @@ import type { Post, AuthUser } from '@prisma/client/index'
 import { page } from '$app/stores'
 import Icon from '@iconify/svelte'
 import PostStats from '$lib/components/PostStats.svelte'
+import PostTags from '$lib/components/PostTags.svelte'
 
 $: user = $page.data.user
 
-type PostWithUser = Post & { author: AuthUser }
-
-export let post: PostWithUser | Post
+export let post: Post
 export let showFeaturedFlag = true
 
 $: ({ id, title, description, rating, featured } = post)
@@ -51,6 +50,12 @@ $: writtenByYou = user?.userId === post.author.id
     {#if description}
       <div class="pb-2">
         <p class="relative font-sans text-sm text-gray-100/60">{description}</p>
+      </div>
+    {/if}
+
+    {#if post.tags?.length}
+      <div class="pb-2">
+        <PostTags tags={post.tags} />
       </div>
     {/if}
 

@@ -12,6 +12,7 @@ let defaultValues = {
   content: post?.content ?? '',
   rating: post?.rating ?? 's',
   published: post?.published ?? false,
+  tags: post?.tags ?? [],
 }
 $: defaultValues
 $: isEditing = !!post?.id

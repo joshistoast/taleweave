@@ -1,7 +1,9 @@
 <script lang="ts">
-import { onMount, onDestroy } from 'svelte'
 import Icon from '@iconify/svelte'
+import TagsInput from '$lib/components/TagsInput.svelte'
+import { onMount, onDestroy } from 'svelte'
 import { useRating } from '$lib/utils'
+import type { Tag } from '@prisma/client'
 // Tiptap
 import { Editor } from '@tiptap/core'
 import StarterKit from '@tiptap/starter-kit'
@@ -16,11 +18,13 @@ export let content: string = ''
 export let title: string = ''
 export let published: boolean = false
 export let rating = Rating[0]
+export let tags: Tag[] = []
 
 const placeholders = {
   title: 'Write a unique title...',
   description: 'Write an enticing description...',
   content: 'Write an amazing story...',
+  tags: 'Add tags...',
 }
 
 $: content
@@ -149,6 +153,17 @@ $: toolbar = [
       class="w-full h-20 px-3 py-2 bg-transparent rounded-md outline-none resize-none ring-1 hover:bg-white/10 ring-transparent focus:ring-orange-300"
     ></textarea>
   </label>
+
+  <div class="p-2 border rounded-md border-white/10">
+    <span class="pl-2 text-sm font-bold text-white/50">Tags</span>
+    <TagsInput
+      bind:selectedTags={tags}
+      placeholder={placeholders.tags}
+      allowCustomTags
+      isDropdown
+    />
+    <input name="tags" type="hidden" value={tags.map(t => t.name).join(',')} />
+  </div>
 
   <div class="flex flex-col gap-4 p-2 border rounded-md lg:items-center lg:pr-4 lg:justify-between lg:flex-row border-white/10">
     <div class="flex flex-col gap-4 lg:flex-row">
