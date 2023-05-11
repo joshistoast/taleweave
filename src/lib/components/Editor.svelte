@@ -160,6 +160,7 @@ $: toolbar = [
       bind:selectedTags={tags}
       placeholder={placeholders.tags}
       allowCustomTags
+      isDropdown
     />
     <input name="tags" type="hidden" value={tags.map(t => t.name).join(',')} />
   </div>

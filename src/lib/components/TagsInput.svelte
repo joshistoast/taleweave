@@ -10,7 +10,7 @@ const dispatch = createEventDispatcher()
 
 export let placeholder= 'Search tags...'
 export let selectedTags: MaybeTag[] = []
-export let dropdown = false
+export let isDropdown = false
 export let allowCustomTags = false
 
 let loading = false
@@ -71,7 +71,7 @@ const removeTag = (tag: MaybeTag) => {
   <div
     class="relative"
     use:clickOutside
-    on:clickOutside={() => (dropdown && (resultsOpen = false))}
+    on:clickOutside={() => (isDropdown && (resultsOpen = false))}
   >
     <!-- tag search -->
     <div class="relative">
@@ -98,7 +98,7 @@ const removeTag = (tag: MaybeTag) => {
     <!-- tag results -->
     <div class="
       {resultsOpen ? 'block' : 'hidden'}
-      {dropdown ? 'absolute bg-gray-800 p-2 top-[calc(100%+0.35rem)] rounded-md' : 'pt-2'}
+      {isDropdown ? 'absolute bg-gray-800 p-2 top-[calc(100%+0.35rem)] rounded-md' : 'pt-2'}
       w-full
     ">
       {#each tagResults as tag}
