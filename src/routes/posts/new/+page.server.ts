@@ -37,6 +37,7 @@ export const actions: Actions = {
       description,
       published,
       rating,
+      tags,
     } = Object.fromEntries(await request.formData()) as Record<string, string>
 
     const minContentLength = 50
@@ -46,6 +47,10 @@ export const actions: Actions = {
       // TODO: Properly count characters in richtext
       return fail(400, { success: false, message: 'Content is too short' })
 
+
+    // Process Tags
+    const tagNames = tags.split(',').map((tag) => tag.trim())
+
     const res = await db.post.create({
       data: {
         content,
@@ -54,6 +59,12 @@ export const actions: Actions = {
         authorId: user.userId,
         published: published === 'true',
         rating,
+        tags: {
+          connectOrCreate: tagNames.map((name) => ({
+            create: { name },
+            where: { name },
+          })),
+        },
       },
     })
       .catch((err: Error) => {
