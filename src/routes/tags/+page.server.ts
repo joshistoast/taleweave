@@ -4,6 +4,13 @@ import db from '$lib/server/db'
 
 export const load: PageServerLoad = async () => {
   const tags = await db.tag.findMany({
+    where: {
+      posts: {
+        every: {
+          published: true,
+        }
+      }
+    },
     select: {
       id: true,
       name: true,
