@@ -57,6 +57,7 @@ export const actions: Actions = {
       content,
       published,
       rating,
+      tags,
     } = Object.fromEntries(await request.formData() ) as Record<string, string>
 
     if (!title || !content) {
@@ -68,6 +69,7 @@ export const actions: Actions = {
       where: { id },
       include: {
         author: true,
+        tags: true,
       }
     })
 
@@ -75,6 +77,10 @@ export const actions: Actions = {
       return fail(404, { success: false, message: 'Post not found' })
     if (post.author.id !== session.userId)
       return fail(403, { success: false, message: 'You do not have permission to edit this post' })
+
+    // Process Tags
+    const tagNames = tags.split(',').map((tag) => tag.trim())
+    const tagsToRemove = post.tags.filter((tag) => !tagNames.includes(tag.name))
 
     // update post
     const res = await db.post.update({
@@ -85,6 +91,13 @@ export const actions: Actions = {
         content,
         published: published === 'true',
         rating,
+        tags: {
+          connectOrCreate: tagNames.map((name) => ({
+            create: { name },
+            where: { name },
+          })),
+          disconnect: tagsToRemove.map((tag) => ({ id: tag.id })),
+        },
       },
     })
       .then(() => {
