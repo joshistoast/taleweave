@@ -5,6 +5,7 @@ import { postOfFeedSelect } from '$lib/data'
 export const load: PageServerLoad = async ({ params, url }) => {
   const isFeatured = url.searchParams.get('featured') === 'true'
   const tagsFilter = url.searchParams.get('tags')?.split(',') ?? undefined
+  const searchQuery = url.searchParams.get('q') ?? undefined
 
   const title = isFeatured ? 'Featured Posts' : 'Browse Everything'
   const description = isFeatured
@@ -13,6 +14,7 @@ export const load: PageServerLoad = async ({ params, url }) => {
 
   // returns false if tagsFilter is empty or ['']
   const hasTags = tagsFilter?.length && tagsFilter[0] !== ''
+  const hasSearch = searchQuery?.length
 
   // get tags in url query
   const tags = hasTags ? await db.tag.findMany({
@@ -40,6 +42,9 @@ export const load: PageServerLoad = async ({ params, url }) => {
     where: {
       published: true,
       featured: isFeatured ? true : undefined,
+      title: hasSearch ? {
+        contains: searchQuery,
+      } : undefined,
       tags: (hasTags && tags?.length) ? {
         some: {
           name: {
