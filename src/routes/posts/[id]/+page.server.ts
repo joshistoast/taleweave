@@ -60,8 +60,14 @@ export const actions: Actions = {
 
     // get the post from the database
     const post = await db.post.findUniqueOrThrow({
-      where: { id }
+      where: { id },
+      include: {
+        author: true,
+      },
     })
+
+    if (!post)
+      return fail(404, { success: false, message: 'Post was either deleted or does not exist' })
 
     // if the user is not the author of the post, return 403
     if (post.author.id !== user.userId)
