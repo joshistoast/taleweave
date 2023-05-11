@@ -82,6 +82,9 @@ export const actions: Actions = {
     const tagNames = tags.split(',').map((tag) => tag.trim())
     const tagsToRemove = post.tags.filter((tag) => !tagNames.includes(tag.name))
 
+    if (tagNames.length > 5)
+      return fail(400, { success: false, message: 'Too many tags, use 5 or less.' })
+
     // update post
     const res = await db.post.update({
       where: { id },

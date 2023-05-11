@@ -47,9 +47,11 @@ export const actions: Actions = {
       // TODO: Properly count characters in richtext
       return fail(400, { success: false, message: 'Content is too short' })
 
-
     // Process Tags
     const tagNames = tags.split(',').map((tag) => tag.trim())
+
+    if (tagNames.length > 5)
+      return fail(400, { success: false, message: 'Too many tags, use 5 or less.' })
 
     const res = await db.post.create({
       data: {

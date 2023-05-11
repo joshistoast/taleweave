@@ -12,12 +12,15 @@ export let placeholder= 'Search tags...'
 export let selectedTags: MaybeTag[] = []
 export let isDropdown = false
 export let allowCustomTags = false
+export let maxTags = 5
 
 let loading = false
 let search = ''
 let tagResults: Tag[] = []
 let resultsOpen: boolean
+
 $: resultsOpen = tagResults.length > 0
+$: maxTagsReached = selectedTags.length >= maxTags
 
 $: isTagSelected = (tag: MaybeTag) => {
   return selectedTags.some((t) => t.name === tag.name)
@@ -65,8 +68,14 @@ const removeTag = (tag: MaybeTag) => {
   clearSearch()
   dispatch('remove', tag)
 }
+const onInputEnter = (e) => {
+  e.preventDefault()
+  if (search.length >= 3) {
+    toggleTag({ name: search })
+  }
+}
 // return html string with <mark> tag around search query
-$: formattedTagNameText = (name: string) => {
+$: tagNameWithHighlight = (name: string) => {
   const regex = new RegExp(search, 'gi')
   return name.replace(regex, (match) => `<span class="text-orange-300 underline">${match}</span>`)
 }
@@ -83,9 +92,11 @@ $: formattedTagNameText = (name: string) => {
       <input
         bind:value={search}
         type="text"
-        placeholder={placeholder}
+        placeholder={maxTagsReached ? 'Max tags reached' : placeholder}
+        disabled={maxTagsReached}
         on:input={onInput}
-        class="w-full px-3 py-2 text-sm transition-all duration-100 ease-in-out rounded-md outline-none ring-0 hover:ring-2 focus:ring-2 hover:ring-white/20 focus:ring-orange-300 bg-white/10 focus:bg-transparent"
+        on:keydown={(e) => e.key === 'Enter' && onInputEnter(e)}
+        class="w-full px-3 py-2 text-sm transition-all duration-100 ease-in-out rounded-md outline-none disabled:opacity-50 ring-0 hover:ring-2 focus:ring-2 hover:ring-white/20 focus:ring-orange-300 bg-white/10 focus:bg-transparent"
       />
       <div class="absolute inset-y-0 right-0 flex items-center p-1">
         {#if loading}
@@ -98,6 +109,9 @@ $: formattedTagNameText = (name: string) => {
             <Icon icon="fluent:dismiss-12-filled" class="w-4 h-4" />
           </button>
         {/if}
+        <span class="px-2 font-semibold py-1 text-xs rounded-md bg-white/10 {maxTagsReached ? 'text-rose-400' : 'text-white/70'}">
+          {selectedTags.length} / {maxTags}
+        </span>
       </div>
     </div>
     <!-- tag results -->
@@ -106,13 +120,13 @@ $: formattedTagNameText = (name: string) => {
       {isDropdown ? 'absolute bg-gray-800 p-2 top-[calc(100%+0.35rem)] rounded-md' : 'pt-2'}
       w-full
     ">
-      {#each tagResults as tag}
+      {#each tagResults as tag, i (i)}
         <button
           class="flex items-center justify-between w-full p-2 transition-all duration-100 ease-in-out rounded-md hover:bg-white/10"
           on:click|preventDefault={() => toggleTag(tag)}
         >
           <div class="flex items-center gap-1 px-1">
-            <span class="text-sm">{@html formattedTagNameText(tag.name)}</span>
+            <span class="text-sm">{@html tagNameWithHighlight(tag.name)}</span>
             {#if tag.__count?.posts}
               <span class="text-xs text-white/50">{tag._count.posts} post{tag._count.posts !== 1 ? 's' : ''}</span>
             {/if}
