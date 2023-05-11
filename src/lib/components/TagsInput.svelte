@@ -65,6 +65,11 @@ const removeTag = (tag: MaybeTag) => {
   clearSearch()
   dispatch('remove', tag)
 }
+// return html string with <mark> tag around search query
+$: formattedTagNameText = (name: string) => {
+  const regex = new RegExp(search, 'gi')
+  return name.replace(regex, (match) => `<span class="text-orange-300 underline">${match}</span>`)
+}
 </script>
 
 <div class="p-1">
@@ -107,7 +112,7 @@ const removeTag = (tag: MaybeTag) => {
           on:click|preventDefault={() => toggleTag(tag)}
         >
           <div class="flex items-center gap-1 px-1">
-            <span class="text-sm">{tag.name}</span>
+            <span class="text-sm">{@html formattedTagNameText(tag.name)}</span>
             {#if tag.__count?.posts}
               <span class="text-xs text-white/50">{tag._count.posts} post{tag._count.posts !== 1 ? 's' : ''}</span>
             {/if}
@@ -125,7 +130,7 @@ const removeTag = (tag: MaybeTag) => {
           <span class="px-1 text-sm">{tag.name}</span>
           <button
             title="Remove tag '{tag.name}'"
-            class="p-1 rounded-md hover:bg-white/10"
+            class="p-1 transition-all duration-100 ease-in-out rounded-md hover:bg-white/10 active:scale-90"
             on:click|preventDefault={() => removeTag(tag)}
           >
             <Icon icon="fluent:dismiss-12-filled" class="w-4 h-4" />

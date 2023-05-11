@@ -13,7 +13,7 @@ export const GET: RequestHandler = async ({ url, setHeaders }) => {
   const tags = await db.tag.findMany({
     where: {
       name: {
-        startsWith: query
+        contains: query,
       }
     },
     select: {
