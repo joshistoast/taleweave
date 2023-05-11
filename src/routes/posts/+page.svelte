@@ -4,7 +4,6 @@ import Feed from '$lib/components/Feed.svelte'
 import { goto } from '$app/navigation'
 import { page } from '$app/stores'
 import Icon from '@iconify/svelte'
-import TagsInput from '$lib/components/TagsInput.svelte'
 
 export let data: PageData
 
@@ -34,7 +33,25 @@ const removeTag = (tag: string) => {
   <h1 class="text-lg font-bold {props.isFeatured ? 'text-orange-300' : 'text-gray-300'}">{props.title}</h1>
   <p class="text-sm text-gray-400">{props.description}</p>
 
-  <TagsInput bind:selectedTags={tags} />
+  {#if tags?.length}
+    <div class="px-3 py-2 mt-2 border rounded-md border-white/10">
+      <h3 class="text-sm font-bold">Filtering posts with the following tags</h3>
+      <div class="flex flex-wrap gap-2 py-1">
+        {#each tags as tag}
+          <div class="flex items-center gap-1">
+            <button
+              title="Remove tag '{tag.name}'"
+              class="flex items-center gap-1 text-sm text-gray-400 hover:text-gray-300"
+              on:click={() => removeTag(tag.name)}
+            >
+              <Icon icon="mdi:close" class="w-3 h-3" />
+              <span>{tag.name}</span>
+            </button>
+          </div>
+        {/each}
+      </div>
+    </div>
+  {/if}
 </header>
 
 <div class="p-4">
