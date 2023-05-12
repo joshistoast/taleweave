@@ -19,7 +19,7 @@ $: writtenByYou = user?.userId === post.author.id
     href="/posts/{id}"
     class="
       relative flex flex-col gap-1 p-4 transition-all duration-100 ease-in-out border rounded-lg
-      {featured ? 'border-orange-300/10 hover:border-orange-300/40 focus:border-orange-300' : 'hover:border-white/30 border-white/10 focus:border-white'}
+      {featured ? 'border-orange-300/20 hover:border-orange-300/50 focus:border-orange-300' : 'hover:border-white/30 border-white/10 focus:border-white'}
     "
   >
 
