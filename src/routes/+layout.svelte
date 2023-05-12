@@ -62,7 +62,7 @@ onMount(() => {
       on:click={closeSidebar}
     />
 
-    <main class="lg:ml-[16rem] min-h-screen w-full max-w-7xl border-white/10 [@media(min-width:80rem)]:border-r">
+    <main class="lg:ml-[16rem] min-h-[calc(100vh-3.5rem)] lg:min-h-screen w-full max-w-7xl border-white/10 [@media(min-width:80rem)]:border-r">
       <slot />
     </main>
   </div>
