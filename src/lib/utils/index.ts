@@ -39,6 +39,19 @@ export const useRating = (rating: Rating | string) => {
   }
 }
 
+export const useRatingIcon = (rating: Rating | string) => {
+  switch (rating) {
+    case 's':
+      return 'fluent:people-24-filled'
+    case 't':
+      return 'material-symbols:generating-tokens-rounded'
+    case 'm':
+      return 'fluent:rating-mature-24-filled'
+    case 'e':
+      return 'material-symbols:explicit-rounded'
+  }
+}
+
 export const clickOutside = (node: Element) => {
 
   const handleClick = (event: MouseEvent) => {

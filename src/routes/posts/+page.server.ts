@@ -8,7 +8,7 @@ export const load: PageServerLoad = async ({ params, url }) => {
 
   const tagsFilter = url.searchParams.get('tags')?.split(',') ?? undefined
   const searchQuery = url.searchParams.get('search') ?? undefined
-  const ratingFilter = url.searchParams.get('rating') ?? undefined
+  const ratingsFilter = url.searchParams.get('ratings')?.split(',') ?? undefined
   const sortFilter = url.searchParams.get('sort') ?? undefined
 
   const title = isFeatured ? 'Featured Posts' : 'Browse Everything'
@@ -18,8 +18,10 @@ export const load: PageServerLoad = async ({ params, url }) => {
 
   // returns false if tagsFilter is empty or ['']
   const hasTags = tagsFilter?.length && tagsFilter[0] !== ''
-  const hasSearch = searchQuery?.length
-  const hasRating = ratingFilter?.length && ['s', 't', 'm', 'e'].includes(ratingFilter[0] as Rating)
+  const hasSearch = searchQuery?.length && searchQuery !== ''
+  const hasRating = ratingsFilter?.length && ratingsFilter[0] !== ''
+
+  console.log(ratingsFilter)
 
   // get tags in url query
   const tags = hasTags ? await db.tag.findMany({
@@ -58,7 +60,7 @@ export const load: PageServerLoad = async ({ params, url }) => {
         }
       } : undefined,
       rating: hasRating ? {
-        in: ratingFilter,
+        in: ratingsFilter,
       } : undefined,
     },
     select: {
