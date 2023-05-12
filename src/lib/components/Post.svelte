@@ -1,9 +1,10 @@
 <script lang="ts">
-import type { Post, AuthUser } from '@prisma/client/index'
+import type { Post } from '@prisma/client/index'
 import { page } from '$app/stores'
 import Icon from '@iconify/svelte'
 import PostStats from '$lib/components/PostStats.svelte'
 import PostTags from '$lib/components/PostTags.svelte'
+import { truncate } from '$lib/utils'
 
 $: user = $page.data.user
 
@@ -49,7 +50,9 @@ $: writtenByYou = user?.userId === post.author.id
 
     {#if description}
       <div class="pb-2">
-        <p class="relative font-sans text-sm text-gray-100/60">{description}</p>
+        <p class="relative font-sans text-sm text-gray-100/60">
+          {truncate(description, 200)}
+        </p>
       </div>
     {/if}
 

@@ -17,6 +17,13 @@ export const useAuthorName = (author: AuthUser) => {
   return author.displayName || author.username
 }
 
+export const truncate = (str: string, len: number) => {
+  if (str.length <= len) {
+    return str
+  }
+  return `${str.slice(0, len)}...`
+}
+
 export const useRating = (rating: Rating | string) => {
   switch (rating) {
     case 's':
