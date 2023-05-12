@@ -1,11 +1,13 @@
 import db from '$lib/server/db'
 import type { PageServerLoad } from './$types'
 import { postOfFeedSelect } from '$lib/data'
+import type { Rating } from '@prisma/client'
 
 export const load: PageServerLoad = async ({ params, url }) => {
   const isFeatured = url.searchParams.get('featured') === 'true'
   const tagsFilter = url.searchParams.get('tags')?.split(',') ?? undefined
   const searchQuery = url.searchParams.get('q') ?? undefined
+  const ratingFilter = url.searchParams.get('r') ?? undefined
 
   const title = isFeatured ? 'Featured Posts' : 'Browse Everything'
   const description = isFeatured
@@ -15,6 +17,7 @@ export const load: PageServerLoad = async ({ params, url }) => {
   // returns false if tagsFilter is empty or ['']
   const hasTags = tagsFilter?.length && tagsFilter[0] !== ''
   const hasSearch = searchQuery?.length
+  const hasRating = ratingFilter?.length && ['s', 't', 'm', 'e'].includes(ratingFilter[0] as Rating)
 
   // get tags in url query
   const tags = hasTags ? await db.tag.findMany({
@@ -51,6 +54,9 @@ export const load: PageServerLoad = async ({ params, url }) => {
             in: tags.map(tag => tag.name),
           }
         }
+      } : undefined,
+      rating: hasRating ? {
+        in: ratingFilter,
       } : undefined,
     },
     select: {
