@@ -1,9 +1,7 @@
 <script lang="ts">
 import type { PageData } from './$types'
 import Feed from '$lib/components/Feed.svelte'
-import { goto } from '$app/navigation'
 import { page } from '$app/stores'
-import Icon from '@iconify/svelte'
 import PostSearch from '$lib/components/PostSearch.svelte'
 
 export let data: PageData
@@ -30,7 +28,7 @@ $: ({
 </header>
 
 <div class="grid gap-4 p-4">
-  {#if !props.isFeatured && $page.url.searchParams.get('q') === postSearchQuery}
+  {#if !props.isFeatured && $page.url.searchParams.get('q')}
     <h2>Searching posts for "{postSearchQuery}"</h2>
   {/if}
   <Feed {posts} showFeaturedFlags={!props.isFeatured} />

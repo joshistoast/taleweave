@@ -5,9 +5,11 @@ import type { Rating } from '@prisma/client'
 
 export const load: PageServerLoad = async ({ params, url }) => {
   const isFeatured = url.searchParams.get('featured') === 'true'
+
   const tagsFilter = url.searchParams.get('tags')?.split(',') ?? undefined
-  const searchQuery = url.searchParams.get('q') ?? undefined
-  const ratingFilter = url.searchParams.get('r') ?? undefined
+  const searchQuery = url.searchParams.get('search') ?? undefined
+  const ratingFilter = url.searchParams.get('rating') ?? undefined
+  const sortFilter = url.searchParams.get('sort') ?? undefined
 
   const title = isFeatured ? 'Featured Posts' : 'Browse Everything'
   const description = isFeatured

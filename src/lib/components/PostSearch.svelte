@@ -5,55 +5,37 @@ import { goto } from '$app/navigation'
 import Icon from '@iconify/svelte'
 import Dropdown from '$lib/components/common/Dropdown.svelte'
 import TagsInput from '$lib/components/TagsInput.svelte'
+import { useRating } from '$lib/utils'
 
 // TODO: sorting by date, rating, etc
 // TODO: filter age ratings
 
+// const sortOptions = [
+//   { name: 'Date', value: 'date' },
+//   { name: 'Rating', value: 'rating' },
+//   { name: 'Title', value: 'title' },
+// ]
+const ratingOptions = ['s', 't', 'm', 'e']
+
+export let search: string = $page.url.searchParams.get('search') || ''
+// export let sorting = sortOptions[0]
+export let rating = $page.url.searchParams.get('rating') || undefined
 export let tags: Tag[] = []
 
-const searchDefaults = {
-  search: $page.url.searchParams.get('q') || '' as string,
-  selectedTags: $page.url.searchParams.get('tags')?.split(',') || tags.map((t) => t.name) || [] as string[],
-  rating: $page.url.searchParams.get('r') as Rating || undefined,
-}
-
-export let search: string = searchDefaults.search || ''
-let selectedTags: string[] = searchDefaults.selectedTags
-let rating: Rating = searchDefaults.rating
-
-let selectedRawTags: Tag[] = tags ? tags.filter((t) => selectedTags.includes(t.name)) : []
+let stagedSearchParamsString: string
 $: {
-  selectedTags = selectedRawTags.map((t) => t.name)
+  let params = new URLSearchParams()
+  search?.length ? params.set('search', search) : undefined
+  tags?.length ? params.set('tags', tags.map((tag) => tag.name).join(',')) : undefined
+  rating ? params.set('rating', rating) : undefined
+  // sorting ? params.set('sort', sorting.value) : undefined
+
+  stagedSearchParamsString = params.toString()
 }
 
-$: searchParamsAreDefault = search === searchDefaults.search && selectedTags === searchDefaults.selectedTags && rating === searchDefaults.rating
-
-const resetParams = () => {
-  // reset url params
-  search = searchDefaults.search
-  selectedTags = searchDefaults.selectedTags
-  rating = searchDefaults.rating
-}
-const resetSearch = () => {
-  goto($page.url.pathname)
-}
-const resetAndSearch = () => {
-  resetParams()
-  resetSearch()
-}
 const doSearch = () => {
-  // stage new url params
-  const urlSearchParams = $page.url.searchParams
-  search ? urlSearchParams.set('q', search) : urlSearchParams.delete('q')
-  selectedTags.length ? urlSearchParams.set('tags', selectedTags.join(',')) : urlSearchParams.delete('tags')
-  rating ? urlSearchParams.set('r', rating) : urlSearchParams.delete('r')
-
-  if (searchParamsAreDefault) {
-    resetParams()
-    resetSearch()
-  } else {
-    goto($page.url.pathname + '?' + urlSearchParams.toString())
-  }
+  // navigate to new url
+  goto(`${$page.url.pathname}?${stagedSearchParamsString.toString()}`)
 }
 </script>
 
@@ -70,26 +52,26 @@ const doSearch = () => {
     <Dropdown>
       <svelte:fragment slot="trigger" let:open let:toggle>
         <button
-          title="Include Tags {selectedTags.length ? `(${selectedTags.length})` : ''}"
-          class="flex items-center p-2 rounded-md hover:bg-white/10 {open ? 'bg-white/10' : ''}"
+          title="Include Tags {tags?.length ? `(${tags.length})` : ''}"
+          class="flex items-center p-2 rounded-md hover:bg-white/10 {open ? 'bg-white/10 text-orange-300' : 'text-white/60 hover:text-orange-300'}"
           on:click={toggle}
         >
           <Icon icon="fluent:tag-search-24-regular" class="w-6 h-6" />
-          {#if selectedTags.length}
-            <span class="pl-2 text-sm font-bold">{selectedTags.length}</span>
+          {#if tags?.length}
+            <span class="pl-2 text-sm font-bold">{tags.length}</span>
           {/if}
         </button>
       </svelte:fragment>
 
       <div class="p-2">
         <span class="px-1 text-xs font-bold text-white/50">Include posts with tags</span>
-        <TagsInput bind:selectedTags={selectedRawTags} />
-        {#if selectedTags?.length}
+        <TagsInput bind:selectedTags={tags} />
+        {#if tags?.length}
           <div class="grid p-1 text-sm font-bold">
             <button
               class="flex px-3 py-1 transition-all duration-100 ease-in-out rounded-md hover:bg-white/10"
               on:click={() => {
-                selectedRawTags = []
+                tags = []
               }}
             >
               Reset tags
@@ -98,10 +80,10 @@ const doSearch = () => {
         {/if}
       </div>
     </Dropdown>
-    <button title="Clear filters" on:click={resetAndSearch} class="p-2 rounded-md hover:bg-white/10">
+    <a href="/posts" title="Clear filters" class="p-2 rounded-md text-white/60 hover:text-orange-300 hover:bg-white/10">
       <Icon icon="fluent:arrow-reset-24-filled" class="w-6 h-6" />
-    </button>
-    <button title="Search posts" on:click={doSearch} class="p-2 rounded-md hover:bg-white/10">
+    </a>
+    <button title="Search posts" on:click={doSearch} class="p-2 rounded-md text-white/60 hover:text-orange-300 hover:bg-white/10">
       <Icon icon="fluent:search-24-filled" class="w-6 h-6" />
     </button>
   </div>
