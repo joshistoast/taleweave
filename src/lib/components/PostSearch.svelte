@@ -8,7 +8,6 @@ import TagsInput from '$lib/components/TagsInput.svelte'
 import { useRating, useRatingIcon } from '$lib/utils'
 
 // TODO: sorting by date, rating, etc
-// TODO: filter age ratings
 
 // const sortOptions = [
 //   { name: 'Date', value: 'date' },
