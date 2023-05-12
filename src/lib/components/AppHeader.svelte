@@ -7,7 +7,7 @@ const toggleSidebar = () => {
 }
 </script>
 
-<header class="sticky top-0 w-full border-b border-gray-800 group lg:hidden bg-[#121212]">
+<header class="sticky z-50 top-0 w-full border-b border-gray-800 group lg:hidden bg-[#121212]">
 
   <div class="flex items-center gap-2 transition-all duration-100 ease-in-out group-hover:opacity-100 opacity-30">
     <button
