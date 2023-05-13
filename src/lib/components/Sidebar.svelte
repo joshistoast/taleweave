@@ -86,6 +86,14 @@ type subTreeItem = {
   href: string
 }
 const subTree: subTreeItem[] = [
+    {
+    label: 'Github',
+    href: 'https://github.com/joshwcorbett/taleweave',
+  },
+  {
+    label: 'Discord',
+    href: 'https://discord.gg/CXz9Aqb9My',
+  },
   {
     label: 'Privacy Policy',
     href: 'https://github.com/joshwcorbett/taleweave/blob/terms-and-privacy/PRIVACY.md',
@@ -93,10 +101,6 @@ const subTree: subTreeItem[] = [
   {
     label: 'Terms of Service',
     href: 'https://github.com/joshwcorbett/taleweave/blob/terms-and-privacy/TOS.md',
-  },
-  {
-    label: 'Github',
-    href: 'https://github.com/joshwcorbett/taleweave',
   },
 ]
 </script>
@@ -143,9 +147,13 @@ const subTree: subTreeItem[] = [
 
   <nav class="grid gap-2 px-2">
     {#each subTree as { label, href }}
-      <a {href} class="flex items-center gap-2 px-3 text-sm text-gray-500 hover:text-gray-300">
+      <a
+        {href}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex items-center gap-2 px-3 text-sm text-gray-500 hover:text-gray-300"
+      >
         <span>{label}</span>
-        <Icon icon="lucide:external-link" class="w-4 h-4" />
       </a>
     {/each}
   </nav>

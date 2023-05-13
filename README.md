@@ -4,6 +4,12 @@
 
 Taleweave is an open-source, and easy to use platform for writers and authors alike to share their stories and works of literature freely. On this platform you as an author can create an account, write your stories, and publish them for the world to see and appreciate. Taleweave is by writers, for writers.
 
+## Discord
+
+Taleweave has a discord server where you can get help, ask questions, and get involved in the community. Join the discord server today!
+
+[![Discord](https://img.shields.io/discord/1106254690896838736?color=FDBA74&label=Discord&logo=discord&logoColor=white&style=for-the-badge)](https://discord.gg/CXz9Aqb9My)
+
 ## Tech Stack
 
 Originally built as a pet project, this platform is built on cutting-edge web technologies like sveltekit for the frontend, prisma + planetscale for the database, lucia for authentication and authorization, and tailwindcss for styling.
