@@ -61,6 +61,7 @@ export const load: PageServerLoad = async ({ params, url }) => {
             { title: { contains: searchQuery }},
             { description: { contains: searchQuery }},
             { content: { contains: searchQuery }},
+            { tags: { some: { name: { contains: searchQuery }}}},
           ],
         } : {},
         hasRating ? {
