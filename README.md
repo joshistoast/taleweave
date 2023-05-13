@@ -4,22 +4,17 @@
 
 ## Table of Contents
 
-[About the project](#about-the-project)
-
-[Discord](#discord)
-
-[Tech Stack](#tech-stack)
-
-[Roadmap](#roadmap)
-
-[Getting Started](#getting-started)
-
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-
-[Contributing](#contributing)
-
-[License](#license)
+- [Taleweave](#taleweave)
+  - [Table of Contents](#table-of-contents)
+  - [About the project](#about-the-project)
+  - [Discord](#discord)
+  - [Tech Stack](#tech-stack)
+  - [Roadmap](#roadmap)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+  - [Contributing](#contributing)
+  - [License](#license)
 
 ## About the project
 
