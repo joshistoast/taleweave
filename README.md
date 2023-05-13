@@ -1,4 +1,25 @@
+<img src="./static/favicon/mstile-310x310.png" alt="Logo" width="80" height="80" />
+
 # Taleweave
+
+## Table of Contents
+
+[About the project](#about-the-project)
+
+[Discord](#discord)
+
+[Tech Stack](#tech-stack)
+
+[Roadmap](#roadmap)
+
+[Getting Started](#getting-started)
+
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+
+[Contributing](#contributing)
+
+[License](#license)
 
 ## About the project
 
