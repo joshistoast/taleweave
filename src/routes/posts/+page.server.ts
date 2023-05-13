@@ -47,19 +47,28 @@ export const load: PageServerLoad = async ({ params, url }) => {
     where: {
       published: true,
       featured: isFeatured ? true : undefined,
-      title: hasSearch ? {
-        contains: searchQuery,
-      } : undefined,
-      tags: (hasTags && tags?.length) ? {
-        some: {
-          name: {
-            in: tags.map(tag => tag.name),
+      AND: [
+        hasTags ? {
+          tags: {
+            some: {
+              name: { in: tagsFilter.map(tag => tag.toLowerCase()) },
+            }
           }
-        }
-      } : undefined,
-      rating: hasRating ? {
-        in: ratingsFilter,
-      } : undefined,
+        } : {},
+        hasSearch ? {
+          OR: [
+            // it's not full text search but it's good enough for now
+            { title: { contains: searchQuery }},
+            { description: { contains: searchQuery }},
+            { content: { contains: searchQuery }},
+          ],
+        } : {},
+        hasRating ? {
+          rating: {
+            in: ratingsFilter as Rating[],
+          }
+        } : {},
+      ],
     },
     select: {
       ...postOfFeedSelect,
