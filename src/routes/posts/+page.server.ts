@@ -21,8 +21,6 @@ export const load: PageServerLoad = async ({ params, url }) => {
   const hasSearch = searchQuery?.length && searchQuery !== ''
   const hasRating = ratingsFilter?.length && ratingsFilter[0] !== ''
 
-  console.log(ratingsFilter)
-
   // get tags in url query
   const tags = hasTags ? await db.tag.findMany({
     where: {
