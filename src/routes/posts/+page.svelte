@@ -29,7 +29,7 @@ $: ({
 
 <div class="grid gap-4 p-4">
   {#if !props.isFeatured && $page.url.searchParams.get('search')}
-    <h2>Searching posts for "{postSearchQuery}"</h2>
+    <h2>Searching posts for "{$page.url.searchParams.get('search')}"</h2>
   {/if}
   <Feed {posts} showFeaturedFlags={!props.isFeatured} />
 </div>
