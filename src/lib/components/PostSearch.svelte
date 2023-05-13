@@ -51,13 +51,20 @@ const doSearch = () => {
 
 <div class="flex flex-col gap-2 py-2">
   <div class="flex flex-row items-center gap-2 px-2">
-    <input
-      type="text"
-      bind:value={search}
-      on:keydown={(e) => e.key === 'Enter' && doSearch()}
-      class="w-full px-4 py-2 transition-all duration-100 ease-in-out rounded-md outline-none focus:bg-transparent bg-white/10 ring:0 ring-white/20 focus:ring-orange-300 focus:ring-2 hover:ring-2 placeholder-white/50 focus:placeholder-white/75 border-white/10"
-      placeholder="Search by title..."
-    />
+    <div class="relative w-full">
+      <input
+        type="text"
+        bind:value={search}
+        on:keydown={(e) => e.key === 'Enter' && doSearch()}
+        class="w-full px-4 py-2 transition-all duration-100 ease-in-out rounded-md outline-none focus:bg-transparent bg-white/10 ring:0 ring-white/20 focus:ring-orange-300 focus:ring-2 hover:ring-2 placeholder-white/50 focus:placeholder-white/75 border-white/10"
+        placeholder="Search by title or contents..."
+      />
+      {#if search?.length}
+        <button class="absolute p-2 -translate-y-1/2 rounded-md right-1 top-1/2 hover:bg-white/10" on:click|preventDefault={() => search = ''}>
+          <Icon icon="fluent:dismiss-16-filled" class="w-4 h-4" />
+        </button>
+      {/if}
+    </div>
     <Dropdown>
       <svelte:fragment slot="trigger" let:open let:toggle>
         <button
