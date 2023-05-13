@@ -1,9 +1,10 @@
 <script lang="ts">
-import type { Post, AuthUser } from '@prisma/client/index'
+import type { Post } from '@prisma/client/index'
 import { page } from '$app/stores'
 import Icon from '@iconify/svelte'
 import PostStats from '$lib/components/PostStats.svelte'
 import PostTags from '$lib/components/PostTags.svelte'
+import { truncate } from '$lib/utils'
 
 $: user = $page.data.user
 
@@ -19,7 +20,7 @@ $: writtenByYou = user?.userId === post.author.id
     href="/posts/{id}"
     class="
       relative flex flex-col gap-1 p-4 transition-all duration-100 ease-in-out border rounded-lg
-      {featured ? 'border-orange-300/10 hover:border-orange-300/40 focus:border-orange-300' : 'hover:border-white/30 border-white/10 focus:border-white'}
+      {featured ? 'border-orange-300/20 hover:border-orange-300/50 focus:border-orange-300' : 'hover:border-white/30 border-white/10 focus:border-white'}
     "
   >
 
@@ -49,7 +50,9 @@ $: writtenByYou = user?.userId === post.author.id
 
     {#if description}
       <div class="pb-2">
-        <p class="relative font-sans text-sm text-gray-100/60">{description}</p>
+        <p class="relative font-sans text-sm text-gray-100/60">
+          {truncate(description, 200)}
+        </p>
       </div>
     {/if}
 
@@ -59,7 +62,7 @@ $: writtenByYou = user?.userId === post.author.id
       </div>
     {/if}
 
-    <div class="pt-3 border-t border-white/10 text-white/30">
+    <div class="pt-3 border-t transition-all duration-100 ease-in-out {featured ? 'border-orange-300/20' : 'border-white/10'} text-white/30">
       <PostStats rating={rating} bookmarks={post._count?.bookmarks} />
     </div>
   </a>

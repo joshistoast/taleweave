@@ -50,7 +50,7 @@ onMount(() => {
 
   <div class="flex h-full">
     <aside class="
-      w-full max-w-[16rem] shrink-0 h-full border-r border-white/10 fixed top-0 left-0 z-[999] lg:translate-x-0 bg-gray-900/70 lg:bg-transparent backdrop-blur-md transition-all duration-300 ease-in-out
+      w-full max-w-[16rem] shrink-0 h-full border-r border-white/10 fixed top-0 left-0 z-[999] lg:translate-x-0 bg-gray-900/70 lg:bg-transparent backdrop-blur-md lg:backdrop-blur-none transition-all duration-300 ease-in-out
       {sidebarState ? 'translate-x-0' : '-translate-x-full'}
     ">
       <Sidebar />
@@ -62,7 +62,7 @@ onMount(() => {
       on:click={closeSidebar}
     />
 
-    <main class="lg:ml-[16rem] h-full w-full max-w-full lg:max-w-[calc(100vw-17rem)]">
+    <main class="lg:ml-[16rem] min-h-[calc(100vh-3.5rem)] lg:min-h-screen w-full max-w-7xl border-white/10 [@media(min-width:80rem)]:border-r">
       <slot />
     </main>
   </div>

@@ -161,6 +161,7 @@ $: toolbar = [
       placeholder={placeholders.tags}
       allowCustomTags
       isDropdown
+      maxTags={5}
     />
     <input name="tags" type="hidden" value={tags.map(t => t.name).join(',')} />
   </div>

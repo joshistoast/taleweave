@@ -1,8 +1,30 @@
+<img src="./static/favicon/mstile-310x310.png" alt="Logo" width="80" height="80" />
+
 # Taleweave
+
+## Table of Contents
+
+- [Taleweave](#taleweave)
+  - [Table of Contents](#table-of-contents)
+  - [About the project](#about-the-project)
+  - [Discord](#discord)
+  - [Tech Stack](#tech-stack)
+  - [Roadmap](#roadmap)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+  - [Contributing](#contributing)
+  - [License](#license)
 
 ## About the project
 
 Taleweave is an open-source, and easy to use platform for writers and authors alike to share their stories and works of literature freely. On this platform you as an author can create an account, write your stories, and publish them for the world to see and appreciate. Taleweave is by writers, for writers.
+
+## Discord
+
+Taleweave has a discord server where you can get help, ask questions, and get involved in the community. Join the discord server today!
+
+[![Discord](https://img.shields.io/discord/1106254690896838736?color=FDBA74&label=Discord&logo=discord&logoColor=white&style=for-the-badge)](https://discord.gg/CXz9Aqb9My)
 
 ## Tech Stack
 

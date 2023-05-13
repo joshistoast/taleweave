@@ -17,6 +17,13 @@ export const useAuthorName = (author: AuthUser) => {
   return author.displayName || author.username
 }
 
+export const truncate = (str: string, len: number) => {
+  if (str.length <= len) {
+    return str
+  }
+  return `${str.slice(0, len)}...`
+}
+
 export const useRating = (rating: Rating | string) => {
   switch (rating) {
     case 's':
@@ -29,6 +36,19 @@ export const useRating = (rating: Rating | string) => {
       return 'Explicit (18+)'
     default:
       return 'Unknown'
+  }
+}
+
+export const useRatingIcon = (rating: Rating | string) => {
+  switch (rating) {
+    case 's':
+      return 'fluent:people-24-filled'
+    case 't':
+      return 'material-symbols:generating-tokens-rounded'
+    case 'm':
+      return 'fluent:rating-mature-24-filled'
+    case 'e':
+      return 'material-symbols:explicit-rounded'
   }
 }
 

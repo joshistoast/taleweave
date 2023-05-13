@@ -2,7 +2,6 @@
 import Icon from '@iconify/svelte'
 import type { Tag } from '@prisma/client'
 import { clickOutside } from '$lib/utils'
-import { page } from '$app/stores'
 import { createEventDispatcher } from 'svelte'
 import type { MaybeTag } from '$lib/utils'
 
@@ -12,15 +11,16 @@ export let placeholder= 'Search tags...'
 export let selectedTags: MaybeTag[] = []
 export let isDropdown = false
 export let allowCustomTags = false
-export let maxTags = 5
+export let maxTags: number | undefined = undefined
 
+let minQueryLength = 3
 let loading = false
 let search = ''
 let tagResults: Tag[] = []
 let resultsOpen: boolean
 
 $: resultsOpen = tagResults.length > 0
-$: maxTagsReached = selectedTags.length >= maxTags
+$: maxTagsReached = !!(maxTags && (selectedTags.length >= maxTags))
 
 $: isTagSelected = (tag: MaybeTag) => {
   return selectedTags.some((t) => t.name === tag.name)
@@ -36,7 +36,7 @@ const fetchTags = async () => {
     .catch((err) => console.error(err))
 }
 const onInput = async () => {
-  if (search.length >= 3) {
+  if (search.length >= minQueryLength) {
     loading = true
     await fetchTags()
       .then((res) => {
@@ -68,9 +68,9 @@ const removeTag = (tag: MaybeTag) => {
   clearSearch()
   dispatch('remove', tag)
 }
-const onInputEnter = (e) => {
+const onInputEnter = (e: KeyboardEvent) => {
   e.preventDefault()
-  if (search.length >= 3) {
+  if (search.length >= minQueryLength && !maxTagsReached) {
     toggleTag({ name: search })
   }
 }
@@ -81,7 +81,7 @@ $: tagNameWithHighlight = (name: string) => {
 }
 </script>
 
-<div class="p-1">
+<div class="p-1 min-w-[225px]">
   <div
     class="relative"
     use:clickOutside
@@ -98,7 +98,7 @@ $: tagNameWithHighlight = (name: string) => {
         on:keydown={(e) => e.key === 'Enter' && onInputEnter(e)}
         class="w-full px-3 py-2 text-sm transition-all duration-100 ease-in-out rounded-md outline-none disabled:opacity-50 ring-0 hover:ring-2 focus:ring-2 hover:ring-white/20 focus:ring-orange-300 bg-white/10 focus:bg-transparent"
       />
-      <div class="absolute inset-y-0 right-0 flex items-center p-1">
+      <div class="absolute inset-y-0 right-0 flex items-center gap-1 p-1">
         {#if loading}
           <div class="text-orange-300 pointer-events-none">
             <Icon icon="ri:loader-5-line" class="w-5 h-5 animate-spin" />
@@ -109,9 +109,11 @@ $: tagNameWithHighlight = (name: string) => {
             <Icon icon="fluent:dismiss-12-filled" class="w-4 h-4" />
           </button>
         {/if}
-        <span class="px-2 font-semibold py-1 text-xs rounded-md bg-white/10 {maxTagsReached ? 'text-rose-400' : 'text-white/70'}">
-          {selectedTags.length} / {maxTags}
-        </span>
+        {#if maxTags}
+          <span class="px-2 font-semibold py-1 text-xs rounded-md bg-white/10 {maxTagsReached ? 'text-rose-400' : 'text-white/70'}">
+            {selectedTags.length} / {maxTags}
+          </span>
+        {/if}
       </div>
     </div>
     <!-- tag results -->
@@ -136,15 +138,18 @@ $: tagNameWithHighlight = (name: string) => {
       {/each}
     </div>
   </div>
+  {#if search?.length >= minQueryLength && !tagResults.length && !allowCustomTags}
+    <span class="text-xs font-bold text-rose-300">No tags found</span>
+  {/if}
   <!-- selected tags -->
   {#if selectedTags?.length}
     <div class="flex flex-wrap gap-2 pt-2">
       {#each selectedTags as tag}
         <div class="flex items-center p-1 rounded-md bg-white/10">
-          <span class="px-1 text-sm">{tag.name}</span>
+          <span class="px-1 text-xs font-bold text-white/60">{tag.name}</span>
           <button
             title="Remove tag '{tag.name}'"
-            class="p-1 transition-all duration-100 ease-in-out rounded-md hover:bg-white/10 active:scale-90"
+            class="p-[2px] transition-all text-white/60 hover:text-white duration-100 ease-in-out rounded-md hover:bg-white/10 active:scale-90"
             on:click|preventDefault={() => removeTag(tag)}
           >
             <Icon icon="fluent:dismiss-12-filled" class="w-4 h-4" />

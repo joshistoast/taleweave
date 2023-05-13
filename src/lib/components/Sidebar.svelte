@@ -86,6 +86,14 @@ type subTreeItem = {
   href: string
 }
 const subTree: subTreeItem[] = [
+    {
+    label: 'Github',
+    href: 'https://github.com/joshwcorbett/taleweave',
+  },
+  {
+    label: 'Discord',
+    href: 'https://discord.gg/CXz9Aqb9My',
+  },
   {
     label: 'Privacy Policy',
     href: 'https://github.com/joshwcorbett/taleweave/blob/terms-and-privacy/PRIVACY.md',
@@ -93,10 +101,6 @@ const subTree: subTreeItem[] = [
   {
     label: 'Terms of Service',
     href: 'https://github.com/joshwcorbett/taleweave/blob/terms-and-privacy/TOS.md',
-  },
-  {
-    label: 'Github',
-    href: 'https://github.com/joshwcorbett/taleweave',
   },
 ]
 </script>
@@ -113,7 +117,7 @@ const subTree: subTreeItem[] = [
   <nav class="grid px-2">
     {#each tree as group}
       {#if group.some(item => item.show === undefined || item.show())}
-        <div class="grid gap-1 py-2">
+        <div class="grid py-2">
           {#each group as item}
             {#if item.show === undefined || item.show()}
               {#if item.type === 'heading'}
@@ -121,7 +125,7 @@ const subTree: subTreeItem[] = [
               {:else if item.type === 'link'}
                 <a
                   class="
-                    text-sm px-3 py-2 rounded-lg flex items-center gap-2 hover:bg-white/10 transition-all duration-100 ease-in-out
+                    text-sm px-3 py-3 font-semibold rounded-lg flex items-center gap-2 hover:bg-white/10 transition-all duration-100 ease-in-out
                     { item.href === path ? 'text-orange-300' : 'text-gray-400 hover:text-gray-100' }
                   "
                   href={item.href}
@@ -143,9 +147,13 @@ const subTree: subTreeItem[] = [
 
   <nav class="grid gap-2 px-2">
     {#each subTree as { label, href }}
-      <a {href} class="flex items-center gap-2 px-3 text-sm text-gray-500 hover:text-gray-300">
+      <a
+        {href}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="flex items-center gap-2 px-3 text-sm text-gray-500 hover:text-gray-300"
+      >
         <span>{label}</span>
-        <Icon icon="lucide:external-link" class="w-4 h-4" />
       </a>
     {/each}
   </nav>

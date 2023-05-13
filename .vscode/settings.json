@@ -4,6 +4,9 @@
     "bookmarks",
     "editor",
     "tags",
-    "landing"
+    "landing",
+    "search",
+    "feed",
+    "layout"
   ]
 }

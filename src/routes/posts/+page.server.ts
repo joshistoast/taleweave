@@ -1,10 +1,15 @@
 import db from '$lib/server/db'
 import type { PageServerLoad } from './$types'
 import { postOfFeedSelect } from '$lib/data'
+import type { Rating } from '@prisma/client'
 
 export const load: PageServerLoad = async ({ params, url }) => {
   const isFeatured = url.searchParams.get('featured') === 'true'
+
   const tagsFilter = url.searchParams.get('tags')?.split(',') ?? undefined
+  const searchQuery = url.searchParams.get('search') ?? undefined
+  const ratingsFilter = url.searchParams.get('ratings')?.split(',') ?? undefined
+  const sortFilter = url.searchParams.get('sort') ?? undefined
 
   const title = isFeatured ? 'Featured Posts' : 'Browse Everything'
   const description = isFeatured
@@ -13,6 +18,8 @@ export const load: PageServerLoad = async ({ params, url }) => {
 
   // returns false if tagsFilter is empty or ['']
   const hasTags = tagsFilter?.length && tagsFilter[0] !== ''
+  const hasSearch = searchQuery?.length && searchQuery !== ''
+  const hasRating = ratingsFilter?.length && ratingsFilter[0] !== ''
 
   // get tags in url query
   const tags = hasTags ? await db.tag.findMany({
@@ -40,13 +47,29 @@ export const load: PageServerLoad = async ({ params, url }) => {
     where: {
       published: true,
       featured: isFeatured ? true : undefined,
-      tags: (hasTags && tags?.length) ? {
-        some: {
-          name: {
-            in: tags.map(tag => tag.name),
+      AND: [
+        hasTags ? {
+          tags: {
+            some: {
+              name: { in: tagsFilter.map(tag => tag.toLowerCase()) },
+            }
           }
-        }
-      } : undefined,
+        } : {},
+        hasSearch ? {
+          OR: [
+            // it's not full text search but it's good enough for now
+            { title: { contains: searchQuery }},
+            { description: { contains: searchQuery }},
+            { content: { contains: searchQuery }},
+            { tags: { some: { name: { contains: searchQuery }}}},
+          ],
+        } : {},
+        hasRating ? {
+          rating: {
+            in: ratingsFilter as Rating[],
+          }
+        } : {},
+      ],
     },
     select: {
       ...postOfFeedSelect,
