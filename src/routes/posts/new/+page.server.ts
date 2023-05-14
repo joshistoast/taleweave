@@ -1,6 +1,7 @@
 import db from '$lib/server/db'
 import type { Post } from '@prisma/client'
 import type { PageServerLoad } from './$types'
+import { validatePost } from '$lib/utils'
 import {
   redirect,
   fail,
@@ -27,40 +28,27 @@ export const actions: Actions = {
     const { user, session } = await locals.auth.validateUser()
 
     if (!(user && session))
-      throw redirect(302, '/login')
+      throw redirect(302, '/login?redirect=/posts/new')
 
     let message = ''
 
-    const {
-      content,
-      title,
-      description,
-      published,
-      rating,
-      tags,
-    } = Object.fromEntries(await request.formData()) as Record<string, string>
-
-    const minContentLength = 50
-    if (!content?.length)
-      return fail(400, { success: false, message: 'Content is required' })
-    if (content.length < minContentLength)
-      // TODO: Properly count characters in richtext
-      return fail(400, { success: false, message: 'Content is too short' })
+    const formData = Object.fromEntries(await request.formData()) as Record<string, string>
+    const published = formData.published === 'true' ? true : false
 
     // Process Tags
-    const tagNames = tags.split(',').map((tag) => tag.trim())
+    const tagNames = formData.tags.split(',').map((tag) => tag.trim())
 
-    if (tagNames.length > 5)
-      return fail(400, { success: false, message: 'Too many tags, use 5 or less.' })
+    const validationResult = await validatePost.safeParseAsync(formData)
+    if (!validationResult.success) {
+      message = validationResult.error.issues.map((issue) => issue.message).join(', ')
+      return fail(400, { success: false, message})
+    }
 
-    const res = await db.post.create({
+    const newPost = await db.post.create({
       data: {
-        content,
-        title,
-        description,
+        ...formData,
+        published,
         authorId: user.userId,
-        published: published === 'true',
-        rating,
         tags: {
           connectOrCreate: tagNames.map((name) => ({
             create: { name },
@@ -82,10 +70,10 @@ export const actions: Actions = {
         return { success: true, post }
       })
 
-    if (!res.success) {
+    if (!newPost.success) {
       return fail(400, { success: false, message })
     } else {
-      throw redirect(302, `/posts/${res.post.id}`)
+      throw redirect(302, `/posts/${newPost.post.id}`)
     }
   },
 }

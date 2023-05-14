@@ -1,5 +1,6 @@
 import { redirect } from '@sveltejs/kit'
 import type { AuthUser, Rating } from '@prisma/client'
+import { z } from 'zod'
 export * from './types'
 
 export const doRedirect = (url: URL, hasSession: boolean) => {
@@ -72,3 +73,27 @@ export const clickOutside = (node: Element) => {
     }
   }
 }
+
+export const validatePost = z.object({
+  title: z
+    .string()
+    .min(5, { message: 'Your title is too short' })
+    .max(100, { message: 'Your title is too long' })
+    .regex(/^[a-zA-Z0-9 ]+$/, { message: 'Your title can only contain letters, numbers, and spaces' }),
+  description: z.optional(z
+    .string()
+    .max(100, { message: 'Your description is too long' })
+  ),
+  content: z
+    .string()
+    .min(50, { message: 'Your story is too short' }), //TODO: get actual character count from richtext
+  published: z
+    .string()
+    .regex(/^(true|false)$/, { message: 'Published must be true or false' }),
+  rating: z
+    .string(),
+  tags: z.string().refine(tags => {
+    const tagNames = tags.split(',').map(tag => tag.trim());
+    return tagNames.length <= 5;
+  }, { message: 'You\'ve added too many tags, use 5 or less.' }),
+})

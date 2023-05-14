@@ -40,6 +40,7 @@
     "@tiptap/pm": "^2.0.3",
     "@tiptap/starter-kit": "^2.0.3",
     "@vercel/analytics": "^1.0.1",
-    "lucia-auth": "^1.5.0"
+    "lucia-auth": "^1.5.0",
+    "zod": "^3.21.4"
   }
 }
