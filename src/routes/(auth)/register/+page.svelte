@@ -6,17 +6,23 @@ export let form: ActionData
 
 let username: string
 let password: string
+let email: string
 let confirmPassword: string
 
 $: passwordsMatch = password === confirmPassword
-$: canSubmit = username && password && passwordsMatch
+$: canSubmit = username && email && password && passwordsMatch
 </script>
 
 <form
   method="POST"
-  class="grid gap-4 p-4"
+  class="grid gap-4"
   use:enhance
 >
+
+  <label class="grid">
+    <span>Email</span>
+    <input bind:value={email} class="px-3 py-2 rounded-md" type="email" name="email" required />
+  </label>
 
   <label class="grid">
     <span>Username</span>

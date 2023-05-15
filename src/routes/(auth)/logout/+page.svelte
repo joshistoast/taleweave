@@ -1,7 +1,7 @@
 <script lang="ts">
 </script>
 
-<form method="POST" class="grid gap-4 p-4">
+<form method="POST" class="grid gap-4">
   <p>Are you sure you want to log out?</p>
 
   <div class="flex gap-2">

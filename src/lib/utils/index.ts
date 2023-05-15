@@ -1,6 +1,7 @@
 import { redirect } from '@sveltejs/kit'
 import type { AuthUser, Rating } from '@prisma/client'
 import { z } from 'zod'
+import forbiddenUsernames from './forbiddenUsernames'
 export * from './types'
 
 export const doRedirect = (url: URL, hasSession: boolean) => {
@@ -96,4 +97,46 @@ export const validatePost = z.object({
     const tagNames = tags.split(',').map(tag => tag.trim());
     return tagNames.length <= 5;
   }, { message: 'You\'ve added too many tags, use 5 or less.' }),
+})
+
+export const validateUsername = z.object({
+  username: z
+    .string()
+    .min(3, { message: 'Your username is too short' })
+    .max(20, { message: 'Your username is too long' })
+    .regex(/^[a-zA-Z0-9]+$/, { message: 'Your username can only contain letters and numbers' })
+    .refine(username => !forbiddenUsernames.includes(username), { message: 'This username is not allowed' }),
+})
+
+export const validatePassword = z.object({
+  password: z
+    .string()
+    .min(8, { message: 'Your password is too short' })
+    .max(100, { message: 'Your password is too long' }),
+})
+
+export const validateEmail = z.object({
+  email: z
+    .string()
+    .email({ message: 'Please enter a valid email address' }),
+})
+
+export const validateDisplayName = z.object({
+  displayName: z
+    .string()
+    .min(3, { message: 'Your display name is too short' })
+    .max(20, { message: 'Your display name is too long' })
+    .regex(/^[a-zA-Z0-9 ]+$/, { message: 'Your display name can only contain letters, numbers, and spaces' })
+    .refine(displayName => !forbiddenUsernames.includes(displayName), { message: 'This display name is not allowed' }),
+})
+
+export const validateLogin = z.object({
+  email: validateEmail.shape.email,
+  password: validatePassword.shape.password,
+})
+
+export const validateSignup = z.object({
+  username: validateUsername.shape.username,
+  password: validatePassword.shape.password,
+  email: validateEmail.shape.email,
 })

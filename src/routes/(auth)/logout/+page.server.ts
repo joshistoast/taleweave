@@ -12,7 +12,11 @@ export const load: PageServerLoad = async ({ locals }) => {
     page: {
       title: 'Log out',
       robots: 'noindex',
-    }
+    },
+    props: {
+      title: 'Log out',
+      description: 'Come back soon!'
+    },
   }
 }
 

@@ -1,8 +1,8 @@
-import { error, fail, redirect } from '@sveltejs/kit'
+import { fail, redirect } from '@sveltejs/kit'
 import { auth } from '$lib/server/auth'
 import type { PageServerLoad, Actions } from './$types'
+import { validateSignup } from '$lib/utils'
 
-// redirect to home if already has valid session
 export const load: PageServerLoad = async ({ locals }) => {
   const session = await locals.auth.validate()
   if (session) {
@@ -10,7 +10,11 @@ export const load: PageServerLoad = async ({ locals }) => {
   }
   return {
     page: {
-      title: 'Register a new account',
+      title: 'Join Taleweave',
+    },
+    props: {
+      title: 'Join Taleweave.',
+      description: 'Create an account to access all of the features of the platform.',
     }
   }
 }
@@ -20,25 +24,25 @@ export const actions: Actions = {
   default: async ({ request }) => {
     let message = ''
 
-    const { username, password } = Object.fromEntries(
-      await request.formData()
-    ) as Record<string, string>
+    const formData = Object.fromEntries(await request.formData()) as Record<string, string>
 
-    if (!username || !password) {
-      message = 'Username and password are required'
+    const validationResult = await validateSignup.safeParseAsync(formData)
+    if (!validationResult.success) {
+      message = validationResult.error.issues.map((issue) => issue.message).join(', ')
       return fail(400, { success: false, message })
     }
 
     // create user
     const res = await auth.createUser({
       primaryKey: {
-        providerId: 'username',
-        providerUserId: username,
-        password
+        providerId: 'email',
+        providerUserId: formData.email,
+        password: formData.password,
       },
       attributes: {
-        username,
-        displayName: username,
+        email: formData.email,
+        username: formData.username,
+        displayName: formData.username,
       },
     })
       .then(() => {
