@@ -66,12 +66,11 @@ export const actions: Actions = {
         author: true,
       },
     })
-
     if (!post)
       return fail(404, { success: false, message: 'Post was either deleted or does not exist' })
 
-    // if the user is not the author of the post, return 403
-    if (post.author.id !== user.userId)
+    const isAuthorized = (post.author.id === user.userId) || user.role === 'admin'
+    if (!isAuthorized)
       return fail(403, { success: false, message: 'You are not authorized to delete this post' })
 
     // delete bookmarks of the post first
@@ -94,6 +93,7 @@ export const actions: Actions = {
         return { success: true }
       })
       .catch((err) => {
+        console.error(err)
         switch (err.message) {
           default:
             message = 'Could not delete post'
@@ -109,11 +109,10 @@ export const actions: Actions = {
   },
   bookmark: async ({ locals, params }) => {
     const { user, session } = await locals.auth.validateUser()
-
     const { id } = params
+
     if (!id)
       return fail(400, { success: false, message: 'Post ID is required' })
-
     if (!(user && session))
       throw redirect(302, `/login?redirectTo=/posts/${id}`)
 
@@ -154,4 +153,54 @@ export const actions: Actions = {
       message,
     }
   },
+  feature: async ({ locals, params }) => {
+    const { user, session } = await locals.auth.validateUser()
+
+    if (!(user && session))
+      throw redirect(302, `/login?redirectTo=/posts/${params.id}`)
+    if (user.role !== 'admin')
+      return fail(403, { success: false, message: 'You are not authorized to feature this post' })
+
+    const { id } = params
+    if (!id)
+      return fail(400, { success: false, message: 'Post ID is required' })
+
+    let message = ''
+    let isFeatured: boolean
+
+    // check if the post is already featured
+    // if so, remove the feature
+    const existingFeature = await db.post.findFirst({
+      where: {
+        id,
+        featured: true,
+      }
+    })
+    if (existingFeature) {
+      await db.post.update({
+        where: { id },
+        data: {
+          featured: false,
+        }
+      })
+      isFeatured = false
+      message = 'Removed featured status from the post'
+    } else {
+      // if not, feature the post
+      await db.post.update({
+        where: { id },
+        data: {
+          featured: true,
+        }
+      })
+      isFeatured = true
+      message = 'Post status changed to featured'
+    }
+
+    return {
+      isFeatured,
+      success: true,
+      message,
+    }
+  }
 }

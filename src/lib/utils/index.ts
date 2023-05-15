@@ -34,23 +34,10 @@ export const useRating = (rating: Rating | string) => {
       return 'Teen'
     case 'm':
       return 'Mature'
-    case 'e':
+    case 'x':
       return 'Explicit (18+)'
     default:
       return 'Unknown'
-  }
-}
-
-export const useRatingIcon = (rating: Rating | string) => {
-  switch (rating) {
-    case 's':
-      return 'fluent:people-24-filled'
-    case 't':
-      return 'material-symbols:generating-tokens-rounded'
-    case 'm':
-      return 'fluent:rating-mature-24-filled'
-    case 'e':
-      return 'material-symbols:explicit-rounded'
   }
 }
 

@@ -14,14 +14,14 @@ import { useRating } from '$lib/utils'
 //   { name: 'Rating', value: 'rating' },
 //   { name: 'Title', value: 'title' },
 // ]
-const ratingOptions = ['s', 't', 'm', 'e']
+const ratingOptions = ['s', 't', 'm', 'x']
 
 export let search: string = $page.url.searchParams.get('search') || ''
 export let tags: Tag[] = []
 export let ratings = $page.url.searchParams.get('ratings') || undefined
 // export let sorting = sortOptions[0]
 
-$: selectedRatings = ratings?.split(',') || ['s', 't', 'm', 'e']
+$: selectedRatings = ratings?.split(',') || ratingOptions
 $: isRatingSelected = (rating: Rating | string) => selectedRatings.includes(rating)
 const toggleRating = (rating: Rating | string) => {
   if (isRatingSelected(rating)) {
