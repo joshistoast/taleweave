@@ -16,8 +16,8 @@ $: bookmarked = isBookmarked
 $: bookmarksCount = post._count?.bookmarks
 $: featured = post.featured
 
-let score: number
-$: score = data.score.value
+let score: number | undefined
+$: score = data.score?.value
 $: scoreIsValid = score !== undefined && score >= 0 && score <= 5
 
 const goBack = () => history.back()
@@ -102,33 +102,35 @@ const handleDelete = async (e: any) => {
   {@html post.content}
 </div>
 
-<div class="grid w-full gap-4 px-4 py-10 border-t border-white/10">
-  <div>
-    <h2 class="font-serif text-2xl font-bold lg:text-4xl">How was it?</h2>
-    <p class="text-sm text-white/50">Let the author know what you thought of their post by rating it out of 5.</p>
-  </div>
-
-  {#if form?.message}
-    <p class="text-sm text-white/50">{form.message}</p>
-  {/if}
-
-  <form
-    method="POST"
-    action="/posts/{post.id}?/score"
-    class="flex flex-col items-start gap-4"
-    use:enhance
-  >
-    <div class="flex items-center gap-1">
-      {#each Array.from({ length: 5 }) as s, i}
-        <button on:click|preventDefault={() => score = i} class="{score >= i ? 'text-orange-300' : 'text-white/50'} hover:text-orange-300 hover:scale-105">
-          <Icon icon="{score >= i ? 'fluent:star-24-filled' : 'fluent:star-24-regular'}" class="w-10 h-10" />
-        </button>
-      {/each}
+{#if (post.author.id !== user?.userId) && user?.userId}
+  <div class="grid w-full gap-4 px-4 py-10 border-t border-white/10">
+    <div>
+      <h2 class="font-serif text-2xl font-bold lg:text-4xl">How was it?</h2>
+      <p class="text-sm text-white/50">Let the author know what you thought of their post by rating it out of 5.</p>
     </div>
-    <input type="hidden" name="value" value="{score}" />
-    <button disabled={!scoreIsValid} class="flex items-center gap-2 px-3 py-2 text-orange-300 rounded-md hover:bg-orange-400/20 disabled:bg-white/10 disabled:text-white/50 bg-orange-400/10">
-      <Icon icon="fluent:checkmark-24-filled" class="w-5 h-5" />
-      <span>Submit</span>
-    </button>
-  </form>
-</div>
+
+    {#if form?.message}
+      <p class="text-sm text-white/50">{form.message}</p>
+    {/if}
+
+    <form
+      method="POST"
+      action="/posts/{post.id}?/score"
+      class="flex flex-col items-start gap-4"
+      use:enhance
+    >
+      <div class="flex items-center gap-1">
+        {#each Array.from({ length: 5 }) as s, i}
+          <button on:click|preventDefault={() => score = i} class="{score >= i ? 'text-orange-300' : 'text-white/50'} hover:text-orange-300 hover:scale-105">
+            <Icon icon="{score >= i ? 'fluent:star-24-filled' : 'fluent:star-24-regular'}" class="w-10 h-10" />
+          </button>
+        {/each}
+      </div>
+      <input type="hidden" name="value" value="{score}" />
+      <button disabled={!scoreIsValid} class="flex items-center gap-2 px-3 py-2 text-orange-300 rounded-md hover:bg-orange-400/20 disabled:bg-white/10 disabled:text-white/50 bg-orange-400/10">
+        <Icon icon="fluent:checkmark-24-filled" class="w-5 h-5" />
+        <span>Submit</span>
+      </button>
+    </form>
+  </div>
+{/if}
