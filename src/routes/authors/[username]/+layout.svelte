@@ -36,6 +36,11 @@ const nav: AuthorNav[] = [
     href: `/authors/${username}/preferences`,
     show: () => user?.userId === author?.id,
   },
+  {
+    label: 'Log Out',
+    href: '/logout',
+    show: () => user?.userId === author?.id,
+  }
 ]
 </script>
 

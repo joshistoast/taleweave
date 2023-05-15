@@ -76,13 +76,6 @@ $: tree = [
       icon: 'fluent:person-key-20-filled',
       show: () => !user,
     },
-    {
-      type: 'link',
-      label: 'Log Out',
-      href: '/logout',
-      icon: 'fluent:sign-out-24-filled',
-      show: () => !!user,
-    },
   ],
 ]
 
@@ -110,60 +103,63 @@ const subTree: subTreeItem[] = [
 ]
 </script>
 
-<div class="grid gap-4 py-6">
+<div class="grid content-between h-full gap-4 py-6">
 
-  <div class="flex items-center justify-between px-2">
-    <Brand />
-    <button on:click={closeSidebar} class="p-3 rounded-md hover:bg-white/10 lg:hidden">
-      <Icon icon="fluent:dismiss-24-filled" class="w-5 h-5" />
-    </button>
+  <div class="grid gap-4">
+    <div class="flex items-center justify-between px-2">
+      <Brand />
+      <button on:click={closeSidebar} class="p-3 rounded-md hover:bg-white/10 lg:hidden">
+        <Icon icon="fluent:dismiss-24-filled" class="w-5 h-5" />
+      </button>
+    </div>
+
+    <nav class="grid px-2">
+      {#each tree as group}
+        {#if group.some(item => item.show === undefined || item.show())}
+          <div class="grid py-2">
+            {#each group as item}
+              {#if item.show === undefined || item.show()}
+                {#if item.type === 'heading'}
+                  <span class="px-2 text-xs font-bold text-gray-500 uppercase">{ item.label }</span>
+                {:else if item.type === 'link'}
+                  <a
+                    class="
+                      text-sm px-3 py-3 font-semibold rounded-lg flex items-center gap-2 hover:bg-white/10 transition-all duration-100 ease-in-out
+                      { item.href === path ? 'text-orange-300' : 'text-white/40 hover:text-white/80' }
+                    "
+                    href={item.href}
+                  >
+                    {#if item.icon}
+                      <Icon icon={item.icon} class="w-5 h-5" />
+                    {/if}
+                    <span>
+                      { item.label }
+                    </span>
+                  </a>
+                {:else if item.type === 'button'}
+                  <a
+                    href={item.href}
+                    class="
+                      flex items-center gap-2 p-3 text-sm font-semibold transition-all duration-100 ease-in-out rounded-lg
+                      {item.href === path ? 'bg-orange-300 text-gray-900' : 'hover:bg-orange-400/20 bg-orange-400/10 text-orange-300'}
+                    "
+                  >
+                    {#if item.icon}
+                      <Icon icon={item.icon} class="w-5 h-5" />
+                    {/if}
+                    <span>
+                      { item.label }
+                    </span>
+                  </a>
+                {/if}
+              {/if}
+            {/each}
+          </div>
+        {/if}
+      {/each}
+    </nav>
   </div>
 
-  <nav class="grid px-2">
-    {#each tree as group}
-      {#if group.some(item => item.show === undefined || item.show())}
-        <div class="grid py-2">
-          {#each group as item}
-            {#if item.show === undefined || item.show()}
-              {#if item.type === 'heading'}
-                <span class="px-2 text-xs font-bold text-gray-500 uppercase">{ item.label }</span>
-              {:else if item.type === 'link'}
-                <a
-                  class="
-                    text-sm px-3 py-3 font-semibold rounded-lg flex items-center gap-2 hover:bg-white/10 transition-all duration-100 ease-in-out
-                    { item.href === path ? 'text-orange-300' : 'text-white/40 hover:text-white/80' }
-                  "
-                  href={item.href}
-                >
-                  {#if item.icon}
-                    <Icon icon={item.icon} class="w-5 h-5" />
-                  {/if}
-                  <span>
-                    { item.label }
-                  </span>
-                </a>
-              {:else if item.type === 'button'}
-                <a
-                  href={item.href}
-                  class="
-                    flex items-center gap-2 p-3 text-sm font-semibold transition-all duration-100 ease-in-out rounded-lg
-                    {item.href === path ? 'bg-orange-300 text-gray-900' : 'hover:bg-orange-400/20 bg-orange-400/10 text-orange-300'}
-                  "
-                >
-                  {#if item.icon}
-                    <Icon icon={item.icon} class="w-5 h-5" />
-                  {/if}
-                  <span>
-                    { item.label }
-                  </span>
-                </a>
-              {/if}
-            {/if}
-          {/each}
-        </div>
-      {/if}
-    {/each}
-  </nav>
 
   <nav class="grid gap-2 px-2">
     {#each subTree as { label, href }}
