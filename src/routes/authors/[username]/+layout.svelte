@@ -10,14 +10,15 @@ $: user = $page.data.user
 export let data: LayoutServerData
 
 const { username } = $page.params
-const { author } = data
+$: ({ author } = data)
 
 type AuthorNav = {
   label: string
   href: string
   show?: () => boolean | boolean
 }
-const nav: AuthorNav[] = [
+let nav: AuthorNav[] = []
+$: nav = [
   {
     label: 'About',
     href: `/authors/${username}`,
@@ -45,10 +46,8 @@ const nav: AuthorNav[] = [
 </script>
 
 <div class="p-4">
-  <h1 class="text-lg font-bold lg:text-4xl">{author?.displayName || username}</h1>
-  {#if author?.displayName}
-    <p class="text-sm text-gray-500">{author.username}</p>
-  {/if}
+  <h1 class="font-serif text-lg font-bold lg:text-4xl">{author.displayName}</h1>
+  <p class="text-sm text-gray-500">{author.username}</p>
 </div>
 
 <Tabs selected={ +nav.indexOf(nav.find(({ href }) => href === pathname)) }>
