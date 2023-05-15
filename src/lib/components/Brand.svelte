@@ -6,5 +6,8 @@ import Logo from './Logo.svelte'
   <div class="w-8 h-8">
     <Logo />
   </div>
-  <span class="px-2 text-lg font-bold">Taleweave</span>
+  <div class="flex flex-col items-start px-2">
+    <span class="text-lg font-bold leading-none">Taleweave</span>
+    <span class="text-xs font-bold rounded-full text-white/60">Alpha</span>
+  </div>
 </a>

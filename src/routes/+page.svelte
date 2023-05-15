@@ -11,6 +11,12 @@ $: ({ recentlyFeatured, recentlyPublished } = data)
 
 <div class="grid gap-4">
 
+  <div class="p-4 mx-4 mt-4 rounded-md bg-white/10">
+    <p>
+      Taleweave as a platform is in alpha and under active development. If you find any bugs or issues, please file an issue on our <a class="text-orange-300 hover:text-orange-400" target="_blank" href="https://github.com/joshwcorbett/taleweave">Github</a>.
+    </p>
+  </div>
+
   <div class="grid gap-4 px-4 pt-8">
     <div class="w-12 h-12 p-2 text-orange-300 bg-white/5 lg:p-3 lg:w-20 lg:h-20 rounded-xl">
       <Logo />

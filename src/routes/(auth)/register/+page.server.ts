@@ -20,7 +20,6 @@ export const load: PageServerLoad = async ({ locals }) => {
 }
 
 export const actions: Actions = {
-  // Register a new user with a username and password
   default: async ({ request }) => {
     let message = ''
 
@@ -55,6 +54,7 @@ export const actions: Actions = {
           message = 'An author with that username already exists'
         } else {
           message = 'Something went wrong with registration'
+          console.error(e)
         }
         return { success: false }
       })
