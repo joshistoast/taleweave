@@ -10,7 +10,7 @@ $: path = $page.url.pathname + $page.url.search
 const closeSidebar = () => sidebarOpen.set(false)
 
 type SidebarItemBase = {
-  type: 'link' | 'heading',
+  type: 'link' | 'heading' | 'button',
   label: string,
   show?: () => boolean | boolean
 }
@@ -19,17 +19,22 @@ type SidebarLink = SidebarItemBase & {
   href: string,
   icon?: string,
 }
+type SidebarButton = SidebarItemBase & {
+  type: 'button',
+  href: string,
+  icon?: string,
+}
 type SidebarHeading = SidebarItemBase & {
   type: 'heading',
 }
-type SidebarItem = SidebarLink | SidebarHeading
+type SidebarItem = SidebarButton | SidebarLink | SidebarHeading
 type SidebarGroup = SidebarItem[]
 
 let tree: SidebarGroup[] = []
 $: tree = [
   [
     {
-      type: 'link',
+      type: 'button',
       label: 'Write',
       href: '/posts/new',
       icon: 'fluent:edit-24-filled',
@@ -129,6 +134,21 @@ const subTree: subTreeItem[] = [
                     { item.href === path ? 'text-orange-300' : 'text-white/40 hover:text-white/80' }
                   "
                   href={item.href}
+                >
+                  {#if item.icon}
+                    <Icon icon={item.icon} class="w-5 h-5" />
+                  {/if}
+                  <span>
+                    { item.label }
+                  </span>
+                </a>
+              {:else if item.type === 'button'}
+                <a
+                  href={item.href}
+                  class="
+                    flex items-center gap-2 p-3 text-sm font-semibold transition-all duration-100 ease-in-out rounded-lg
+                    {item.href === path ? 'bg-orange-300 text-gray-900' : 'hover:bg-orange-400/20 bg-orange-400/10 text-orange-300'}
+                  "
                 >
                   {#if item.icon}
                     <Icon icon={item.icon} class="w-5 h-5" />
