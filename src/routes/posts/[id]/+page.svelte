@@ -55,10 +55,12 @@ const handleDelete = async (e: any) => {
         </button>
       </form>
 
-      <a href="/posts/{post.id}/edit" class="flex items-center gap-2 text-sm text-white/50 hover:text-gray-100">
-        <Icon icon="fluent:edit-24-filled" class="w-5 h-5" />
-        <span>Edit</span>
-      </a>
+      {#if (post.author.id === user?.userId)}
+        <a href="/posts/{post.id}/edit" class="flex items-center gap-2 text-sm text-white/50 hover:text-gray-100">
+          <Icon icon="fluent:edit-24-filled" class="w-5 h-5" />
+          <span>Edit</span>
+        </a>
+      {/if}
 
       {#if user.role === 'admin'}
         <form method="POST" action="/posts/{post.id}?/feature" use:enhance>
