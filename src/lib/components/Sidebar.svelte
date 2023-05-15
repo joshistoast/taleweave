@@ -30,7 +30,7 @@ $: tree = [
   [
     {
       type: 'link',
-      label: 'New Submission',
+      label: 'Write',
       href: '/posts/new',
       icon: 'fluent:edit-24-filled',
       show: () => !!user,
@@ -126,7 +126,7 @@ const subTree: subTreeItem[] = [
                 <a
                   class="
                     text-sm px-3 py-3 font-semibold rounded-lg flex items-center gap-2 hover:bg-white/10 transition-all duration-100 ease-in-out
-                    { item.href === path ? 'text-orange-300' : 'text-gray-400 hover:text-gray-100' }
+                    { item.href === path ? 'text-orange-300' : 'text-white/40 hover:text-white/80' }
                   "
                   href={item.href}
                 >
