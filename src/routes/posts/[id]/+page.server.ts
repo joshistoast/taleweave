@@ -39,6 +39,7 @@ export const load: PageServerLoad = async ({ params, locals }) => {
     page: {
       title: post.title,
       description: post.description,
+      robots: post.published ? 'index, follow' : 'noindex, nofollow',
     },
   }
 }
