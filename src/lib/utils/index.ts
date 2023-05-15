@@ -111,10 +111,13 @@ export const validateEmail = z.object({
 export const validateDisplayName = z.object({
   displayName: z
     .string()
-    .min(3, { message: 'Your display name is too short' })
-    .max(20, { message: 'Your display name is too long' })
+    .min(3, { message: 'Your display must be at least 3 characters' })
+    .max(20, { message: 'Your display name cannot be more than 20 characters' })
     .regex(/^[a-zA-Z0-9 ]+$/, { message: 'Your display name can only contain letters, numbers, and spaces' })
-    .refine(displayName => !forbiddenUsernames.includes(displayName), { message: 'This display name is not allowed' }),
+    .refine(displayName => {
+      const words = displayName.split(' ');
+      return !words.some(word => forbiddenUsernames.includes(word))
+    }, { message: 'This display name is not allowed' }),
 })
 
 export const validateLogin = z.object({
@@ -126,4 +129,15 @@ export const validateSignup = z.object({
   username: validateUsername.shape.username,
   password: validatePassword.shape.password,
   email: validateEmail.shape.email,
+})
+
+export const validateBio = z.object({
+  bio: z
+    .string()
+    .max(1000, { message: 'Your bio is too long' }),
+})
+
+export const validateUserPreferences = z.object({
+  displayName: validateDisplayName.shape.displayName,
+  bio: validateBio.shape.bio,
 })
