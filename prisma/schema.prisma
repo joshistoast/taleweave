@@ -34,6 +34,7 @@ model Post {
 
   bookmarks   Bookmark[]
   tags        Tag[]
+  scores      Score[]
 
   author      AuthUser @relation(fields: [authorId], references: [id])
   authorId    String
@@ -68,6 +69,23 @@ model Bookmark {
   @@index([userId])
 }
 
+model Score {
+  id        String  @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  post      Post   @relation(fields: [postId], references: [id])
+  postId    String
+
+  user      AuthUser @relation(fields: [userId], references: [id])
+  userId    String
+
+  value     Int
+
+  @@unique([postId, userId])
+  @@index([userId])
+}
+
 model AuthUser {
   id           String   @id @unique @default(uuid())
   createdAt    DateTime @default(now())
@@ -81,6 +99,7 @@ model AuthUser {
   role         Role    @default(user)
 
   bookmarks    Bookmark[]
+  scores       Score[]
 
   auth_session AuthSession[]
   auth_key     AuthKey[]

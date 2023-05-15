@@ -33,9 +33,18 @@ export const load: PageServerLoad = async ({ params, locals }) => {
     }).then((res) => !!res)
   }
 
+  // get user's score
+  const score = await db.score.findFirst({
+    where: {
+      postId: post.id,
+      userId: user?.userId,
+    },
+  })
+
   return {
     post,
     isBookmarked: !!isBookmarkedByUser,
+    score,
     page: {
       title: post.title,
       description: post.description,
@@ -199,6 +208,62 @@ export const actions: Actions = {
 
     return {
       isFeatured,
+      success: true,
+      message,
+    }
+  },
+  score: async ({ locals, params, request }) => {
+    const { user, session } = await locals.auth.validateUser()
+    const { id } = params
+
+    const { value } = Object.fromEntries(await request.formData()) as Record<string, string>
+
+    if (!(user && session))
+      throw redirect(302, `/login?redirectTo=/posts/${params.id}`)
+    if (!value)
+      return fail(400, { success: false, message: 'Score is required' })
+
+    let message = ''
+
+    const post = await db.post.findUnique({
+      where: { id },
+      include: {
+        author: true,
+      }
+    })
+
+    if (!post)
+      return fail(404, { success: false, message: 'Post was either deleted or does not exist' })
+    if (post.authorId === user.userId)
+      return fail(400, { success: false, message: 'You cannot score your own post' })
+
+    // create or update score
+    const existingScore = await db.score.findFirst({
+      where: {
+        postId: id,
+        userId: user.userId,
+      }
+    })
+    if (existingScore) {
+      await db.score.update({
+        where: { id: existingScore.id },
+        data: {
+          value: parseInt(value),
+        }
+      })
+      message = 'Score updated'
+    } else {
+      await db.score.create({
+        data: {
+          postId: id,
+          userId: user.userId,
+          value: parseInt(value),
+        }
+      })
+      message = 'Score added'
+    }
+
+    return {
       success: true,
       message,
     }

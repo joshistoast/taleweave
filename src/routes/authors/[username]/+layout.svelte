@@ -32,6 +32,11 @@ $: nav = [
     show: () => user?.userId === author?.id,
   },
   {
+    label: 'Scored',
+    href: `/authors/${username}/scored`,
+    show: () => user?.userId === author?.id,
+  },
+  {
     label: 'Preferences',
     href: `/authors/${username}/preferences`,
     show: () => user?.userId === author?.id,
