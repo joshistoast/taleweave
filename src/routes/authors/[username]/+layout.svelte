@@ -4,12 +4,11 @@ import type { LayoutServerData } from './$types'
 import Tab from '$lib/components/common/Tab.svelte'
 import Tabs from '$lib/components/common/Tabs.svelte'
 
-$: ({ pathname } = $page.url)
-$: user = $page.data.user
-
 export let data: LayoutServerData
 
-const { username } = $page.params
+$: user = $page.data.user
+$: username = $page.params.username
+$: ({ pathname } = $page.url)
 $: ({ author } = data)
 
 type AuthorNav = {
