@@ -7,13 +7,13 @@ export let form: ActionData
 
 <form
   method="POST"
-  class="grid gap-4 p-4"
+  class="grid gap-4"
   use:enhance
 >
 
   <label class="grid">
-    <span>Username</span>
-    <input class="px-3 py-2 rounded-md" type="text" name="username" required />
+    <span>Email</span>
+    <input class="px-3 py-2 rounded-md" type="email" name="email" required />
   </label>
 
   <label class="grid">

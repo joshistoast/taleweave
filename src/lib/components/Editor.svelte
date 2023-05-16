@@ -10,7 +10,7 @@ import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
 import Placeholder from '@tiptap/extension-placeholder'
 
-const Rating = ['s', 't', 'm', 'e']
+const Rating = ['s', 't', 'm', 'x']
 
 export let id: string | undefined
 export let description: string = ''

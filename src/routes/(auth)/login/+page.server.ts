@@ -5,6 +5,7 @@ import {
 import { auth } from '$lib/server/auth'
 import type { PageServerLoad } from './$types'
 import { doRedirect } from '$lib/utils'
+import { validateLogin } from '$lib/utils'
 
 export const load: PageServerLoad = async ({ locals, url }) => {
   const session = await locals.auth.validate()
@@ -13,6 +14,10 @@ export const load: PageServerLoad = async ({ locals, url }) => {
   return {
     page: {
       title: 'Log in',
+    },
+    props: {
+      title: 'Welcome back.',
+      description: 'Let\'s get you back into your account.',
     }
   }
 }
@@ -22,16 +27,15 @@ export const actions: Actions = {
   default: async ({ request, locals, url }) => {
     let message = ''
 
-    const { username, password } = Object.fromEntries(
-      await request.formData()
-    ) as Record<string, string>
+    const formData = Object.fromEntries(await request.formData()) as Record<string, string>
 
-    if (!username || !password) {
-      message = 'Username and password are required'
+    const validationResult = await validateLogin.safeParseAsync(formData)
+    if (!validationResult.success) {
+      message = validationResult.error.issues.map((issue) => issue.message).join(', ')
       return fail(400, { success: false, message })
     }
 
-    const res = await auth.useKey('username', username, password)
+    const res = await auth.useKey('email', formData.email, formData.password)
       .then(async (key) => {
         const session = await auth.createSession(key.userId)
         locals.auth.setSession(session)
@@ -41,10 +45,10 @@ export const actions: Actions = {
         switch(err.message) {
           case 'AUTH_INVALID_KEY_ID':
           case 'AUTH_INVALID_PASSWORD':
-            message = 'Invalid username or password'
+            message = 'Incorrect email or password'
             break
           default:
-            message = 'Could not log in user'
+            message = 'Could not log in, please try again later'
             break
         }
         return { success: false }

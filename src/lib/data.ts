@@ -55,6 +55,7 @@ export const postOfPageSelect = {
   featured: true,
   rating: true,
   content: true,
+  published: true,
   ...authorOfPostSelect,
   ...countsOfPost,
   ...tagsOfPostSelect,

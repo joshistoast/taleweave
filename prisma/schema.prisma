@@ -8,11 +8,16 @@ datasource db {
   relationMode = "prisma"
 }
 
-enum Rating {
+enum AgeRating {
   s
   t
   m
-  e
+  x
+}
+
+enum Role {
+  user
+  admin
 }
 
 model Post {
@@ -20,21 +25,22 @@ model Post {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  content     String?  @db.LongText
+  content     String?   @db.LongText
   title       String
-  description String?  @db.Text
-  published   Boolean  @default(false)
-  featured    Boolean  @default(false)
-  rating      Rating   @default(s)
+  description String?   @db.Text
+  published   Boolean   @default(false)
+  featured    Boolean   @default(false)
+  rating      AgeRating @default(s)
 
   bookmarks   Bookmark[]
   tags        Tag[]
+  scores      Score[]
 
   author      AuthUser @relation(fields: [authorId], references: [id])
   authorId    String
 
-  @@map("posts")
   @@index([authorId])
+  @@map("posts")
 }
 
 model Tag {
@@ -42,7 +48,7 @@ model Tag {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  name      String   @unique
+  name      String @unique
   posts     Post[]
 
   @@map("tags")
@@ -53,7 +59,7 @@ model Bookmark {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post   @relation(fields: [postId], references: [id])
   postId    String
 
   user      AuthUser @relation(fields: [userId], references: [id])
@@ -63,16 +69,37 @@ model Bookmark {
   @@index([userId])
 }
 
-model AuthUser {
-  id           String        @id @unique @default(uuid())
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
+model Score {
+  id        String  @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  username     String        @unique
-  displayName  String?       @unique
-  bio          String?       @db.Text
+  post      Post   @relation(fields: [postId], references: [id])
+  postId    String
+
+  user      AuthUser @relation(fields: [userId], references: [id])
+  userId    String
+
+  value     Int
+
+  @@unique([postId, userId])
+  @@index([userId])
+}
+
+model AuthUser {
+  id           String   @id @unique @default(uuid())
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  email        String  @unique
+  username     String  @unique
+  displayName  String? @unique
+  bio          String? @db.Text
+
+  role         Role    @default(user)
 
   bookmarks    Bookmark[]
+  scores       Score[]
 
   auth_session AuthSession[]
   auth_key     AuthKey[]

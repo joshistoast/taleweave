@@ -6,6 +6,7 @@ import {
   error,
   type Actions
 } from '@sveltejs/kit'
+import { validatePost } from '$lib/utils'
 
 export const load: PageServerLoad = async ({ locals, params, url }) => {
   const session = await locals.auth.validate()
@@ -51,17 +52,13 @@ export const actions: Actions = {
       throw redirect(302, '/login')
 
     // get form data
-    const {
-      title,
-      description,
-      content,
-      published,
-      rating,
-      tags,
-    } = Object.fromEntries(await request.formData() ) as Record<string, string>
+    const formData = Object.fromEntries(await request.formData()) as Record<string, string>
+    const published = formData.published === 'true' ? true : false
 
-    if (!title || !content) {
-      return fail(400, { success: false, message: 'Title, description, and content are required' })
+    const validationResult = await validatePost.safeParseAsync(formData)
+    if (!validationResult.success) {
+      message = validationResult.error.issues.map((issue) => issue.message).join(', ')
+      return fail(400, { success: false, message })
     }
 
     // check if post exists
@@ -79,21 +76,15 @@ export const actions: Actions = {
       return fail(403, { success: false, message: 'You do not have permission to edit this post' })
 
     // Process Tags
-    const tagNames = tags.split(',').map((tag) => tag.trim())
+    const tagNames = formData.tags.split(',').map((tag) => tag.trim())
     const tagsToRemove = post.tags.filter((tag) => !tagNames.includes(tag.name))
-
-    if (tagNames.length > 5)
-      return fail(400, { success: false, message: 'Too many tags, use 5 or less.' })
 
     // update post
     const res = await db.post.update({
       where: { id },
       data: {
-        title,
-        description,
-        content,
-        published: published === 'true',
-        rating,
+        ...formData,
+        published,
         tags: {
           connectOrCreate: tagNames.map((name) => ({
             create: { name },

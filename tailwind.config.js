@@ -27,6 +27,7 @@ export default {
             '--tw-prose-bullets': theme('colors.gray.500'),
             '--tw-prose-pre-code': theme('colors.gray.100'),
             '--tw-prose-pre-bg': theme('colors.gray.900'),
+            '--tw-prose-code': theme('colors.gray.100'),
 
             // overrides
             fontFamily: theme('fontFamily.serif'),

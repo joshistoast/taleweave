@@ -33,12 +33,22 @@ export const load: PageServerLoad = async ({ params, locals }) => {
     }).then((res) => !!res)
   }
 
+  // get user's score
+  const score = await db.score.findFirst({
+    where: {
+      postId: post.id,
+      userId: user?.userId,
+    },
+  })
+
   return {
     post,
     isBookmarked: !!isBookmarkedByUser,
+    score,
     page: {
       title: post.title,
       description: post.description,
+      robots: post.published ? 'index, follow' : 'noindex, nofollow',
     },
   }
 }
@@ -65,15 +75,14 @@ export const actions: Actions = {
         author: true,
       },
     })
-
     if (!post)
       return fail(404, { success: false, message: 'Post was either deleted or does not exist' })
 
-    // if the user is not the author of the post, return 403
-    if (post.author.id !== user.userId)
+    const isAuthorized = (post.author.id === user.userId) || user.role === 'admin'
+    if (!isAuthorized)
       return fail(403, { success: false, message: 'You are not authorized to delete this post' })
 
-    // delete bookmarks of the post first
+    // delete bookmarks of the post
     await db.bookmark.deleteMany({
       where: { postId: id }
     })
@@ -81,6 +90,17 @@ export const actions: Actions = {
         switch (err.message) {
           default:
             message = 'Could not delete bookmarks of the post'
+        }
+        return { success: false }
+      })
+    // delete scores of the post
+    await db.score.deleteMany({
+      where: { postId: id }
+    })
+      .catch((err) => {
+        switch (err.message) {
+          default:
+            message = 'Could not delete scores of the post'
         }
         return { success: false }
       })
@@ -93,6 +113,7 @@ export const actions: Actions = {
         return { success: true }
       })
       .catch((err) => {
+        console.error(err)
         switch (err.message) {
           default:
             message = 'Could not delete post'
@@ -108,11 +129,10 @@ export const actions: Actions = {
   },
   bookmark: async ({ locals, params }) => {
     const { user, session } = await locals.auth.validateUser()
-
     const { id } = params
+
     if (!id)
       return fail(400, { success: false, message: 'Post ID is required' })
-
     if (!(user && session))
       throw redirect(302, `/login?redirectTo=/posts/${id}`)
 
@@ -153,4 +173,110 @@ export const actions: Actions = {
       message,
     }
   },
+  feature: async ({ locals, params }) => {
+    const { user, session } = await locals.auth.validateUser()
+
+    if (!(user && session))
+      throw redirect(302, `/login?redirectTo=/posts/${params.id}`)
+    if (user.role !== 'admin')
+      return fail(403, { success: false, message: 'You are not authorized to feature this post' })
+
+    const { id } = params
+    if (!id)
+      return fail(400, { success: false, message: 'Post ID is required' })
+
+    let message = ''
+    let isFeatured: boolean
+
+    // check if the post is already featured
+    // if so, remove the feature
+    const existingFeature = await db.post.findFirst({
+      where: {
+        id,
+        featured: true,
+      }
+    })
+    if (existingFeature) {
+      await db.post.update({
+        where: { id },
+        data: {
+          featured: false,
+        }
+      })
+      isFeatured = false
+      message = 'Removed featured status from the post'
+    } else {
+      // if not, feature the post
+      await db.post.update({
+        where: { id },
+        data: {
+          featured: true,
+        }
+      })
+      isFeatured = true
+      message = 'Post status changed to featured'
+    }
+
+    return {
+      isFeatured,
+      success: true,
+      message,
+    }
+  },
+  score: async ({ locals, params, request }) => {
+    const { user, session } = await locals.auth.validateUser()
+    const { id } = params
+
+    const { value } = Object.fromEntries(await request.formData()) as Record<string, string>
+
+    if (!(user && session))
+      throw redirect(302, `/login?redirectTo=/posts/${params.id}`)
+    if (!value)
+      return fail(400, { success: false, message: 'Score is required' })
+
+    let message = ''
+
+    const post = await db.post.findUnique({
+      where: { id },
+      include: {
+        author: true,
+      }
+    })
+
+    if (!post)
+      return fail(404, { success: false, message: 'Post was either deleted or does not exist' })
+    if (post.authorId === user.userId)
+      return fail(400, { success: false, message: 'You cannot score your own post' })
+
+    // create or update score
+    const existingScore = await db.score.findFirst({
+      where: {
+        postId: id,
+        userId: user.userId,
+      }
+    })
+    if (existingScore) {
+      await db.score.update({
+        where: { id: existingScore.id },
+        data: {
+          value: parseInt(value),
+        }
+      })
+      message = 'Score updated'
+    } else {
+      await db.score.create({
+        data: {
+          postId: id,
+          userId: user.userId,
+          value: parseInt(value),
+        }
+      })
+      message = 'Score added'
+    }
+
+    return {
+      success: true,
+      message,
+    }
+  }
 }
