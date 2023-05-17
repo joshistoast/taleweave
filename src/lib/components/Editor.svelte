@@ -13,10 +13,10 @@ import Placeholder from '@tiptap/extension-placeholder'
 const Rating = ['s', 't', 'm', 'x']
 
 export let id: string | undefined
-export let description: string = ''
-export let content: string = ''
-export let title: string = ''
-export let published: boolean = false
+export let description = ''
+export let content = ''
+export let title = ''
+export let published = false
 export let rating = Rating[0]
 export let tags: Tag[] = []
 

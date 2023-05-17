@@ -2,7 +2,6 @@
 import { page } from '$app/stores'
 import Tab from '$lib/components/common/Tab.svelte'
 import Tabs from '$lib/components/common/Tabs.svelte'
-import TabContent from '$lib/components/common/TabContent.svelte'
 
 $: ({ pathname } = $page.url)
 $: ({ user, props } = $page.data)

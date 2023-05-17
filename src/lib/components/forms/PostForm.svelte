@@ -1,5 +1,5 @@
 <script lang="ts">
-import { applyAction, enhance, type SubmitFunction } from '$app/forms'
+import { applyAction, enhance } from '$app/forms'
 import type { Post } from '@prisma/client'
 import Editor from '$lib/components/Editor.svelte'
 

@@ -2,7 +2,7 @@ import type { PageServerLoad } from './$types'
 import db from '$lib/server/db'
 import { postOfFeedSelect } from '$lib/data'
 
-export const load: PageServerLoad = async ({ params, parent, locals, url }) => {
+export const load: PageServerLoad = async ({ params, parent, locals }) => {
   const { user } = await locals.auth.validateUser()
   const { username } = params
 

@@ -4,7 +4,7 @@ import { error } from '@sveltejs/kit'
 
 // GET /api/tags/autocomplete
 // takes a string and returns a list of tags that match
-export const GET: RequestHandler = async ({ url, setHeaders }) => {
+export const GET: RequestHandler = async ({ url }) => {
   const query = url.searchParams.get('query')
 
   if (!query)

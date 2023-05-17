@@ -3,13 +3,13 @@ import type { PageServerLoad } from './$types'
 import { postOfFeedSelect } from '$lib/data'
 import type { Rating } from '@prisma/client'
 
-export const load: PageServerLoad = async ({ params, url }) => {
+export const load: PageServerLoad = async ({ url }) => {
   const isFeatured = url.searchParams.get('featured') === 'true'
 
   const tagsFilter = url.searchParams.get('tags')?.split(',') ?? undefined
   const searchQuery = url.searchParams.get('search') ?? undefined
   const ratingsFilter = url.searchParams.get('ratings')?.split(',') ?? undefined
-  const sortFilter = url.searchParams.get('sort') ?? undefined
+  // const sortFilter = url.searchParams.get('sort') ?? undefined
 
   const title = isFeatured ? 'Featured Posts' : 'Browse Everything'
   const description = isFeatured

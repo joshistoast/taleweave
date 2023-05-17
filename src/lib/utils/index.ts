@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit'
-import type { AuthUser, Rating } from '@prisma/client'
+import type { Rating } from '@prisma/client'
 import { z } from 'zod'
 import forbiddenUsernames from './forbiddenUsernames'
 export * from './types'

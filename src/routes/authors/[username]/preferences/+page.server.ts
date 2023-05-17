@@ -1,9 +1,9 @@
 import type { PageServerLoad } from './$types'
-import { redirect, error, fail, type Actions } from '@sveltejs/kit'
+import { redirect, fail, type Actions } from '@sveltejs/kit'
 import { validateUserPreferences } from '$lib/utils'
 import db from '$lib/server/db'
 
-export const load: PageServerLoad = async ({ locals, params, parent }) => {
+export const load: PageServerLoad = async ({ locals, params }) => {
   const { session, user } = await locals.auth.validateUser()
   const { username } = params
 
