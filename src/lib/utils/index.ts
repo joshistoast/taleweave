@@ -15,10 +15,6 @@ export const doRedirect = (url: URL, hasSession: boolean) => {
   }
 }
 
-export const useAuthorName = (author: AuthUser) => {
-  return author.displayName || author.username
-}
-
 export const truncate = (str: string, len: number) => {
   if (str.length <= len) {
     return str

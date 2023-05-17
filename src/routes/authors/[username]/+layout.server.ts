@@ -3,7 +3,6 @@ import db from '$lib/server/db'
 import {
   error,
 } from '@sveltejs/kit'
-import { useAuthorName } from '$lib/utils'
 
 export const load: LayoutServerLoad = async ({ params }) => {
 
@@ -19,7 +18,7 @@ export const load: LayoutServerLoad = async ({ params }) => {
   return {
     author,
     page: {
-      title: useAuthorName(author),
+      title: author.displayName,
       description: author.bio,
     }
   }
