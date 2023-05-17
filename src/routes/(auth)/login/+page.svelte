@@ -29,5 +29,5 @@ export let form: ActionData
     Login
   </button>
 
-  <p>Don't have an account yet? <a href="/register">Create an account</a></p>
+  <p>Don't have an account yet? <a class="text-orange-300 underline hover:text-orange-400" href="/register">Create an account</a></p>
 </form>
