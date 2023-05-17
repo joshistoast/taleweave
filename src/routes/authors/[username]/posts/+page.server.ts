@@ -1,12 +1,12 @@
 import type { PageServerLoad } from './$types'
 import db from '$lib/server/db'
-import { useAuthorName } from '$lib/utils'
 import { postOfFeedSelect } from '$lib/data'
 
-export const load: PageServerLoad = async ({ params, parent }) => {
-
-  // get posts from author
+export const load: PageServerLoad = async ({ params, parent, locals }) => {
+  const { user } = await locals.auth.validateUser()
   const { username } = params
+
+  const userIsAuthor = user?.username === username
 
   const posts = await db.post.findMany({
     orderBy: {
@@ -15,7 +15,12 @@ export const load: PageServerLoad = async ({ params, parent }) => {
     where: {
       author: {
         username: String(username)
-      }
+      },
+      AND: [
+        !userIsAuthor ? { // only show all private and public posts if user is author
+          published: true,
+        } : {},
+      ],
     },
     select: {
       ...postOfFeedSelect,
@@ -27,8 +32,8 @@ export const load: PageServerLoad = async ({ params, parent }) => {
   return {
     posts,
     page: {
-      title: `Posts by ${useAuthorName(author)}`,
-      description: author.bio,
+      title: `Posts by ${author.displayName}`,
+      description: `Browse through all posts by ${author.displayName} on Taleweave`,
     },
   }
 }

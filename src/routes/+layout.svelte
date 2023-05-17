@@ -8,12 +8,9 @@ import { beforeNavigate } from '$app/navigation'
 import { onMount } from 'svelte'
 import { dev } from '$app/environment'
 import { inject } from '@vercel/analytics'
-import type { LayoutServerData } from './$types'
 
 // inject vercel analytics
 inject({ mode: dev ? 'development' : 'production' })
-
-// export let data: LayoutServerData
 
 let sidebarState: boolean
 let mounted = false

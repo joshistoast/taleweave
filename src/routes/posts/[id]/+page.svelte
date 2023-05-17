@@ -9,6 +9,8 @@ import PostTags from '$lib/components/PostTags.svelte'
 export let data: PageData
 export let form: ActionData
 
+let score: number | undefined
+
 $: user = $page.data.user
 $: ({ post, isBookmarked } = data)
 
@@ -16,7 +18,6 @@ $: bookmarked = isBookmarked
 $: bookmarksCount = post._count?.bookmarks
 $: featured = post.featured
 
-let score: number | undefined
 $: score = data.score?.value
 $: scoreIsValid = score !== undefined && score >= 0 && score <= 5
 
@@ -26,7 +27,7 @@ const handleBookmark = () => {
   bookmarked = !bookmarked
   bookmarksCount += bookmarked ? 1 : -1
 }
-const handleDelete = async (e: any) => {
+const handleDelete = async (e: SubmitEvent) => {
   let confirmed = confirm('Are you sure you want to delete this post?')
   if (confirmed) {
     (e.target as HTMLFormElement).submit()
@@ -39,37 +40,37 @@ const handleDelete = async (e: any) => {
 </svelte:head>
 
 <header class="flex flex-col items-start gap-4 p-4 border-b border-white/10">
-  <div class="flex items-center gap-4">
-    <button class="flex items-center gap-2 text-sm text-white/50 hover:text-gray-100" on:click={goBack}>
+  <div class="flex items-center max-w-full gap-4 overflow-x-auto">
+    <button class="flex items-center gap-2 text-sm shrink-0 text-white/50 hover:text-gray-100" on:click={goBack}>
       <Icon icon="fluent:arrow-left-24-filled" class="w-5 h-5" />
       <span>Back</span>
     </button>
 
     <form method="POST" action="/posts/{post.id}?/bookmark" use:enhance>
-      <button on:click={handleBookmark} class="flex items-center gap-2 text-sm text-white/50 hover:text-gray-100">
+      <button on:click={handleBookmark} class="flex items-center gap-2 text-sm shrink-0 text-white/50 hover:text-gray-100">
         <Icon icon="{ bookmarked ? 'fluent:bookmark-24-filled' : 'fluent:bookmark-24-regular' }" class="w-5 h-5" />
         <span>Bookmark{ bookmarked ? 'ed' : '' }</span>
       </button>
     </form>
 
     {#if (post.author.id === user?.userId) || user?.role === 'admin'}
-      <form method="POST" action="/posts/{post.id}?/delete" on:submit|preventDefault={handleDelete}>
-        <button type="submit" class="flex items-center gap-2 text-sm text-white/50 hover:text-gray-100">
+      <form method="POST" action="/posts/{post.id}?/delete" class="shrink-0" on:submit|preventDefault={handleDelete}>
+        <button type="submit" class="flex items-center gap-2 text-sm shrink-0 text-white/50 hover:text-gray-100">
           <Icon icon="fluent:delete-24-filled" class="w-5 h-5" />
           <span>Delete</span>
         </button>
       </form>
 
       {#if (post.author.id === user?.userId)}
-        <a href="/posts/{post.id}/edit" class="flex items-center gap-2 text-sm text-white/50 hover:text-gray-100">
+        <a href="/posts/{post.id}/edit" class="flex items-center gap-2 text-sm shrink-0 text-white/50 hover:text-gray-100">
           <Icon icon="fluent:edit-24-filled" class="w-5 h-5" />
           <span>Edit</span>
         </a>
       {/if}
 
       {#if user.role === 'admin'}
-        <form method="POST" action="/posts/{post.id}?/feature" use:enhance>
-          <button on:click={() => featured = !featured} class="flex items-center gap-2 text-sm {featured ? 'text-orange-300' : 'text-white/50'} hover:text-gray-100">
+        <form method="POST" action="/posts/{post.id}?/feature" class="shrink-0" use:enhance>
+          <button on:click={() => featured = !featured} class="flex items-center shrink-0 gap-2 text-sm {featured ? 'text-orange-300' : 'text-white/50'} hover:text-gray-100">
             <Icon icon="{featured ? 'fluent:flash-24-filled' : 'fluent:flash-24-regular'}" class="w-5 h-5" />
             <span>{featured ? 'Remove ' : ''}Feature</span>
           </button>
@@ -121,8 +122,8 @@ const handleDelete = async (e: any) => {
     >
       <div class="flex items-center gap-1">
         {#each Array.from({ length: 5 }) as s, i}
-          <button on:click|preventDefault={() => score = i} class="{score >= i ? 'text-orange-300' : 'text-white/50'} hover:text-orange-300 hover:scale-105">
-            <Icon icon="{score >= i ? 'fluent:star-24-filled' : 'fluent:star-24-regular'}" class="w-10 h-10" />
+          <button on:click|preventDefault={() => score = i} class="{(score && score >= i) ? 'text-orange-300' : 'text-white/50'} hover:text-orange-300 hover:scale-105">
+            <Icon icon="{(score && score >= i) ? 'fluent:star-24-filled' : 'fluent:star-24-regular'}" class="w-10 h-10" />
           </button>
         {/each}
       </div>

@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit'
-import type { AuthUser, Rating } from '@prisma/client'
+import type { Rating } from '@prisma/client'
 import { z } from 'zod'
 import forbiddenUsernames from './forbiddenUsernames'
 export * from './types'
@@ -13,10 +13,6 @@ export const doRedirect = (url: URL, hasSession: boolean) => {
       throw redirect(302, '/')
     }
   }
-}
-
-export const useAuthorName = (author: AuthUser) => {
-  return author.displayName || author.username
 }
 
 export const truncate = (str: string, len: number) => {

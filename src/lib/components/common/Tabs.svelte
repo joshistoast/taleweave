@@ -5,11 +5,11 @@ import Icon from '@iconify/svelte'
 import { goto } from '$app/navigation'
 
 /** Specify the selected tab index */
-export let selected: number = 0
+export let selected = 0
 /**
  * Specify the ARIA label for the chevron icon
  */
-export let iconDescription: string = 'Show Menu Options'
+export let iconDescription = 'Show Menu Options'
 
 const dispatch = createEventDispatcher()
 
@@ -52,7 +52,6 @@ setContext('Tabs', {
       index = 0
     }
     let disabled = $tabs[index].disabled
-    let href = $tabs[index].href
     while (disabled) {
       index = index + direction
       if (index < 0) {
