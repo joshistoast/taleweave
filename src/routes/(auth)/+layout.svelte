@@ -23,7 +23,7 @@ const nav: LoginNavItem[] = [
 </script>
 
 <div class="grid p-4">
-  <h1 class="font-serif text-xl font-bold lg:text-4xl">{props.title}</h1>
+  <h1 class="font-serif text-2xl font-bold lg:text-4xl">{props.title}</h1>
   <p class="text-sm leading-loose">{props.description}</p>
 </div>
 
