@@ -8,9 +8,10 @@ let username: string
 let password: string
 let email: string
 let confirmPassword: string
+let acceptsTOS: boolean
 
 $: passwordsMatch = password === confirmPassword
-$: canSubmit = username && email && password && passwordsMatch
+$: canSubmit = username && email && password && passwordsMatch && acceptsTOS
 </script>
 
 <form
@@ -42,6 +43,11 @@ $: canSubmit = username && email && password && passwordsMatch
     {/if}
   </label>
 
+  <label class="flex">
+    <input type="checkbox" bind:checked={acceptsTOS} required />
+    <span class="ml-2">I agree to the <a class="text-orange-300 underline hover:text-orange-400" href="https://raw.githubusercontent.com/joshwcorbett/taleweave/master/TOS.md">Terms of Service</a></span>
+  </label>
+
   {#if form?.message}
     <p class={ form?.success ? 'text-emerald-300' : 'text-rose-300' }>{form.message}</p>
   {/if}
@@ -50,5 +56,5 @@ $: canSubmit = username && email && password && passwordsMatch
     Register
   </button>
 
-  <p>Already have an account? <a href="/login">Log in instead</a></p>
+  <p>Already have an account? <a class="text-orange-300 underline hover:text-orange-400" href="/login">Log in instead</a></p>
 </form>
