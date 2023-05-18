@@ -111,7 +111,7 @@ const handleDelete = async (e: SubmitEvent) => {
     </div>
 
     {#if form?.message}
-      <p class="text-sm text-white/50">{form.message}</p>
+      <p class="text-sm {form.success ? 'text-emerald-300' : 'text-rose-400'}">{form.message}</p>
     {/if}
 
     <form
