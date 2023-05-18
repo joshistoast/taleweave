@@ -111,7 +111,7 @@ const handleDelete = async (e: SubmitEvent) => {
     </div>
 
     {#if form?.message}
-      <p class="text-sm text-white/50">{form.message}</p>
+      <p class="text-sm {form.success ? 'text-emerald-300' : 'text-rose-400'}">{form.message}</p>
     {/if}
 
     <form
@@ -122,8 +122,8 @@ const handleDelete = async (e: SubmitEvent) => {
     >
       <div class="flex items-center gap-1">
         {#each Array.from({ length: 5 }) as s, i}
-          <button on:click|preventDefault={() => score = i} class="{(score && score >= i) ? 'text-orange-300' : 'text-white/50'} hover:text-orange-300 hover:scale-105">
-            <Icon icon="{(score && score >= i) ? 'fluent:star-24-filled' : 'fluent:star-24-regular'}" class="w-10 h-10" />
+          <button on:click|preventDefault={() => score = i} class="{(score !== undefined && score >= i) ? 'text-orange-300' : 'text-white/50'} hover:text-orange-300 hover:scale-105">
+            <Icon icon="{(score !== undefined && score >= i) ? 'fluent:star-24-filled' : 'fluent:star-24-regular'}" class="w-10 h-10" />
           </button>
         {/each}
       </div>
