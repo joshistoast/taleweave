@@ -7,6 +7,7 @@
     "landing",
     "search",
     "feed",
-    "layout"
+    "layout",
+    "api"
   ]
 }

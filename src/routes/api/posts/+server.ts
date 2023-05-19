@@ -25,8 +25,9 @@ export const GET: RequestHandler = async ({ url, locals }) => {
 
   // post sorting and filtering
   const postFindOperation: Prisma.PostCountArgs = {
+    // TODO: `publishedAt` should be used instead of `createdAt` when it's implemented
     orderBy: {
-      published: 'desc', // TODO: sorting options
+      createdAt: 'desc', // TODO: sorting options
     },
     where: {
       // return unpublished posts if user is admin or author and author is specified in query
