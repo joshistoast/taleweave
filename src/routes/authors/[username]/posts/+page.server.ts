@@ -1,33 +1,10 @@
 import type { PageServerLoad } from './$types'
-import db from '$lib/server/db'
-import { postOfFeedSelect } from '$lib/data'
 
-export const load: PageServerLoad = async ({ params, parent, locals }) => {
-  const { user } = await locals.auth.validateUser()
+export const load: PageServerLoad = async ({ params, parent, fetch }) => {
   const { username } = params
+  const { posts } = await (await fetch(`/api/posts?author=${username}`)).json()
 
-  const userIsAuthor = user?.username === username
-
-  const posts = await db.post.findMany({
-    orderBy: {
-      createdAt: 'desc'
-    },
-    where: {
-      author: {
-        username: String(username)
-      },
-      AND: [
-        !userIsAuthor ? { // only show all private and public posts if user is author
-          published: true,
-        } : {},
-      ],
-    },
-    select: {
-      ...postOfFeedSelect,
-    },
-  })
-
-  const { author } = await parent()
+  const { author } = await parent() // author data returned from parent layout
 
   return {
     posts,
