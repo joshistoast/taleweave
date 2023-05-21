@@ -8,47 +8,20 @@ import {
 } from '@sveltejs/kit'
 import { postOfPageSelect } from '$lib/data'
 
-export const load: PageServerLoad = async ({ params, locals }) => {
-  const { user } = await locals.auth.validateUser()
+export const load: PageServerLoad = async ({ params, fetch }) => {
   const { id } = params
 
-  const post = await db.post.findUnique({
-    where: { id },
-    select: {
-      ...postOfPageSelect,
-    },
-  })
-
-  if (!post) {
+  const res = await (await fetch(`/api/posts/${id}`)).json()
+  if (!res) {
     throw error(404, 'Post was either deleted or does not exist.')
   }
 
-  let isBookmarkedByUser = false
-  if (user?.userId) {
-    isBookmarkedByUser = await db.bookmark.findFirst({
-      where: {
-        postId: post.id,
-        userId: user?.userId,
-      }
-    }).then((res) => !!res)
-  }
-
-  // get user's score
-  const score = await db.score.findFirst({
-    where: {
-      postId: post.id,
-      userId: user?.userId,
-    },
-  })
-
   return {
-    post,
-    isBookmarked: !!isBookmarkedByUser,
-    score,
+    ...res,
     page: {
-      title: post.title,
-      description: post.description,
-      robots: post.published ? 'index, follow' : 'noindex, nofollow',
+      title: res.post.title,
+      description: res.post.description,
+      robots: res.post.published ? 'index, follow' : 'noindex, nofollow',
     },
   }
 }
