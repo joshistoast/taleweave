@@ -27,6 +27,20 @@ export const tagsOfPostSelect: Prisma.PostSelect = {
   }
 }
 
+export const authorSelect: Prisma.AuthUserSelect = {
+  id: true,
+  username: true,
+  displayName: true,
+  createdAt: true,
+  updatedAt: true,
+  bio: true,
+  _count: {
+    select: {
+      posts: { where: { published: true } },
+    }
+  },
+}
+
 // Select all relevant author data
 export const authorOfPostSelect: Prisma.PostSelect = {
   author: {
@@ -119,5 +133,14 @@ export const resolveTags = async (tags: string[]) => {
         }
       }
     }
+  })
+}
+
+export const getAuthor = async (username: string) => {
+  return await db.authUser.findUnique({
+    where: { username },
+    select: {
+      ...authorSelect,
+    },
   })
 }
