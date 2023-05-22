@@ -51,7 +51,7 @@ $: nav = [
 
 <div class="p-4">
   <h1 class="font-serif text-lg font-bold lg:text-4xl">{author.displayName}</h1>
-  <p class="text-sm text-gray-500">{author.username}</p>
+  <p class="text-sm text-gray-500">{author.username} • {author._count?.posts || 'no'} post{author._count?.posts === 1 ? '' : 's'}</p>
 </div>
 
 <Tabs selected={ +nav.indexOf(nav.find(({ href }) => href === pathname)) }>
