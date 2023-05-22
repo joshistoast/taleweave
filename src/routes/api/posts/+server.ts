@@ -1,10 +1,8 @@
-import { type RequestHandler, error } from '@sveltejs/kit'
-import db from '$lib/server/db'
+import type { RequestHandler } from '@sveltejs/kit'
 import type { AgeRating, Prisma } from '@prisma/client'
-import { postOfFeedSelect } from '$lib/data'
+import { getPosts, getAllPostsCount } from '$lib/server/data'
 
 export const GET: RequestHandler = async ({ url, locals }) => {
-  // session
   const { user } = await locals.auth.validateUser()
 
   // search params
@@ -14,10 +12,10 @@ export const GET: RequestHandler = async ({ url, locals }) => {
   const ageRatings = url.searchParams.get('ratings')?.split(',').filter((r) => r !== '') as AgeRating[] ?? undefined
   const author = url.searchParams.get('author') ?? undefined
   // pagination params
-  const limit = parseInt(url.searchParams.get('limit') ?? '10')
+  const take = parseInt(url.searchParams.get('limit') ?? '10')
   const page = parseInt(url.searchParams.get('page') ?? '1')
 
-  const skip = (page - 1) * limit
+  const skip = (page - 1) * take
   const hasTags = tags?.length && tags[0] !== ''
   const hasSearch = searchQuery?.length && searchQuery !== ''
   const hasRating = !!ageRatings?.length
@@ -47,30 +45,16 @@ export const GET: RequestHandler = async ({ url, locals }) => {
       } : undefined),
     },
     skip,
-    take: limit,
+    take,
   }
 
-  // get total posts count with filters
-  const totalPostsCount = await db.post.count({
-    ...postFindOperation,
-  })
-
-  // get posts
-  const posts = await db.post.findMany({
-    ...postFindOperation,
-    select: {
-      ...postOfFeedSelect,
-    },
-  })
-    .then((res) => {
-      return res
-    })
-    .catch((err) => {
-      throw error(500, { message: err.message })
-    })
+  const [posts, totalPostsCount] = await Promise.all([
+    getPosts(postFindOperation),
+    getAllPostsCount(postFindOperation),
+  ])
 
   const size = posts.length
-  const hasNextPage = totalPostsCount > skip + limit
+  const hasNextPage = totalPostsCount > skip + take
   const hasPreviousPage = skip > 0
 
   return new Response(JSON.stringify({
