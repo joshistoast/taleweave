@@ -2,8 +2,6 @@ import type { RequestHandler } from './$types'
 import db from '$lib/server/db'
 import { error } from '@sveltejs/kit'
 
-// GET /api/tags/autocomplete
-// takes a string and returns a list of tags that match
 export const GET: RequestHandler = async ({ url }) => {
   const query = url.searchParams.get('query')
 
@@ -14,6 +12,11 @@ export const GET: RequestHandler = async ({ url }) => {
     where: {
       name: {
         contains: query,
+      },
+      posts: {
+        every: {
+          published: true
+        }
       }
     },
     select: {

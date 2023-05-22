@@ -1,15 +1,9 @@
 import type { LayoutServerLoad } from './$types'
-import db from '$lib/server/db'
-import {
-  error,
-} from '@sveltejs/kit'
+import { error } from '@sveltejs/kit'
 
-export const load: LayoutServerLoad = async ({ params }) => {
-
+export const load: LayoutServerLoad = async ({ params, fetch }) => {
   const { username } = params
-  const author = await db.authUser.findUnique({
-    where: { username },
-  })
+  const author = await (await fetch(`/api/authors/${username}`)).json()
 
   if (!author) {
     throw error(404, 'Author not found')

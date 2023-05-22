@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { Tag, Rating } from '@prisma/client'
+import type { Tag, AgeRating } from '@prisma/client'
 import { page } from '$app/stores'
 import { goto } from '$app/navigation'
 import Icon from '@iconify/svelte'
@@ -7,13 +7,6 @@ import Dropdown from '$lib/components/common/Dropdown.svelte'
 import TagsInput from '$lib/components/TagsInput.svelte'
 import { useRating } from '$lib/utils'
 
-// TODO: sorting by date, rating, etc
-
-// const sortOptions = [
-//   { name: 'Date', value: 'date' },
-//   { name: 'Rating', value: 'rating' },
-//   { name: 'Title', value: 'title' },
-// ]
 const ratingOptions = ['s', 't', 'm', 'x']
 
 export let search: string = $page.url.searchParams.get('search') || ''
@@ -22,8 +15,8 @@ export let ratings = $page.url.searchParams.get('ratings') || undefined
 // export let sorting = sortOptions[0]
 
 $: selectedRatings = ratings?.split(',') || ratingOptions
-$: isRatingSelected = (rating: Rating | string) => selectedRatings.includes(rating)
-const toggleRating = (rating: Rating | string) => {
+$: isRatingSelected = (rating: AgeRating | string) => selectedRatings.includes(rating)
+const toggleRating = (rating: AgeRating | string) => {
   if (isRatingSelected(rating)) {
     selectedRatings = selectedRatings.filter((r) => r !== rating)
   } else {

@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit'
-import type { Rating } from '@prisma/client'
+import type { AgeRating } from '@prisma/client'
 import { z } from 'zod'
 import forbiddenUsernames from './forbiddenUsernames'
 export * from './types'
@@ -22,7 +22,7 @@ export const truncate = (str: string, len: number) => {
   return `${str.slice(0, len)}...`
 }
 
-export const useRating = (rating: Rating | string) => {
+export const useRating = (rating: AgeRating | string) => {
   switch (rating) {
     case 's':
       return 'Safe for All Ages'
@@ -75,7 +75,8 @@ export const validatePost = z.object({
     .string()
     .regex(/^(true|false)$/, { message: 'Published must be true or false' }),
   rating: z
-    .string(),
+    .string()
+    .regex(/^(s|t|m|x)$/, { message: 'Rating must be s, t, m, or x' }),
   tags: z.string().refine(tags => {
     const tagNames = tags.split(',').map(tag => tag.trim());
     return tagNames.length <= 5;
