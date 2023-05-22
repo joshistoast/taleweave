@@ -1,10 +1,9 @@
 import type { LayoutServerLoad } from './$types'
 import { error } from '@sveltejs/kit'
-import { getAuthor } from '$lib/server/data'
 
-export const load: LayoutServerLoad = async ({ params }) => {
+export const load: LayoutServerLoad = async ({ params, fetch }) => {
   const { username } = params
-  const author = await getAuthor(username)
+  const author = await (await fetch(`/api/authors/${username}`)).json()
 
   if (!author) {
     throw error(404, 'Author not found')

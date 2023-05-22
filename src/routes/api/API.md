@@ -12,10 +12,13 @@ Taleweave has a basic RESTful API that can be used to query posts and tags.
       - [Example Response](#example-response)
     - [Get a post](#get-a-post)
       - [Example Response](#example-response-1)
+  - [Authors](#authors)
+    - [Get an author](#get-an-author)
+      - [Example Response](#example-response-2)
   - [Tags](#tags)
     - [Autocomplete](#autocomplete)
       - [Parameters](#parameters-1)
-      - [Example Response](#example-response-2)
+      - [Example Response](#example-response-3)
 
 ## Posts
 
@@ -134,6 +137,30 @@ Returns a single post with more data.
     "postId": "1",
     "userId": "1",
     "value": 5
+  }
+}
+```
+
+## Authors
+
+### Get an author
+
+`GET /api/authors/:username`
+
+Returns an author with more data.
+
+#### Example Response
+
+```json
+{
+  "id": "1",
+  "username": "johndoe",
+  "displayName": "John Doe",
+  "bio": "I'm a writer.",
+  "createdAt": "2023-05-16T16:18:19.978Z",
+  "updatedAt": "2023-05-16T16:20:47.233Z",
+  "_count": {
+    "posts": 1
   }
 }
 ```
