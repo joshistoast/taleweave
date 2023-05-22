@@ -1,13 +1,17 @@
 import type { RequestHandler } from '@sveltejs/kit'
 import type { AgeRating, Prisma } from '@prisma/client'
-import { getPosts, getAllPostsCount } from '$lib/server/data'
+import {
+  getPosts,
+  getAllPostsCount,
+  resolveTags,
+} from '$lib/server/data'
 
 export const GET: RequestHandler = async ({ url, locals }) => {
   const { user } = await locals.auth.validateUser()
 
   // search params
   const featured = url.searchParams.get('featured') === 'true'
-  const tags = url.searchParams.get('tags')?.split(',') ?? undefined
+  const tagsQuery = url.searchParams.get('tags')?.split(',') ?? undefined
   const searchQuery = url.searchParams.get('search') ?? undefined
   const ageRatings = url.searchParams.get('ratings')?.split(',').filter((r) => r !== '') as AgeRating[] ?? undefined
   const author = url.searchParams.get('author') ?? undefined
@@ -16,7 +20,7 @@ export const GET: RequestHandler = async ({ url, locals }) => {
   const page = parseInt(url.searchParams.get('page') ?? '1')
 
   const skip = (page - 1) * take
-  const hasTags = tags?.length && tags[0] !== ''
+  const hasTags = tagsQuery?.length && tagsQuery[0] !== ''
   const hasSearch = searchQuery?.length && searchQuery !== ''
   const hasRating = !!ageRatings?.length
   const hasAuthor = author?.length && author !== ''
@@ -31,7 +35,7 @@ export const GET: RequestHandler = async ({ url, locals }) => {
       // return unpublished posts if user is admin or author and author is specified in query
       published: (hasAuthor ? (user?.role === 'admin' || user?.username === author): false) ? undefined : true,
       featured: featured ? true : undefined,
-      ...(hasTags && { tags: { some: { name: { in: tags.map(tag => tag.toLowerCase()) } } } }),
+      ...(hasTags && { tags: { some: { name: { in: tagsQuery.map(tag => tag.toLowerCase()) } } } }),
       ...(hasRating && { rating: { in: ageRatings } }),
       ...(hasAuthor && { author: { username: author } }),
       // it's not full text search but it's good enough for now
@@ -48,9 +52,10 @@ export const GET: RequestHandler = async ({ url, locals }) => {
     take,
   }
 
-  const [posts, totalPostsCount] = await Promise.all([
+  const [posts, totalPostsCount, tags] = await Promise.all([
     getPosts(postFindOperation),
     getAllPostsCount(postFindOperation),
+    hasTags ? resolveTags(tagsQuery) : undefined,
   ])
 
   const size = posts.length
@@ -59,6 +64,7 @@ export const GET: RequestHandler = async ({ url, locals }) => {
 
   return new Response(JSON.stringify({
     posts,
+    tags,
     pagination: {
       size,
       page,

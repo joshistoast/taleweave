@@ -102,3 +102,22 @@ export const getPosts = async (params: Prisma.PostCountArgs) => {
     },
   })
 }
+
+export const resolveTags = async (tags: string[]) => {
+  return await db.tag.findMany({
+    where: {
+      name: {
+        in: tags.map((tag) => tag.toLowerCase()),
+      },
+    },
+    select: {
+      id: true,
+      name: true,
+      _count: {
+        select: {
+          posts: true,
+        }
+      }
+    }
+  })
+}
