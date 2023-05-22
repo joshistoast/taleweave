@@ -34,6 +34,7 @@ model Post {
   rating      AgeRating @default(s)
 
   bookmarks   Bookmark[]
+  comments    Comment[]
   tags        Tag[]
   scores      Score[]
 
@@ -70,6 +71,23 @@ model Bookmark {
   @@index([userId])
 }
 
+model Comment {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  content   String? @db.Text
+
+  post      Post   @relation(fields: [postId], references: [id])
+  postId    String
+
+  user      AuthUser @relation(fields: [userId], references: [id])
+  userId    String
+
+  @@index([userId])
+  @@index([postId])
+}
+
 model Score {
   id        String  @id @default(uuid())
   createdAt DateTime @default(now())
@@ -100,6 +118,7 @@ model AuthUser {
   role         Role    @default(user)
 
   bookmarks    Bookmark[]
+  comments     Comment[]
   scores       Score[]
 
   auth_session AuthSession[]
