@@ -5,6 +5,7 @@ import { enhance } from '$app/forms'
 import Icon from '@iconify/svelte'
 import PostStats from '$lib/components/PostStats.svelte'
 import PostTags from '$lib/components/PostTags.svelte'
+import PostComment from '$lib/components/PostComment.svelte'
 
 export let data: PageData
 export let form: ActionData
@@ -158,8 +159,10 @@ const handleDelete = async (e: SubmitEvent) => {
     </div>
   </form>
 
-  <div class="grid gap-2">
+  <div class="grid gap-2 py-4">
     <!-- comments -->
-    {JSON.stringify(post.comments)}
+    {#each post.comments as comment}
+      <PostComment {comment} />
+    {/each}
   </div>
 </div>
