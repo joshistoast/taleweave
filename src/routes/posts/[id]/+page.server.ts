@@ -6,7 +6,6 @@ import {
   redirect,
   type Actions,
 } from '@sveltejs/kit'
-import { postOfPageSelect } from '$lib/data'
 
 export const load: PageServerLoad = async ({ params, fetch }) => {
   const { id } = params

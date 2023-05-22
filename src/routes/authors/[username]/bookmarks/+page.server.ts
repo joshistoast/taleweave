@@ -3,7 +3,7 @@ import db from '$lib/server/db'
 import {
   redirect,
 } from '@sveltejs/kit'
-import { postOfFeedSelect } from '$lib/data'
+import { postOfFeedSelect } from '$lib/server/data'
 
 export const load: PageServerLoad = async ({ params, locals }) => {
   const { user } = await locals.auth.validateUser()
