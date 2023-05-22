@@ -121,7 +121,7 @@ Returns a single post with more data.
         }
       }
     ],
-    "content": "", // The posts's html content
+    "content": "", // The post's html content
     "_count": {
       "bookmarks": 2,
     }
