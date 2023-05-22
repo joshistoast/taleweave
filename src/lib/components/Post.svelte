@@ -63,7 +63,7 @@ $: writtenByYou = user?.userId === post.author.id
     {/if}
 
     <div class="pt-3 border-t transition-all duration-100 ease-in-out {featured ? 'border-orange-300/20' : 'border-white/10'} text-white/30">
-      <PostStats rating={rating} bookmarks={post._count?.bookmarks} />
+      <PostStats rating={rating} bookmarks={post._count?.bookmarks} comments={post._count?.comments} />
     </div>
   </a>
 </article>

@@ -96,6 +96,7 @@ const handleDelete = async (e: SubmitEvent) => {
   <PostStats
     bookmarks={bookmarksCount}
     rating={post.rating}
+    comments={post._count?.comments}
   />
 </div>
 
@@ -135,3 +136,30 @@ const handleDelete = async (e: SubmitEvent) => {
     </form>
   </div>
 {/if}
+
+<!-- comments -->
+<div class="w-full px-4 py-6 border-t border-white/10" id="comments">
+  <h3 class="font-serif text-xl lg:text-4xl">Comments ({post._count.comments})</h3>
+
+  <!-- comment compose -->
+  <form action="/posts/{post.id}?/addComment" method="POST" use:enhance>
+    <div class="flex flex-col items-start gap-4 mt-4">
+      <textarea
+        name="content"
+        rows="4"
+        class="w-full p-4 bg-transparent border rounded-md resize-none text-white/50 border-white/10 focus:outline-none focus:border-orange-300"
+        placeholder="Write a comment..."
+        required
+      ></textarea>
+      <button class="flex items-center gap-2 px-3 py-2 text-orange-300 rounded-md hover:bg-orange-400/20 bg-orange-400/10">
+        <Icon icon="fluent:checkmark-24-filled" class="w-5 h-5" />
+        <span>Submit</span>
+      </button>
+    </div>
+  </form>
+
+  <div class="grid gap-2">
+    <!-- comments -->
+    {JSON.stringify(post.comments)}
+  </div>
+</div>
