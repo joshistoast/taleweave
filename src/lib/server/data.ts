@@ -88,6 +88,9 @@ export const postOfPageSelect: Prisma.PostSelect = {
   ...postOfFeedSelect,
   content: true,
   comments: {
+    orderBy: {
+      createdAt: 'desc',
+    },
     select: {
       ...commentOfPostSelect,
     }

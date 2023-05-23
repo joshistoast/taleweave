@@ -22,6 +22,44 @@ export const truncate = (str: string, len: number) => {
   return `${str.slice(0, len)}...`
 }
 
+export const timeAgo = (date: Date) => {
+  const now = new Date()
+  const theDate = new Date(date)
+  const diffInSeconds = Math.floor((+now - +theDate) / 1000)
+
+  let unit = 'second'
+  let amount = diffInSeconds
+
+  if (diffInSeconds < 60) {
+    unit = 'second'
+    amount = diffInSeconds
+  } else if (diffInSeconds < 3600) {
+    unit = 'minute'
+    amount = Math.floor(diffInSeconds / 60)
+  } else if (diffInSeconds < 86400) {
+    unit = 'hour'
+    amount = Math.floor(diffInSeconds / 3600)
+  } else if (diffInSeconds < 604800) {
+    unit = 'day'
+    amount = Math.floor(diffInSeconds / 86400)
+  } else if (diffInSeconds < 2628000) {
+    unit = 'week'
+    amount = Math.floor(diffInSeconds / 604800)
+  } else if (diffInSeconds < 31536000) {
+    unit = 'month'
+    amount = Math.floor(diffInSeconds / 2628000)
+  } else {
+    unit = 'year'
+    amount = Math.floor(diffInSeconds / 31536000)
+  }
+
+  if (amount > 1) unit += 's'
+  if (amount === 0)
+    return 'just now'
+  else
+    return `${amount} ${unit} ago`
+}
+
 export const useRating = (rating: AgeRating | string) => {
   switch (rating) {
     case 's':
