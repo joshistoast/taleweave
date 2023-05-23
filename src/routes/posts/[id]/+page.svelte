@@ -37,7 +37,7 @@ const handleDelete = async (e: SubmitEvent) => {
 </script>
 
 <svelte:head>
-  <meta name="author" content={post.author.username} />
+  <meta name="author" content={post.author.displayName} />
 </svelte:head>
 
 <header class="flex flex-col items-start gap-4 p-4 border-b border-white/10">
@@ -81,7 +81,7 @@ const handleDelete = async (e: SubmitEvent) => {
   </div>
 
   <div class="pt-4">
-    <p class="mb-1 text-xs text-white/50 lg:text-sm">Written by <a class="text-orange-300 hover:underline" href="/authors/{post.author.username}">{post.author.username}</a></p>
+    <p class="mb-1 text-xs text-white/50 lg:text-sm">Written by <a class="text-orange-300 hover:underline" href="/authors/{post.author.username}">{post.author.displayName}</a></p>
     <h1 class="font-serif text-4xl font-bold">{post.title}</h1>
     {#if post.description}
       <p class="mt-4 mb-3 text-sm text-white/50">{post.description}</p>
