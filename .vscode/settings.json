@@ -8,6 +8,7 @@
     "search",
     "feed",
     "layout",
-    "api"
+    "api",
+    "comments"
   ]
 }

@@ -250,5 +250,46 @@ export const actions: Actions = {
       success: true,
       message,
     }
-  }
+  },
+  addComment: async ({ locals, params, request }) => {
+    const { user } = await locals.auth.validateUser()
+    const { id } = params
+
+    if (!user?.userId)
+      throw redirect(302, `/login?redirectTo=/posts/${params.id}#comments`)
+    if (!id)
+      return fail(400, { success: false, message: 'Post ID is required' })
+
+    const { content } = Object.fromEntries(await request.formData()) as Record<string, string>
+
+    let message = ''
+
+    const comment = await db.comment.create({
+      data: {
+        content,
+        userId: user.userId,
+        postId: id,
+      },
+    })
+      .then(() => {
+        message = 'Comment added'
+        return { success: true, message }
+      })
+      .catch((err) => {
+        switch (err.message) {
+          default:
+            message = 'Could not add comment'
+        }
+        return { success: false, message }
+      })
+
+    if (!comment.success) {
+      return fail(400, { success: false, message })
+    }
+
+    return {
+      success: true,
+      message,
+    }
+  },
 }

@@ -43,8 +43,8 @@ $: writtenByYou = user?.userId === post.author.id
 
     <div class="flex flex-col pb-2">
       <h2 class="relative font-serif text-3xl font-bold">{title}</h2>
-      {#if post.author?.username}
-        <p class="text-sm text-white/50">By {post.author.username} {writtenByYou ? '(you)' : ''}</p>
+      {#if post.author?.displayName}
+        <p class="text-sm text-white/50">By {post.author.displayName} {writtenByYou ? '(you)' : ''}</p>
       {/if}
     </div>
 
@@ -63,7 +63,7 @@ $: writtenByYou = user?.userId === post.author.id
     {/if}
 
     <div class="pt-3 border-t transition-all duration-100 ease-in-out {featured ? 'border-orange-300/20' : 'border-white/10'} text-white/30">
-      <PostStats rating={rating} bookmarks={post._count?.bookmarks} />
+      <PostStats rating={rating} bookmarks={post._count?.bookmarks} comments={post._count?.comments} />
     </div>
   </a>
 </article>

@@ -6,6 +6,7 @@ export const countsOfPost: Prisma.PostSelect = {
   _count: {
     select: {
       bookmarks: true,
+      comments: true,
     }
   }
 }
@@ -67,12 +68,40 @@ export const postOfFeedSelect: Prisma.PostSelect = {
   ...tagsOfPostSelect,
 }
 
+// Selects all relevant comment data on a post
+export const commentOfPostSelect: Prisma.CommentSelect = {
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+  content: true,
+  user: {
+    select: {
+      id: true,
+      username: true,
+      displayName: true,
+    }
+  }
+}
+
 // Selects all relevant data for a post's page (not feed)
 export const postOfPageSelect: Prisma.PostSelect = {
   ...postOfFeedSelect,
   content: true,
+  comments: {
+    orderBy: {
+      createdAt: 'desc',
+    },
+    select: {
+      ...commentOfPostSelect,
+    }
+  }
 }
 
+/**
+ * Given an ID, returns the post
+ * @param id string
+ * @returns Promise<Post | null>
+ */
 export const getPostById = async (id: string) => {
   return await db.post.findUnique({
     where: { id },
@@ -82,6 +111,12 @@ export const getPostById = async (id: string) => {
   })
 }
 
+/**
+ * Given a post ID and a user ID, returns whether the user has bookmarked the post
+ * @param postId string
+ * @param userId string
+ * @returns boolean
+ */
 export const getBookmarkStatus = async (postId: string, userId: string) => {
   if (!userId) return false
 
@@ -93,6 +128,12 @@ export const getBookmarkStatus = async (postId: string, userId: string) => {
   }).then((res) => !!res)
 }
 
+/**
+ * Given a post ID and a user ID, returns what the user has scored the post
+ * @param postId string
+ * @param userId string
+ * @returns number | null
+ */
 export const getUserScoreOnPost = async (postId: string, userId: string) => {
   if (!userId) return null
 
@@ -104,10 +145,20 @@ export const getUserScoreOnPost = async (postId: string, userId: string) => {
   })
 }
 
+/**
+ * Given a set of params, returns the number of posts that match the params
+ * @param params Prisma.PostCountArgs
+ * @returns Promise<number>
+ */
 export const getAllPostsCount = async (params: Prisma.PostCountArgs) => {
   return await db.post.count(params)
 }
 
+/**
+ * Given a set of params, return all posts matching the params
+ * @param params Prisma.PostFindManyArgs
+ * @returns Promise<Post[]>
+ */
 export const getPosts = async (params: Prisma.PostCountArgs) => {
   return await db.post.findMany({
     ...params,
@@ -117,6 +168,11 @@ export const getPosts = async (params: Prisma.PostCountArgs) => {
   })
 }
 
+/**
+ * Given an array of tag names, returns all tags with additional data from the database that match
+ * @param tags string[]
+ * @returns Promise<Tag[]>
+ */
 export const resolveTags = async (tags: string[]) => {
   return await db.tag.findMany({
     where: {
@@ -136,6 +192,11 @@ export const resolveTags = async (tags: string[]) => {
   })
 }
 
+/**
+ * Given a username, returns the author data
+ * @param username string
+ * @returns Promise<AuthUser>
+ */
 export const getAuthor = async (username: string) => {
   return await db.authUser.findUnique({
     where: { username },

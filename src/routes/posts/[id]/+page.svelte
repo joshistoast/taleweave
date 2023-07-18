@@ -5,6 +5,8 @@ import { enhance } from '$app/forms'
 import Icon from '@iconify/svelte'
 import PostStats from '$lib/components/PostStats.svelte'
 import PostTags from '$lib/components/PostTags.svelte'
+import PostComment from '$lib/components/PostComment.svelte'
+import CommentCompose from '$lib/components/CommentCompose.svelte'
 
 export let data: PageData
 export let form: ActionData
@@ -36,7 +38,7 @@ const handleDelete = async (e: SubmitEvent) => {
 </script>
 
 <svelte:head>
-  <meta name="author" content={post.author.username} />
+  <meta name="author" content={post.author.displayName} />
 </svelte:head>
 
 <header class="flex flex-col items-start gap-4 p-4 border-b border-white/10">
@@ -80,7 +82,7 @@ const handleDelete = async (e: SubmitEvent) => {
   </div>
 
   <div class="pt-4">
-    <p class="mb-1 text-xs text-white/50 lg:text-sm">Written by <a class="text-orange-300 hover:underline" href="/authors/{post.author.username}">{post.author.username}</a></p>
+    <p class="mb-1 text-xs text-white/50 lg:text-sm">Written by <a class="text-orange-300 hover:underline" href="/authors/{post.author.username}">{post.author.displayName}</a></p>
     <h1 class="font-serif text-4xl font-bold">{post.title}</h1>
     {#if post.description}
       <p class="mt-4 mb-3 text-sm text-white/50">{post.description}</p>
@@ -96,6 +98,7 @@ const handleDelete = async (e: SubmitEvent) => {
   <PostStats
     bookmarks={bookmarksCount}
     rating={post.rating}
+    comments={post._count?.comments}
   />
 </div>
 
@@ -135,3 +138,39 @@ const handleDelete = async (e: SubmitEvent) => {
     </form>
   </div>
 {/if}
+
+<!-- comments -->
+<div class="w-full px-4 py-6 border-t border-white/10" id="comments">
+  <h3 class="font-serif text-xl lg:text-4xl">Comments ({post._count.comments})</h3>
+
+  <!-- comment compose -->
+  {#if user?.userId}
+    <!-- <form action="/posts/{post.id}?/addComment" method="POST" use:enhance>
+      <div class="flex flex-col items-start gap-4 mt-4">
+        <textarea
+          name="content"
+          rows="4"
+          class="w-full p-4 bg-transparent border rounded-md resize-none text-white/50 border-white/10 focus:outline-none focus:border-orange-300"
+          placeholder="Write a comment..."
+          required
+        ></textarea>
+        <button class="flex items-center gap-2 px-3 py-2 text-orange-300 rounded-md hover:bg-orange-400/20 bg-orange-400/10">
+          <Icon icon="fluent:checkmark-24-filled" class="w-5 h-5" />
+          <span>Submit</span>
+        </button>
+      </div>
+    </form> -->
+    <CommentCompose postId={post.id} />
+  {:else}
+    <div class="py-4 text-sm">
+      <a href="/login" class="text-orange-300 underline hover:text-orange-400">Login</a> to comment on this post.
+    </div>
+  {/if}
+
+  <div class="grid gap-2 py-4">
+    <!-- comments -->
+    {#each post.comments as comment}
+      <PostComment {comment} />
+    {/each}
+  </div>
+</div>
