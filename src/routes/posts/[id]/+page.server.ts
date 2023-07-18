@@ -234,7 +234,7 @@ export const actions: Actions = {
           value: parseInt(value),
         }
       })
-      message = 'Score updated'
+      message = 'Updated your score of this post'
     } else {
       await db.score.create({
         data: {
