@@ -57,6 +57,9 @@ onMount(() => {
     <div
       class="fixed inset-0 lg:hidden z-[900] bg-gray-900/50 backdrop-blur-sm transition-all duration-300 ease-in-out {sidebarState ? 'opacity-100 visible' : 'opacity-0 invisible'}"
       on:click={closeSidebar}
+      aria-label="Close sidebar"
+      role="button"
+      tabindex="0"
     />
 
     <main class="lg:ml-[16rem] min-h-[calc(100vh-3.5rem)] lg:min-h-screen w-full max-w-7xl border-white/10 [@media(min-width:80rem)]:border-r">
